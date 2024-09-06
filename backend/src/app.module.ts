@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { KnexModule } from 'nest-knexjs';
 import { AuthModule } from './api/v1/auth/auth.module';
-import { UsersService } from './api/v1/users/users.service';
 
 @Module({
   imports: [
@@ -26,6 +25,6 @@ import { UsersService } from './api/v1/users/users.service';
     AuthModule
   ],
   controllers: [],
-  providers: [UsersService],
+  providers: [],
 })
 export class AppModule {}
