@@ -15,7 +15,7 @@ export class JwtStrategy extends PassportStrategy(PassportJwtStrategy) {
   }
 
   async validate(payload: any) {
-    return { id: payload.sub, username: payload.username };
+    return { id: payload.sub, username: payload.username, aka: payload.aka, role: payload.role };
   }
 }
 
@@ -25,7 +25,7 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     super({
       clientID: configService.get<string>('GITHUB_CLIENT_ID'),
       clientSecret: configService.get<string>('GITHUB_CLIENT_SECRET'),
-      callbackURL: 'http://localhost:3000/auth/callback',
+      callbackURL: 'http://localhost:3000/api/v1/auth/callback',
       scope: ['user'],
     });
   }

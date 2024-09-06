@@ -18,7 +18,6 @@ const config: { [key: string]: Knex.Config } = {
       tableName: "knex_migrations"
     }
   },
-  // XXX: staging, production
 };
 
 module.exports = config;

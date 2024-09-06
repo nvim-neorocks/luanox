@@ -17,6 +17,7 @@ import { UsersModule } from '../users/users.module';
         };
       },
       inject: [ConfigService],
+      global: true,
     }),
     UsersModule,
   ]
