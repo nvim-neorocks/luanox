@@ -1,4 +1,12 @@
+# ----- Variables -----
+
 node_bins := "./node_modules/.bin"
+
+# ----- Recipes -----
+
+# List the available recipes
+default:
+    just --list
 
 # Lint the project by using ESlint
 lint:
@@ -23,3 +31,9 @@ run-debug:
 # Run NestJS for production compilation
 run-prod:
     bun run start:prod
+
+# ----- Aliases -----
+
+alias dev := run-dev
+alias debug := run-debug
+alias prod := run-prod
