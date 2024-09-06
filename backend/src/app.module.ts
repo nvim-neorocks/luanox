@@ -17,12 +17,13 @@ import { AuthModule } from './api/v1/auth/auth.module';
             password: process.env.DB_PASS,
             database: process.env.DB_NAME,
           },
+          useNullAsDefault: true,
           // min: 0 so all idle connections can be terminated
           pool: { min: 0, max: 10 },
         },
       }),
     }),
-    AuthModule
+    AuthModule,
   ],
   controllers: [],
   providers: [],
