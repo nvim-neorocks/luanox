@@ -1,0 +1,25 @@
+node_bins := "./node_modules/.bin"
+
+# Lint the project by using ESlint
+lint:
+    bun run lint
+
+# Run jest
+test:
+    bun run test
+
+# Wrapper to use bun for running the nest CLI
+nest *ARGS:
+    @bun {{node_bins}}/nest "{{ARGS}}"
+
+# Run NestJS for development
+run-dev:
+    bun run start:dev
+
+# Run NestJS for development with debugging verbosity
+run-debug:
+    bun run start:debug
+
+# Run NestJS for production compilation
+run-prod:
+    bun run start:prod
