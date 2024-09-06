@@ -1,5 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { SwaggerTheme, SwaggerThemeNameEnum } from 'swagger-themes';
 
 export const SWAGGER_ENV = 'dev';
 
@@ -14,8 +15,10 @@ export const setupSwagger = (app: INestApplication) => {
       .addTag('auth', 'GitHub authorization')
       .build();
     const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
+    const theme = new SwaggerTheme();
     SwaggerModule.setup('docs', app, swaggerDocument, {
       customSiteTitle: 'Luna API documentation',
+      customCss: theme.getBuffer(SwaggerThemeNameEnum.NORD_DARK),
     });
   }
 }
