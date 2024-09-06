@@ -1,21 +1,12 @@
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { setupSwagger } from './swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api/v1');
 
-  // TODO: add auth to access Swagger
-  const swaggerConfig = new DocumentBuilder()
-    .setTitle('Luna')
-    .setDescription('The Luna lua module host API description')
-    .setVersion('0.1')
-    .addTag('luna')
-    .build();
-  const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup('docs', app, swaggerDocument, {
-    customSiteTitle: 'Luna API documentation',
-  });
+  setupSwagger(app);
 
   await app.listen(3000);
 }

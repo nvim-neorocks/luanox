@@ -18,7 +18,7 @@ test:
 
 # Wrapper to use bun for running the nest CLI
 nest *ARGS:
-    @bun {{node_bins}}/nest "{{ARGS}}"
+    @bun {{node_bins}}/nest {{ARGS}}
 
 # Run NestJS for development
 run-dev:
