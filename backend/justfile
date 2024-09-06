@@ -16,6 +16,10 @@ lint:
 test:
     bun run test
 
+# Wrapper to use bun for running the knex CLI
+knex *ARGS:
+    @bun {{node_bins}}/knex {{ARGS}}
+
 # Wrapper to use bun for running the nest CLI
 nest *ARGS:
     @bun {{node_bins}}/nest {{ARGS}}

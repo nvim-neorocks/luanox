@@ -8,7 +8,6 @@
   };
 
   outputs = {
-    self,
     nixpkgs,
     flake-utils,
     ...
@@ -38,6 +37,8 @@
               pg_ctl initdb -D $PGDATA -U postgres
               echo "unix_socket_directories = '$PGDATA'" >> $PGDATA/postgresql.conf
               echo "CREATE USER postgres WITH PASSWORD 'postgres' CREATEDB SUPERUSER;" | postgres --single -E postgres
+              echo "CREATE DATABASE luna_test WITH OWNER postgres;" | postgres --single -E postgres
+              echo -e "\nDefault database for testing purposes: luna_test"
             fi
           '')
           (pkgs.writeShellScriptBin "pg-start" ''
