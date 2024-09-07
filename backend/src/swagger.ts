@@ -13,6 +13,7 @@ export const setupSwagger = (app: INestApplication) => {
       .setLicense("GPL-3.0", "https://github.com/NTBBloodbath/luna/blob/master/LICENSE")
       .setVersion('0.1')
       .addTag('auth', 'GitHub authorization')
+      .addTag('users', 'Users management')
       .build();
     const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
     const theme = new SwaggerTheme();
