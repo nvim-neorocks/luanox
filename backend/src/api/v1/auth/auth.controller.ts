@@ -15,9 +15,7 @@ export class AuthController {
   @UseGuards(AuthGuard('github'))
   @ApiOperation({ summary: 'Redirects to GitHub for OAuth2 authorization' })
   @ApiOkResponse({ description: 'Successfully redirected to GitHub' })
-  async login() {
-    //
-  }
+  async login() { }
 
   @Get('callback')
   @UseGuards(AuthGuard('github'))
@@ -29,14 +27,12 @@ export class AuthController {
     // Create a new user if it does not exist yet in the database
     let existingUser = await this.usersService.findOneByUsername(user.username);
     if (existingUser === undefined) {
-      let userId = await this.usersService.create(req.user.username, null, 'user');
+      let userId = await this.usersService.create(user.username, null, 'user');
       existingUser = await this.usersService.findOneById(userId);
     }
 
-    console.log(`Existing user role: ${existingUser.role}`);
-
     // Jwt
-    const payload = { sub: user.id, username: user.username, aka: existingUser.aka, role: existingUser.role };
+    const payload = { sub: user.id, username: existingUser.username, aka: existingUser.aka, role: existingUser.role };
     return { accessToken: await this.jwtService.signAsync(payload) };
   }
 
