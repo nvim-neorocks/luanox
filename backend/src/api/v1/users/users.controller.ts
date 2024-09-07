@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiOkResponse, ApiForbiddenResponse } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { ThrottlerGuard } from '@nestjs/throttler';
 import { UsersService } from './users.service';
 import { User } from './users.interface';
 import { UserInfoDto } from './users.dto';
@@ -15,7 +16,7 @@ export class UsersController {
 
   @Post('create')
   @Roles(['admin'])
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), ThrottlerGuard)
   @ApiOperation({ summary: 'Create a new user' })
   @ApiForbiddenResponse({ description: 'Not enough permissions to execute this request' })
   async create(@Body() body: UserInfoDto): Promise<number> {
@@ -24,7 +25,7 @@ export class UsersController {
 
   @Get('all')
   @Roles(['admin'])
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), ThrottlerGuard)
   @ApiOperation({ summary: 'Get all users' })
   @ApiOkResponse({ description: 'Successfully got all the data from the users table' })
   @ApiForbiddenResponse({ description: 'Not enough permissions to execute this request' })
@@ -34,7 +35,7 @@ export class UsersController {
 
   @Get('ById/:id')
   @Roles(['admin'])
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), ThrottlerGuard)
   @ApiOperation({ summary: 'Get a single user with id' })
   @ApiOkResponse({ description: 'Successfully got an user data from the users table' })
   @ApiForbiddenResponse({ description: 'Not enough permissions to execute this request' })
@@ -44,7 +45,7 @@ export class UsersController {
 
   @Get('ByUsername/:username')
   @Roles(['admin'])
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), ThrottlerGuard)
   @ApiOperation({ summary: 'Get a single user with username' })
   @ApiOkResponse({ description: 'Successfully got an user data from the users table' })
   @ApiForbiddenResponse({ description: 'Not enough permissions to execute this request' })
