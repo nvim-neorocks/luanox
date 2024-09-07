@@ -26,14 +26,14 @@ export class AuthController {
     const user = req.user;
 
     // Create a new user if it does not exist yet in the database
-    let existingUser = await this.usersService.findOneByUsername(user.username);
+    let existingUser = await this.usersService.findOneByUsername(user.username)[0];
     if (existingUser === undefined) {
       let userId = await this.usersService.create(user.username, null, 'user');
-      existingUser = await this.usersService.findOneById(userId);
+      existingUser = await this.usersService.findOneById(userId)[0];
     }
 
     // Jwt
-    const payload = { sub: user.id, username: existingUser.username, aka: existingUser.aka, role: existingUser.role };
+    const payload = { sub: existingUser.id, username: existingUser.username, aka: existingUser.aka, role: existingUser.role };
     return { accessToken: await this.jwtService.signAsync(payload) };
   }
 
