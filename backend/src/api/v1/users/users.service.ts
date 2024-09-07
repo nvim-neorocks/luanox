@@ -6,9 +6,13 @@ import { UserUpdateDto } from './users.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectConnection() private readonly knex: Knex) { }
+  constructor(@InjectConnection() private readonly knex: Knex) {}
 
-  async create(userName: string, userAka: string, userRole: string): Promise<number> {
+  async create(
+    userName: string,
+    userAka: string,
+    userRole: string,
+  ): Promise<number> {
     return await this.knex<User>('users').insert({
       username: userName,
       aka: userAka,
@@ -24,7 +28,9 @@ export class UsersService {
     // Create a copy of the original data to be updated and remove the 'id' field from it
     const updateData = { ...data, ['id']: undefined };
     // Returns a boolean whether the user was affected or not
-    const updatedUser = await this.knex<User>('users').where('userId', id).update(updateData, ['userId'])
+    const updatedUser = await this.knex<User>('users')
+      .where('userId', id)
+      .update(updateData, ['userId']);
     return updatedUser.length > 0;
   }
 

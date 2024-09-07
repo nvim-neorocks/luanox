@@ -10,7 +10,10 @@ export const setupSwagger = (app: INestApplication) => {
     const swaggerConfig = new DocumentBuilder()
       .setTitle('Luna')
       .setDescription('The Luna lua module host API description')
-      .setLicense("GPL-3.0", "https://github.com/NTBBloodbath/luna/blob/master/LICENSE")
+      .setLicense(
+        'GPL-3.0',
+        'https://github.com/NTBBloodbath/luna/blob/master/LICENSE',
+      )
       .setVersion('0.1')
       .addTag('auth', 'GitHub authorization')
       .addTag('users', 'Users management')
@@ -22,4 +25,4 @@ export const setupSwagger = (app: INestApplication) => {
       customCss: theme.getBuffer(SwaggerThemeNameEnum.NORD_DARK),
     });
   }
-}
+};

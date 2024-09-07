@@ -20,6 +20,6 @@ import { UsersModule } from '../users/users.module';
       global: true,
     }),
     UsersModule,
-  ]
+  ],
 })
 export class AuthModule {}

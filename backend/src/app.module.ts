@@ -8,10 +8,12 @@ import { AuthModule } from './api/v1/auth/auth.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     ThrottlerModule.forRootAsync({
-      useFactory: (config: ConfigService) => [{
-        ttl: config.get('THROTTLE_TTL'),
-        limit: config.get('THROTTLE_LIMIT'),
-      }],
+      useFactory: (config: ConfigService) => [
+        {
+          ttl: config.get('THROTTLE_TTL'),
+          limit: config.get('THROTTLE_LIMIT'),
+        },
+      ],
       imports: [ConfigModule],
       inject: [ConfigService],
     }),
