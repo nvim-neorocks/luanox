@@ -16,9 +16,9 @@ lint:
 test:
     bun run test
 
-# Wrapper to use bun for running the knex CLI
+# Wrapper to use node for running the knex CLI
 knex *ARGS:
-    @bun {{node_bins}}/knex {{ARGS}}
+    @node {{node_bins}}/knex {{ARGS}}
 
 # Wrapper to use bun for running the nest CLI
 nest *ARGS:
@@ -35,6 +35,14 @@ run-debug:
 # Run NestJS for production compilation
 run-prod:
     bun run start:prod
+
+# Run database migrations
+db-migrate:
+    @node {{node_bins}}/knex migrate:latest
+
+# Run database seeds
+db-seed:
+    @node {{node_bins}}/knex seed:run
 
 # ----- Aliases -----
 
