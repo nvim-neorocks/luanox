@@ -6,17 +6,17 @@ const config: { [key: string]: Knex.Config } = {
   development: {
     client: "postgresql",
     connection: {
-      database: "luna_test",
-      user: "postgres",
-      password: "postgres"
+      database: "luanox_test",
+      user: process.env.USER, // XXX: devenv automatically sets the current system user as the databases user
+      password: "",
     },
     pool: {
       min: 0,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: "knex_migrations"
-    }
+      tableName: "knex_migrations",
+    },
   },
 };
 
