@@ -8,11 +8,11 @@ export const setupSwagger = (app: INestApplication) => {
   // Show swagger documentation only on development environments
   if (SWAGGER_ENV == process.env.NODE_ENV) {
     const swaggerConfig = new DocumentBuilder()
-      .setTitle('Luna')
-      .setDescription('The Luna lua module host API description')
+      .setTitle('Luanox')
+      .setDescription('The Luanox lua module host API description')
       .setLicense(
         'GPL-3.0',
-        'https://github.com/NTBBloodbath/luna/blob/master/LICENSE',
+        'https://github.com/NTBBloodbath/luanox/blob/master/LICENSE',
       )
       .setVersion('0.1')
       .addTag('auth', 'GitHub authorization')
@@ -21,7 +21,7 @@ export const setupSwagger = (app: INestApplication) => {
     const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
     const theme = new SwaggerTheme();
     SwaggerModule.setup('docs', app, swaggerDocument, {
-      customSiteTitle: 'Luna API documentation',
+      customSiteTitle: 'Luanox API documentation',
       customCss: theme.getBuffer(SwaggerThemeNameEnum.NORD_DARK),
     });
   }

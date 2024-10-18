@@ -1,7 +1,10 @@
 { pkgs, lib, config, inputs, ... }:
 
 {
-  dotenv.disableHint = true;
+  dotenv = {
+    enable = true;
+    disableHint = true;
+  };
 
   # Packages
   packages = with pkgs; [
