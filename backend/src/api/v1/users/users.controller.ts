@@ -38,7 +38,7 @@ export class UsersController {
   @ApiForbiddenResponse({
     description: 'Not enough permissions to execute this request',
   })
-  async create(@Body() body: UserInfoDto): Promise<number> {
+  async create(@Body() body: UserInfoDto): Promise<User[]> {
     return await this.usersService.create(body.username, body.aka, 'user');
   }
 

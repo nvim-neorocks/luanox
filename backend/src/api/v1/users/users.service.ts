@@ -12,12 +12,12 @@ export class UsersService {
     userName: string,
     userAka: string,
     userRole: string,
-  ): Promise<number> {
+  ): Promise<User[]> {
     return await this.knex<User>('users').insert({
       username: userName,
       aka: userAka,
       role: userRole,
-    });
+    }, ['userId', 'username', 'aka', 'role']);
   }
 
   async delete(id: number): Promise<number> {
