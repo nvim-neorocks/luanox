@@ -22,15 +22,17 @@
   services.postgres = {
     enable = true;
     initialDatabases = [
-      # XXX: add custom user and password for the database?
+      # XXX: add custom user and password for the database through an `.env` file.
+      # This might imply that we must add the user role manually and assign superuser permissions to it.
       { name = "luanox_test"; }
     ];
     settings = {
       log_connections = true;
       log_statement = "all";
-      logging_collector = true;
       log_disconnections = true;
       log_destination = lib.mkForce "syslog";
+      logging_collector = true;
+      listen_addresses = lib.mkForce "*";
     };
   };
 
