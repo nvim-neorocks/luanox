@@ -1,0 +1,27 @@
+-- Your SQL goes here
+CREATE TABLE "users"(
+	"userid" SERIAL NOT NULL PRIMARY KEY,
+	"username" VARCHAR NOT NULL,
+	"aka" VARCHAR NOT NULL,
+	"role" VARCHAR NOT NULL DEFAULT 'user'
+);
+
+CREATE TABLE "rocks"(
+	"id" SERIAL NOT NULL PRIMARY KEY,
+	"name" VARCHAR NOT NULL,
+	"owner" INTEGER NOT NULL,
+	"versions" TEXT[] NOT NULL,
+	"created" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	"updated" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY ("owner") REFERENCES "users"("userid")
+);
+
+CREATE TABLE "keys"(
+	"id" SERIAL NOT NULL PRIMARY KEY,
+	"value" VARCHAR NOT NULL,
+	"owner" INTEGER NOT NULL,
+	"permissions" TEXT[] NOT NULL,
+	"created" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY ("owner") REFERENCES "users"("userid")
+);
+

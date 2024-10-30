@@ -1,0 +1,11 @@
+[package]
+name = "backend"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+diesel = { version = "2.2.4", features = ["postgres"] }
+rocket = "0.5.1"
+
+[dev-dependencies]
+fake = "3.0.0"
