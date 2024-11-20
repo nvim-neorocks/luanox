@@ -4,8 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+actix-web = "4.9.0"
 diesel = { version = "2.2.4", features = ["postgres"] }
-rocket = "0.5.1"
+uzers = "0.12.1"
 
 [dev-dependencies]
 fake = "3.0.0"

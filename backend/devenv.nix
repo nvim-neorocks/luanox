@@ -9,6 +9,7 @@ in
   # https://devenv.sh/packages/
   packages = with pkgs; [
     diesel-cli
+    cargo-watch
   ];
 
   # https://devenv.sh/languages/
@@ -34,7 +35,7 @@ in
 
   processes.backend.exec = ''
     cd ${root}
-    cargo run
+    cargo watch -x run
   '';
 
   enterTest = ''

@@ -1,13 +1,8 @@
-use rocket::routes;
-use rocket::{get, Route};
-
 mod users;
 
-#[get("/")]
-pub fn index() -> &'static str {
-    "Hello, world!"
-}
+use actix_web::get;
 
-pub fn routes() -> Vec<Route> {
-    routes![index, users::users]
+#[get("/")]
+pub async fn index() -> &'static str {
+    "Hello World"
 }
