@@ -5,7 +5,8 @@ edition = "2021"
 
 [dependencies]
 actix-web = "4.9.0"
-diesel = { version = "2.2.4", features = ["postgres"] }
+diesel = { version = "2.2.4", features = ["postgres", "r2d2"] }
+serde = { version = "1.0.215", features = ["derive"] }
 uzers = "0.12.1"
 
 [dev-dependencies]

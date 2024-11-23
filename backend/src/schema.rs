@@ -2,9 +2,9 @@
 
 diesel::table! {
     keys (id) {
-        id -> Int4,
+        id -> Integer,
         value -> Varchar,
-        owner -> Int4,
+        owner -> Integer,
         permissions -> Array<Nullable<Text>>,
         created -> Timestamp,
     }
@@ -12,9 +12,9 @@ diesel::table! {
 
 diesel::table! {
     rocks (id) {
-        id -> Int4,
+        id -> Integer,
         name -> Varchar,
-        owner -> Int4,
+        owner -> Integer,
         versions -> Array<Nullable<Text>>,
         created -> Timestamp,
         updated -> Timestamp,
@@ -23,7 +23,7 @@ diesel::table! {
 
 diesel::table! {
     users (userid) {
-        userid -> Int4,
+        userid -> Integer,
         username -> Varchar,
         aka -> Varchar,
         role -> Varchar,
