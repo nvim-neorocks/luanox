@@ -1,6 +1,6 @@
 use diesel::{prelude::*, r2d2};
 
-mod models;
+pub(crate) mod models;
 
 // Short-hand for the database pool type to use throughout the app
 pub(crate) type DbPool = r2d2::Pool<r2d2::ConnectionManager<PgConnection>>;

@@ -14,8 +14,10 @@ pub struct User {
 }
 
 /// New user details
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Insertable)]
+#[diesel(table_name = users)]
 pub struct NewUser {
     pub username: String,
     pub aka: String,
+    pub role: String,
 }

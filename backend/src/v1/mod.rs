@@ -1,4 +1,4 @@
-mod users;
+pub(crate) mod users;
 
 use actix_web::get;
 

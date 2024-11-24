@@ -23,7 +23,12 @@ pub async fn main() -> io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(db.clone()))
-            .service(actix_web::web::scope("/api").service(v1::index))
+            .service(web::scope("/api")
+                .service(v1::index)
+                .service(v1::users::get_users)
+                .service(v1::users::get_user)
+                .service(v1::users::new_user)
+            )
     })
     .bind((url, port.parse().unwrap()))?
     .run()
