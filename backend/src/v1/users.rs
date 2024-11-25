@@ -60,6 +60,7 @@ pub async fn new_user(db: web::Data<DbPool>, data: web::Json<models::NewUser>) -
             HttpResponse::InternalServerError().finish()
         }).unwrap();
 
+        // FIXME: proper error handling for existing users
         diesel::insert_into(users)
             .values(&new_user)
             .get_result::<models::User>(&mut conn)
