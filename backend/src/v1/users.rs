@@ -1,12 +1,10 @@
 // TODO(ntbbloodbath): implement security and auth for the sensible endpoints
 //
 // TODO: add Delete and Update endpoints for users
-use actix_web::{post, Error, HttpResponse};
-use actix_web::{get, web, Responder};
+use actix_web::{get, post, web, Error, Responder, HttpResponse};
 use diesel::prelude::*;
 
-use crate::db::DbPool;
-use crate::db::models;
+use crate::db::{models, DbPool};
 
 #[get("/users")]
 pub async fn get_users(db: web::Data<DbPool>) -> impl Responder {
