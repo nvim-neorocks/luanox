@@ -1,4 +1,4 @@
-use diesel::prelude::{Insertable, Queryable};
+use diesel::prelude::{AsChangeset, Insertable, Queryable};
 use serde::{Deserialize, Serialize};
 
 use crate::schema::users;
@@ -20,4 +20,13 @@ pub struct NewUser {
     pub username: String,
     pub aka: String,
     pub role: String,
+}
+
+/// Update user details
+#[derive(Debug, Clone, Serialize, Deserialize, Insertable, AsChangeset)]
+#[diesel(table_name = users)]
+pub struct UpdateUser {
+    pub username: Option<String>,
+    pub aka: Option<String>,
+    pub role: Option<String>
 }

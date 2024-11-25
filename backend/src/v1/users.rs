@@ -1,9 +1,7 @@
 // TODO(ntbbloodbath): implement security and auth for the sensible endpoints
 //
-// TODO: add Update endpoint for users
-//
 // TODO: improve error handling so we return an actual error instead of `Err(_)` with an Internal Server Error
-use actix_web::{get, post, delete, web, Error, Responder, HttpResponse};
+use actix_web::{get, post, patch, delete, web, Error, Responder, HttpResponse};
 use diesel::prelude::*;
 
 use crate::db::{models, DbPool};
@@ -91,6 +89,33 @@ pub async fn delete_user(db: web::Data<DbPool>, user_id: web::Path<i32>) -> Resu
         Ok(rows_deleted) => {
             if rows_deleted > 0 {
                 HttpResponse::Ok().json(format!("User with ID {user_id} has been deleted successfully"))
+            } else {
+                HttpResponse::NotFound().json("User not found")
+            }
+        },
+        Err(_) => HttpResponse::InternalServerError().finish(),
+    })
+}
+
+#[patch("/users/{user_id}")]
+pub async fn update_user(db: web::Data<DbPool>, user_id: web::Path<i32>, user_data: web::Json<models::UpdateUser>) -> Result<HttpResponse, Error> {
+    use crate::schema::users::dsl::*;
+
+    let user_id = user_id.into_inner();
+    let user_data = user_data.into_inner();
+
+    let updated_user = web::block(move || {
+        let mut conn = db.get().map_err(|_| {
+            HttpResponse::InternalServerError().finish()
+        }).unwrap();
+
+        diesel::update(users.find(user_id)).set(user_data).execute(&mut conn)
+    }).await?;
+
+    Ok(match updated_user {
+        Ok(rows_updated) => {
+            if rows_updated > 0 {
+                HttpResponse::Ok().json(format!("User with ID {user_id} has been updated successfully"))
             } else {
                 HttpResponse::NotFound().json("User not found")
             }

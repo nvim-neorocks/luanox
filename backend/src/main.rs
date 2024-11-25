@@ -29,6 +29,7 @@ pub async fn main() -> io::Result<()> {
                 .service(v1::users::get_user)
                 .service(v1::users::new_user)
                 .service(v1::users::delete_user)
+                .service(v1::users::update_user)
             )
     })
     .bind((url, port.parse().unwrap()))?
