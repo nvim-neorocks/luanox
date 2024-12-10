@@ -28,6 +28,19 @@ in
       port = lib.toIntBase10 config.env.DATABASE_PORT;
   };
 
+  tasks = {
+    "backend:setupHex" = {
+        exec = "mix local.hex --if-missing";
+        before = [ "devenv:enterShell" "devenv:enterTest" ];
+    };
+    "backend:getDependencies" = {
+        exec = "cd ${root}; mix deps.get";
+        status = "test -d ${root}/deps";
+        before = [ "devenv:enterShell" "devenv:enterTest" ];
+        after = [ "backend:setupHex" ];
+    };
+  };
+
   processes.backend.exec = ''
     cd ${root}
     mix phx.server
