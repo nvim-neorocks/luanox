@@ -7,16 +7,11 @@ let
 in
 {
   # https://devenv.sh/packages/
-  packages = with pkgs; [
-    diesel-cli
-    cargo-watch
-  ];
+  # packages = with pkgs; [
+  # ];
 
   # https://devenv.sh/languages/
-  languages.rust = {
-    enable = true;
-    channel = "nightly";
-  };
+  languages.elixir.enable = true;
 
   languages.nix.enable = true;
 
@@ -35,11 +30,12 @@ in
 
   processes.backend.exec = ''
     cd ${root}
-    cargo watch -x run
+    mix phx.server
   '';
 
   enterTest = ''
     cd ${root}
-    cargo test
+    mix test
   '';
 }
+
