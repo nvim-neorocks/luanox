@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ config, lib, ... }:
 
 let
   root = "${config.env.DEVENV_ROOT}/backend";
@@ -6,10 +6,6 @@ let
   pass = config.env.DATABASE_PASS;
 in
 {
-  # https://devenv.sh/packages/
-  # packages = with pkgs; [
-  # ];
-
   # https://devenv.sh/languages/
   languages.elixir.enable = true;
 
@@ -39,6 +35,11 @@ in
         before = [ "devenv:enterShell" "devenv:enterTest" ];
         after = [ "backend:setupHex" ];
     };
+  };
+
+  scripts = {
+    migrate.exec = "mix ecto.migrate";
+    genschema.exec = "mix phx.gen.schema $@";
   };
 
   processes.backend.exec = ''
