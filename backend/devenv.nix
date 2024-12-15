@@ -40,6 +40,7 @@ in
   scripts = {
     migrate.exec = "mix ecto.migrate";
     genschema.exec = "mix phx.gen.schema $@";
+    genjson.exec = "mix phx.gen.json $@";
   };
 
   processes.backend.exec = ''

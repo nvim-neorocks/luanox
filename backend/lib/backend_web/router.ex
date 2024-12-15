@@ -1,4 +1,6 @@
 defmodule LuanoxWeb.Router do
+  alias LuanoxWeb.UserController
+  alias LuanoxWeb.KeyController
   use LuanoxWeb, :router
 
   pipeline :api do
@@ -7,6 +9,10 @@ defmodule LuanoxWeb.Router do
 
   scope "/api", LuanoxWeb do
     pipe_through :api
+
+    resources "/users", UserController, param: "user_id", except: [:index] do
+      resources "/keys", KeyController, only: [:new, :create, :show]
+    end
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

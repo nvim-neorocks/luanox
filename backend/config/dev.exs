@@ -27,6 +27,10 @@ config :backend, LuanoxWeb.Endpoint,
   secret_key_base: "T8F6G26RCKSrUxhjBxczTOSYcDWELWmQ2b1YgWyB+4VYtTCsZC284fXNQlRW44Kh",
   watchers: []
 
+config :backend, LuanoxWeb.Guardian,
+  issuer: "luanox",
+  secret_key: System.get_env "JWT_KEY"
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
