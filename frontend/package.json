@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.0.1",
   "devDependencies": {
+    "@melt-ui/svelte": "^0.86.2",
     "@sveltejs/adapter-auto": "^3.0.0",
     "@sveltejs/kit": "^2.0.0",
     "@sveltejs/vite-plugin-svelte": "^4.0.0",
