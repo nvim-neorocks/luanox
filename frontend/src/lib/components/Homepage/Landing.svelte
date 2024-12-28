@@ -32,7 +32,7 @@ lg:justify-self-center p-4 md:p-8"
     </div>
   </div>
 
-  <div class="flex w-full items-center justify-center">
+  <div class="flex w-full items-center justify-center pb-4 md:pb-0">
     <input
       type="text"
       placeholder="Search something..."
