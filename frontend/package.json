@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.0.1",
   "devDependencies": {
+    "@melt-ui/pp": "^0.3.2",
     "@melt-ui/svelte": "^0.86.2",
     "@sveltejs/adapter-auto": "^3.0.0",
     "@sveltejs/kit": "^2.0.0",
@@ -23,6 +24,8 @@
   },
   "type": "module",
   "dependencies": {
-    "@tabler/icons-svelte": "^3.21.0"
+    "@fontsource-variable/inter": "^5.1.0",
+    "@fontsource-variable/jetbrains-mono": "^5.1.1",
+    "@tabler/icons-svelte": "^3.26.0"
   }
 }
