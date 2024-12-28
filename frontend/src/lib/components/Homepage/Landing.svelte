@@ -4,18 +4,18 @@
 
 <!-- FIXME: properly center the landing page flexbox elements on lg screens -->
 <div
-  class="bg-[#25252f] w-full md:w-auto flex flex-col md:flex-row items-center
-lg:justify-self-center p-4 md:p-8"
+  class="bg-[#25252f] w-full md:w-auto grid grid-rows-1 md:grid-cols-2 items-center
+lg:justify-self-center p-4 md:p-8 lg:p-12"
 >
   <div
-    class="flex flex-col md:flex-row items-center md:mr-8 lg:mr-20 w-full md:w-auto mb-8 md:mb-0"
+  class="flex flex-col md:flex-row items-center justify-center md:ml-20 lg:ml-36 md:w-auto mb-8 md:mb-0"
   >
     <img
       src={luanox_icon}
       alt="Luanox logo"
       class="max-w-xs md:max-x-sm lg:max-x-md w-full h-auto"
     />
-    <div class="ml-0 md:ml-8 mt-4 md:mt-0">
+    <div class="ml-0 md:ml-4 mt-4 md:mt-0">
       <p class="sm:text-lg md:text-xl lg:text-2xl text-center md:text-justify">
         <strong>Luanox</strong> is a modern Lua module host for the
         <a
@@ -32,7 +32,7 @@ lg:justify-self-center p-4 md:p-8"
     </div>
   </div>
 
-  <div class="flex w-full items-center justify-center pb-4 md:pb-0">
+  <div class="flex w-full md:w-auto items-center justify-center mb-4 md:mb-0">
     <input
       type="text"
       placeholder="Search something..."
