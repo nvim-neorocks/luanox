@@ -1,3 +1,47 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+:root {
+  /* Fonts */
+  --font-sans: "Inter Variable";
+  --font-mono: "JetBrains Mono Variable";
+
+  /* Colorscheme */
+  --base: #dddde7;
+  --base-alt: #bbbbce;
+  --surface: #ccccda;
+  --text: #202023;
+  --text-alt: #18181a;
+  --grey: #8989a9;
+  --dark-grey: #78789d;
+  --red: #b31919;
+  --orange: #ae580e;
+  --green: #287f0d;
+  --teal: #47948a;
+  --yellow: #957d09;
+  --blue: #0c5090;
+  --magenta: #a00c79;
+  --violet: #9437ff;
+  --cyan: #0b658e;
+}
+
+:root[data-theme="dark"] {
+  /* Colorscheme */
+  --base: #2a2a3a;
+  --base-alt: #303040;
+  --surface: #25252f;
+  --text: #d3d7de;
+  --text-alt: #bdbdbd;
+  --grey: #798399;
+  --dark-grey: #707b87;
+  --red: #d75f4a;
+  --orange: #e7a06a;
+  --green: #89c252;
+  --teal: #92d3c5;
+  --yellow: #e7d482;
+  --blue: #73a3f3;
+  --magenta: #d087e8;
+  --violet: #b094e2;
+  --cyan: #a2c4ff;
+}

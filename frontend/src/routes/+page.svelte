@@ -65,7 +65,7 @@
 <Landing />
 
 <!-- MODULES -->
-<div class="container mx-auto pb-4">
+<div class="container pb-4">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8 py-4">
     <ModuleList title="Most recent modules" modules={modules.recent} />
     <ModuleList title="Most downloaded modules" modules={modules.downloaded} />

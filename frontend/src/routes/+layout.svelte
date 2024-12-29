@@ -3,35 +3,25 @@
   import "../app.css";
   // Fonts
   import "@fontsource-variable/inter";
-  // import "@fontsource-variable/jetbrains-mono";
+  import "@fontsource-variable/jetbrains-mono";
 
   // Global components
   import NavBar from "$lib/components/NavBar.svelte";
   import Footer from "$lib/components/Footer.svelte";
 
+  import { onMount } from "svelte";
+  import { theme } from "$lib/theme";
+  import { get } from "svelte/store";
+
+  onMount(() => {
+    document.documentElement.setAttribute("data-theme", get(theme));
+  });
+
   let { children } = $props();
 </script>
 
 <NavBar />
-<div class="bg-[#2a2a3a] min-h-screen text-gray-300">
+<div class="bg-base text-text min-h-screen">
   {@render children()}
 </div>
 <Footer />
-
-<style>
-  :global(body) {
-    font-family:
-      "Inter Variable",
-      system-ui,
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      Roboto,
-      Oxygen,
-      Ubuntu,
-      Cantarell,
-      "Open Sans",
-      "Helvetica Neue",
-      sans-serif;
-  }
-</style>
