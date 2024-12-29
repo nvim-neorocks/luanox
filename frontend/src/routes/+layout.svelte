@@ -5,12 +5,18 @@
   import "@fontsource-variable/inter";
   // import "@fontsource-variable/jetbrains-mono";
 
+  // Global components
+  import NavBar from "$lib/components/NavBar.svelte";
+  import Footer from "$lib/components/Footer.svelte";
+
   let { children } = $props();
 </script>
 
+<NavBar />
 <div class="bg-[#2a2a3a] min-h-screen text-gray-300">
   {@render children()}
 </div>
+<Footer />
 
 <style>
   :global(body) {
