@@ -1,9 +1,7 @@
 <script lang="ts">
-  import NavBar from "$lib/components/NavBar.svelte";
   import Landing from "$lib/components/Homepage/Landing.svelte";
   import ModuleList from "$lib/components/Homepage/ModuleList.svelte";
   import LabelList from "$lib/components/Homepage/LabelList.svelte";
-  import Footer from "$lib/components/Footer.svelte";
 
   // TODO: stop hardcoding this as soon as we have a functional API
   const modules = {
@@ -63,8 +61,6 @@
   ];
 </script>
 
-<NavBar />
-
 <!-- LANDING -->
 <Landing />
 
@@ -77,6 +73,3 @@
 
   <LabelList title="Most popular labels" labels={popularLabels} />
 </div>
-
-<!-- FOOTER -->
-<Footer />
