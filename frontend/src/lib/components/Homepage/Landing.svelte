@@ -1,5 +1,5 @@
 <script lang="ts">
-  import luanox_icon from "$lib/svg/luanox_icon.svg";
+  import LuanoxIcon from "$lib/components/LuanoxIcon.svelte";
 </script>
 
 <div
@@ -9,11 +9,7 @@ lg:justify-self-center p-4 md:p-8 lg:p-12"
   <div
     class="flex flex-col md:flex-row items-center justify-center md:ml-20 lg:ml-36 md:w-auto mb-8 md:mb-0"
   >
-    <img
-      src={luanox_icon}
-      alt="Luanox logo"
-      class="max-w-xs md:max-x-sm lg:max-x-md w-full h-auto"
-    />
+    <LuanoxIcon class="max-w-xs md:max-x-sm lg:max-x-md w-full h-auto" />
     <div class="ml-0 md:ml-4 mt-4 md:mt-0">
       <p class="md:text-lg lg:text-2xl text-center md:text-justify">
         <strong>Luanox</strong> is a modern Lua module host for the

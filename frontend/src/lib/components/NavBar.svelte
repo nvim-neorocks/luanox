@@ -1,5 +1,5 @@
 <script lang="ts">
-  import luanox_icon from "$lib/svg/luanox_icon.svg";
+  import LuanoxIcon from "$lib/components/LuanoxIcon.svelte";
   import { createDropdownMenu, melt } from "@melt-ui/svelte";
   import { theme } from "$lib/theme";
   import {
@@ -47,7 +47,7 @@
 <nav class="bg-base-alt border-b border-base-alt text-text">
   <div class="container px-6 py-3 flex justify-between items-center">
     <div class="flex items-center">
-      <img src={luanox_icon} alt="Luanox logo" class="h-6 w-auto mr-2" />
+      <LuanoxIcon class="h-6 w-auto mr-2" />
       <a href="/" class="font-medium text-lg invisible md:visible">Luanox</a>
     </div>
 
