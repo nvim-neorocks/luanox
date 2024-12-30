@@ -4,7 +4,7 @@
 
 <footer class="bg-base-alt py-4 px-6 w-full">
   <div
-    class="container flex justify-between items-center text-xs text-grey"
+    class="container flex justify-between items-center font-medium text-xs text-grey"
   >
     <div class="flex items-center">
       <span
