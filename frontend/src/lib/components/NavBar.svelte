@@ -75,7 +75,7 @@
       </button>
       {#if $createOpen}
         <div
-          class="absolute right-0 top-14 w-48 bg-surface rounded-md shadow-lg py-1 z-10"
+          class="absolute right-0 top-14 w-48 bg-surface border border-dark-grey rounded-md shadow-lg py-1 z-10"
           use:melt={$createMenu}
         >
           {#each createContent as content}
@@ -86,7 +86,7 @@
               use:melt={$createItem}>{content.label}</a
             >
           {/each}
-          <div use:melt={$createArrow}></div>
+          <div class="border-t border-l border-dark-grey" use:melt={$createArrow}></div>
         </div>
       {/if}
 
@@ -100,7 +100,7 @@
       </button>
       {#if $accountOpen}
         <div
-          class="absolute right-0 top-14 w-48 bg-surface rounded-md shadow-lg py-1 z-10"
+          class="absolute right-0 top-14 w-48 bg-surface border border-dark-grey rounded-md shadow-lg py-1 z-10"
           use:melt={$accountMenu}
         >
           {#if loggedIn}
@@ -138,7 +138,7 @@
               Register
             </div>
           {/if}
-          <div use:melt={$accountArrow}></div>
+          <div class="border-t border-l border-dark-grey" use:melt={$accountArrow}></div>
         </div>
       {/if}
     </div>
