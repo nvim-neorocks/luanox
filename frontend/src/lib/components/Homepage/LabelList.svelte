@@ -14,8 +14,14 @@
     {#each labels as label}
       <div class="bg-surface rounded-md p-3">
         <div class="flex justify-between items-center">
-          <p>{label.name}</p>
-          <span class="text-grey text-sm">{label.count} modules</span>
+          <!-- We replace whitespaces with hypens in case a label is using whitespaces as separator
+          for its keywords -->
+          <a href="/labels/{label.name.replace(' ', '-')}"
+            >{label.name.replace(" ", "-")}</a
+          >
+          <span class="font-semibold text-grey text-sm"
+            >{label.count} modules</span
+          >
         </div>
       </div>
     {/each}
