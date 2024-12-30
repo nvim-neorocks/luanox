@@ -11,44 +11,52 @@
         version: "v9.1.1",
         description:
           "Modernity meets insane extensibility. The future of organizing your life in Neovim",
+        labels: ["neovim", "note-taking"],
       },
       {
         name: "rocks.nvim",
         version: "v2.40.0",
         description:
           "Neovim plugin management inspired by Cargo, powered by luarocks",
+        labels: ["neovim", "plugin manager"],
       },
       {
         name: "rest.nvim",
         version: "v3.6.0",
         description: "A fast Neovim http client written in Lua",
+        labels: ["neovim", "http", "rest"],
       },
       {
         name: "Imathx54",
         version: "v20240907",
         description: "C99 extensions for the math library",
+        labels: ["c", "math"],
       },
     ],
     downloaded: [
       {
         name: "lua-cjson",
         downloads: "20m",
-        description: "Fast JSON encoding/pansing support for Lua",
+        description: "Fast JSON encoding/parsing support for Lua",
+        labels: ["json", "encoding"],
       },
       {
         name: "LuaFileSystem",
         downloads: "8.7m",
         description: "File System Library for the Lua Programming Language",
+        labels: ["filesystem", "utilities"],
       },
       {
         name: "lua-resty-http",
         downloads: "6.7m",
         description: "Lua HTTP client cosocket driver for OpenResty/nglua",
+        labels: ["http", "driver", "openresty"],
       },
       {
         name: "LuaSQL-MYSQL",
         downloads: "6.3m",
         description: "Database connectivity for Lua (MySQL driver)",
+        labels: ["mysql", "driver", "databases"],
       },
     ],
   };
