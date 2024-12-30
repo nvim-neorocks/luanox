@@ -100,7 +100,7 @@
         use:melt={$accountTrigger}
         aria-label="Open account section dropdown"
       >
-        <IconUserCircle size={20} class="mr-1" /> Profile
+        <IconUserCircle size={20} class="mr-1" /> Account
       </button>
       {#if $accountOpen}
         <div
