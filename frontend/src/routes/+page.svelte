@@ -36,25 +36,25 @@
     downloaded: [
       {
         name: "lua-cjson",
-        downloads: "20m",
+        downloads: 20423896,
         description: "Fast JSON encoding/parsing support for Lua",
         labels: ["json", "encoding"],
       },
       {
         name: "LuaFileSystem",
-        downloads: "8.7m",
+        downloads: 8754192,
         description: "File System Library for the Lua Programming Language",
         labels: ["filesystem", "utilities"],
       },
       {
         name: "lua-resty-http",
-        downloads: "6.7m",
+        downloads: 6751472,
         description: "Lua HTTP client cosocket driver for OpenResty/nglua",
         labels: ["http", "driver", "openresty"],
       },
       {
         name: "LuaSQL-MYSQL",
-        downloads: "6.3m",
+        downloads: 6301749,
         description: "Database connectivity for Lua (MySQL driver)",
         labels: ["mysql", "driver", "databases"],
       },

@@ -1,6 +1,7 @@
 <script lang="ts">
   // CSS
   import "../app.css";
+  import "github-markdown-css";
   // Fonts
   import "@fontsource-variable/inter";
   import "@fontsource-variable/jetbrains-mono";

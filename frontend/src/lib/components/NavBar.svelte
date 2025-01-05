@@ -6,12 +6,23 @@
     IconUserCircle,
     IconBook2,
     IconSquarePlus,
+    IconCompass,
     IconSun,
     IconMoon,
     IconMenuDeep,
     IconX,
   } from "@tabler/icons-svelte";
   import { onMount } from "svelte";
+
+  const {
+    states: { open: exploreOpen },
+    elements: {
+      menu: exploreMenu,
+      item: exploreItem,
+      trigger: exploreTrigger,
+      arrow: exploreArrow,
+    },
+  } = createDropdownMenu();
 
   const {
     states: { open: createOpen },
@@ -41,6 +52,11 @@
   const {
     elements: { root: horizontalSeparator },
   } = createSeparator();
+
+  const exploreContent = [
+    { label: "Labels", href: "/labels" },
+    { label: "Modules", href: "/modules" },
+  ];
 
   const createContent = [
     { label: "API Key", href: "/create/api-key" },
@@ -113,6 +129,38 @@
         >
           <IconBook2 size={20} class="mr-1" /> Docs
         </a>
+        <button
+          type="button"
+          class="flex items-center font-medium text-grey hover:text-blue"
+          use:melt={$exploreTrigger}
+          aria-label="Open explore section dropdown"
+        >
+          <IconCompass size={20} class="mr-1" /> Explore
+        </button>
+        {#if $exploreOpen}
+          <div
+            class="absolute flex flex-col right-0 top-14 w-1/4 md:w-28 bg-surface border border-dark-grey rounded-md shadow-lg z-10"
+            use:melt={$exploreMenu}
+          >
+            {#each exploreContent as content, idx}
+              <a
+                href={content.href}
+                class="px-4 py-2 text-sm text-grey hover:bg-base-alt hover:text-blue"
+                use:melt={$exploreItem}>{content.label}</a
+              >
+              {#if idx + 1 != exploreContent.length}
+                <div
+                  class="ml-2.5 h-px w-[80%] bg-dark-grey"
+                  use:melt={$horizontalSeparator}
+                ></div>
+              {/if}
+            {/each}
+            <div
+              class="border-t border-l border-dark-grey"
+              use:melt={$exploreArrow}
+            ></div>
+          </div>
+        {/if}
         <button
           type="button"
           class="flex items-center font-medium text-grey hover:text-blue"
@@ -213,21 +261,30 @@
     {#if isMobileMenuOpen}
       <div
         class="absolute top-full left-0 w-full bg-base-alt
-      rounded-b-md shadow-md flex flex-row items-center justify-between pt-2 pb-4 px-6 md:hidden z-10"
+      rounded-b-md shadow-md flex flex-row items-center justify-between pt-2 pb-4 px-4 md:hidden z-10"
       >
         <a
           href="/docs"
           class="flex items-center font-medium text-grey hover:text-blue"
         >
-          <IconBook2 size={20} class="mr-2 inline" /> Docs
+          <IconBook2 size={20} class="mr-1 inline" /> Docs
         </a>
+        <div class="h-4 w-px bg-dark-grey" use:melt={$verticalSeparator}></div>
+        <button
+          type="button"
+          class="flex items-center font-medium text-grey hover:text-blue"
+          use:melt={$exploreTrigger}
+          aria-label="Open explore section dropdown"
+        >
+          <IconCompass size={20} class="mr-1" /> Explore
+        </button>
         <div class="h-4 w-px bg-dark-grey" use:melt={$verticalSeparator}></div>
         <button
           type="button"
           class="flex items-center font-medium text-grey hover:text-blue"
           use:melt={$createTrigger}
         >
-          <IconSquarePlus size={20} class="mr-2 inline" /> Create
+          <IconSquarePlus size={20} class="mr-1 inline" /> Create
         </button>
         <div class="h-4 w-px bg-dark-grey" use:melt={$verticalSeparator}></div>
         <button
@@ -235,7 +292,7 @@
           class="flex items-center font-medium text-grey hover:text-blue"
           use:melt={$accountTrigger}
         >
-          <IconUserCircle size={20} class="mr-2 inline" /> Account
+          <IconUserCircle size={20} class="mr-1 inline" /> Account
         </button>
       </div>
     {/if}
