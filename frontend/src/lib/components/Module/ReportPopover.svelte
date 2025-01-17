@@ -39,6 +39,7 @@
   } = createSeparator();
 </script>
 
+<!-- TODO: make report reasons like "Other" add an input box to send details about the report -->
 <button
   type="button"
   class="inline-flex items-center"

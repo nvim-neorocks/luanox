@@ -12,16 +12,24 @@
     IconUsers,
     IconFileDescription,
     IconListDetails,
-    // IconTagFilled,
     IconTag,
   } from "@tabler/icons-svelte";
-  import { fade } from "svelte/transition";
+  import { createTabs, melt } from "@melt-ui/svelte";
+  import { cubicInOut } from "svelte/easing";
+  import { fade, crossfade } from "svelte/transition";
   import ReportPopover from "$lib/components/Module/ReportPopover.svelte";
   import { formatNumberWithDot } from "$lib/format";
 
+  interface ModuleVersions {
+    id: string;
+    downloads: number;
+    published_at: string;
+    published_by: string;
+  }
+
   interface Module {
     name: string;
-    versions: string[];
+    versions: ModuleVersions[];
     description: string;
     readme: string; // XXX: Markdown content using marked perhaps? rockspecs does not have a README field :(
     license: string; // XXX: rockspecs does not have a LICENSE field either, perhaps we can scrape it from somewhere?
@@ -33,7 +41,7 @@
   }
 
   let module: Module | null = null;
-  let htmlContent = "";
+  let readmeContent = "";
 
   const reportReasons = [
     "Security Vulnerability",
@@ -42,12 +50,79 @@
     "Other (provide details)",
   ];
 
+  const {
+    elements: {
+      root: tabRoot,
+      list: tabList,
+      content: tabContent,
+      trigger: tabTrigger,
+    },
+    states: { value: tabValue },
+  } = createTabs({
+    defaultValue: "readme",
+  });
+  const tabTriggers = [
+    { id: "readme", title: "Readme" },
+    { id: "metadata", title: "Metadata" }, // NOTE: this tab will display the rocks.toml file contents
+    { id: "versions", title: "Versions" },
+    { id: "dependencies-dependants", title: "Dependencies/Dependants" },
+    { id: "stats", title: "Statistics" },
+  ];
+
+  const [send, receive] = crossfade({
+    duration: 250,
+    easing: cubicInOut,
+  });
+
   onMount(async () => {
     const moduleName = $page.params.slug;
 
     module = {
       name: moduleName,
-      versions: ["9.1.1", "9.1.0", "9.0.3", "9.0.2", "9.0.1", "9.0.0", "8.9.0"],
+      versions: [
+        {
+          id: "9.1.1",
+          downloads: 1242,
+          published_at: "3 months ago",
+          published_by: "neorg",
+        },
+        {
+          id: "9.1.0",
+          downloads: 150,
+          published_at: "3 months ago",
+          published_by: "neorg",
+        },
+        {
+          id: "9.0.3",
+          downloads: 250,
+          published_at: "4 months ago",
+          published_by: "vhyrro",
+        },
+        {
+          id: "9.0.2",
+          downloads: 126,
+          published_at: "4 months ago",
+          published_by: "vhyrro",
+        },
+        {
+          id: "9.0.1",
+          downloads: 174,
+          published_at: "4 months ago",
+          published_by: "neorg",
+        },
+        {
+          id: "9.0.0",
+          downloads: 1000,
+          published_at: "4 months ago",
+          published_by: "neorg",
+        },
+        {
+          id: "8.9.0",
+          downloads: 300,
+          published_at: "6 months ago",
+          published_by: "neorg",
+        },
+      ],
       description:
         "Modernity meets insane extensibility. The future of organizing your life in Neovim.",
       readme: "No README available",
@@ -67,7 +142,9 @@
       if (!res.ok) {
         throw new Error(`HTTP Error. Status: ${res.status}`);
       }
-      htmlContent = await marked((await res.text()) || "# No README available");
+      readmeContent = await marked(
+        (await res.text()) || "# No README available"
+      );
     } catch (err) {
       console.error("Erorr fetching module's README:", err);
     }
@@ -79,8 +156,8 @@
     //     throw new Error(`HTTP error! status: ${res.status}`);
     //   }
     //   module = await res.json();
-    //   // htmlContent = marked(module.readme || '# No README available');
-    //   htmlContent = "# No README available"
+    //   // readmeContent = marked(module.readme || '# No README available');
+    //   readmeContent = "<h1>No README available</h1>"
     // } catch (error) {
     //   console.error("Error fetching module:", error);
     //   module = null; // Handle error gracefully
@@ -94,22 +171,8 @@
     <div class="flex flex-col md:flex-row md:items-center">
       <header class="flex flex-col min-w-[50%] mb-2">
         <h1 class="text-3xl font-bold text-text">{module.name}</h1>
-        <p class="text-grey text-sm">Latest version: {module.versions[0]}</p>
+        <p class="text-grey text-sm">Latest version: {module.versions[0].id}</p>
       </header>
-
-      <!-- <div class="flex flex-wrap min-w-[50%] items-center mt-4 md:mt-0">
-        <p class="inline-flex items-center font-semibold mr-1">
-          <IconTagFilled size={20} class="mr-1" />
-          Labels:
-        </p>
-        {#each module.labels as label}
-          <a
-            href="/labels/{label.replaceAll(' ', '-')}"
-            class="bg-surface rounded-md mr-1 my-1 p-1 text-text-alt hover:bg-blue hover:text-base-alt text-sm"
-            >#{label.replaceAll(" ", "-")}</a
-          >
-        {/each}
-      </div> -->
     </div>
 
     <div class="flex flex-wrap mt-4 mb-4">
@@ -168,8 +231,8 @@
             {/each}
           </li>
           <li class="flex flex-wrap items-center">
-            <IconLicense size={16} class="mr-1" /><span class="font-semibold mr-1"
-              >License:</span
+            <IconLicense size={16} class="mr-1" /><span
+              class="font-semibold mr-1">License:</span
             >
             <a
               href="https://opensource.org/license/{module.license}"
@@ -193,11 +256,57 @@
       </div>
     </div>
 
+    <!-- NOTE: this div tag is used for the first and last TailwindCSS modifiers to work properly -->
+    <div class="flex flex-col md:flex-row">
+      {#each tabTriggers as tabItem}
+        <button
+          use:melt={$tabTrigger(tabItem.id)}
+          class="{$tabValue === tabItem.id
+            ? 'bg-surface'
+            : 'bg-base-alt'} relative py-2 px-2 last:mr-0 first:max-sm:rounded-t-lg first:md:rounded-tl-lg last:md:rounded-tr-lg"
+        >
+          {tabItem.title}
+          {#if $tabValue === tabItem.id}
+            <div
+              in:send={{ key: "trigger" }}
+              out:receive={{ key: "trigger" }}
+              class="absolute left-1/2 h-1 w-1/2 -translate-x-1/2 rounded-full bg-blue"
+            ></div>
+          {/if}
+        </button>
+      {/each}
+    </div>
+
     <div
-      class="!bg-surface !text-text p-6 rounded-lg markdown-body max-w-none"
+      class="!body-surface !text-text md:rounded-r-lg rounded-b-lg max-w-none"
       transition:fade
     >
-      {@html htmlContent}
+      <div
+        class="!bg-surface !text-text p-6 md:rounded-r-lg rounded-b-lg markdown-body"
+        use:melt={$tabContent("readmes")}
+      >
+        {@html readmeContent}
+      </div>
+      <div
+        class="!bg-surface !text-text p-6"
+        use:melt={$tabContent("metadata")}
+      >
+        TBD...
+
+        <p>Render the rocks.toml contents here</p>
+      </div>
+      <div
+        class="!bg-surface !text-text p-6"
+        use:melt={$tabContent("readme")}
+      >
+        <h1 class="text-2xl mb-2">Version history</h1>
+        {#each module.versions as version}
+          <div class="bg-base-alt rounded-lg px-4 py-4 my-4 flex items-center justify-start">
+            <h2 class="font-medium mr-4">{version.id}</h2>
+            <p>Published by <a href="/users/{version.published_by}" class="hover:text-blue">@{version.published_by}</a></p>
+          </div>
+        {/each}
+      </div>
     </div>
   {:else if module === null}
     <p class="text-text">Loading module...</p>
