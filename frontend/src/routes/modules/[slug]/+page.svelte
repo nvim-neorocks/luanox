@@ -24,7 +24,7 @@
     id: string;
     downloads: number;
     published_at: string;
-    published_by: string;
+    uploader: string;
   }
 
   interface Module {
@@ -84,43 +84,43 @@
           id: "9.1.1",
           downloads: 1242,
           published_at: "3 months ago",
-          published_by: "neorg",
+          uploader: "neorg",
         },
         {
           id: "9.1.0",
           downloads: 150,
           published_at: "3 months ago",
-          published_by: "neorg",
+          uploader: "neorg",
         },
         {
           id: "9.0.3",
           downloads: 250,
           published_at: "4 months ago",
-          published_by: "vhyrro",
+          uploader: "vhyrro",
         },
         {
           id: "9.0.2",
           downloads: 126,
           published_at: "4 months ago",
-          published_by: "vhyrro",
+          uploader: "vhyrro",
         },
         {
           id: "9.0.1",
           downloads: 174,
           published_at: "4 months ago",
-          published_by: "neorg",
+          uploader: "neorg",
         },
         {
           id: "9.0.0",
           downloads: 1000,
           published_at: "4 months ago",
-          published_by: "neorg",
+          uploader: "neorg",
         },
         {
           id: "8.9.0",
           downloads: 300,
           published_at: "6 months ago",
-          published_by: "neorg",
+          uploader: "neorg",
         },
       ],
       description:
@@ -283,7 +283,7 @@
     >
       <div
         class="!bg-surface !text-text p-6 md:rounded-r-lg rounded-b-lg markdown-body"
-        use:melt={$tabContent("readmes")}
+        use:melt={$tabContent("readme")}
       >
         {@html readmeContent}
       </div>
@@ -296,16 +296,30 @@
         <p>Render the rocks.toml contents here</p>
       </div>
       <div
-        class="!bg-surface !text-text p-6"
-        use:melt={$tabContent("readme")}
+        class="!bg-surface !text-text p-6 md:rounded-r-lg rounded-b-lg overflow-x-auto"
+        use:melt={$tabContent("versions")}
       >
         <h1 class="text-2xl mb-2">Version history</h1>
-        {#each module.versions as version}
-          <div class="bg-base-alt rounded-lg px-4 py-4 my-4 flex items-center justify-start">
-            <h2 class="font-medium mr-4">{version.id}</h2>
-            <p>Published by <a href="/users/{version.published_by}" class="hover:text-blue">@{version.published_by}</a></p>
-          </div>
-        {/each}
+        <table class="table-auto w-full">
+          <thead class="bg-base-alt text-left">
+            <tr>
+              <th class="px-4 py-3 font-medium" scope="col">Version</th>
+              <th class="px-4 py-3 font-medium" scope="col">Downloads</th>
+              <th class="px-4 py-3 font-medium" scope="col">Published</th>
+              <th class="px-4 py-3 font-medium" scope="col">Uploader</th>
+            </tr>
+          </thead>
+          <tbody class="text-left">
+            {#each module.versions as version}
+              <tr class="border-b border-dark-grey">
+                <th class="px-4 py-3" scope="row"><a class="hover:text-blue" href="{$page.url.pathname}/v/{version.id}">{version.id}</a></th>
+                <td class="px-4 py-3">{formatNumberWithDot(version.downloads)}</td>
+                <td class="px-4 py-3">{version.published_at}</td>
+                <td class="px-4 py-3"><a class="hover:text-blue hover:underline" href="/users/{version.uploader}">{version.uploader}</a></td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
       </div>
     </div>
   {:else if module === null}
