@@ -3,7 +3,10 @@ import type { Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
 export default {
-  content: ['./src/**/*.{html,js,svelte,ts}'],
+  content: [
+    './src/**/*.{html,js,svelte,ts}',
+    './node_modules/layerchart/**/*.{svelte,js}'
+  ],
   darkMode: ['selector', '[data-theme="dark"]'],
   theme: {
     extend: {

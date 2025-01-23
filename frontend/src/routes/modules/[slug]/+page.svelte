@@ -17,14 +17,16 @@
   import { createTabs, melt } from "@melt-ui/svelte";
   import { cubicInOut } from "svelte/easing";
   import { fade, crossfade } from "svelte/transition";
-  import ReportPopover from "$lib/components/Module/ReportPopover.svelte";
   import { formatNumberWithDot } from "$lib/format";
+  import ReportPopover from "$lib/components/Module/ReportPopover.svelte";
+  import Statistics from "$lib/components/Module/Statistics.svelte";
 
   interface ModuleVersions {
     id: string;
     downloads: number;
     published_at: string;
     uploader: string;
+    license: string;
   }
 
   interface Module {
@@ -85,42 +87,49 @@
           downloads: 1242,
           published_at: "3 months ago",
           uploader: "neorg",
+          license: "GPL-2.0",
         },
         {
           id: "9.1.0",
           downloads: 150,
           published_at: "3 months ago",
           uploader: "neorg",
+          license: "GPL-2.0",
         },
         {
           id: "9.0.3",
           downloads: 250,
           published_at: "4 months ago",
           uploader: "vhyrro",
+          license: "GPL-2.0",
         },
         {
           id: "9.0.2",
           downloads: 126,
           published_at: "4 months ago",
           uploader: "vhyrro",
+          license: "GPL-2.0",
         },
         {
           id: "9.0.1",
           downloads: 174,
           published_at: "4 months ago",
           uploader: "neorg",
+          license: "GPL-2.0",
         },
         {
           id: "9.0.0",
           downloads: 1000,
           published_at: "4 months ago",
           uploader: "neorg",
+          license: "GPL-2.0",
         },
         {
           id: "8.9.0",
           downloads: 300,
           published_at: "6 months ago",
           uploader: "neorg",
+          license: "GPL-2.0",
         },
       ],
       description:
@@ -235,7 +244,7 @@
               class="font-semibold mr-1">License:</span
             >
             <a
-              href="https://opensource.org/license/{module.license}"
+              href="https://spdx.org/licenses/{module.license}"
               class="hover:text-blue hover:underline">{module.license}</a
             >
           </li>
@@ -307,6 +316,7 @@
               <th class="px-4 py-3 font-medium" scope="col">Downloads</th>
               <th class="px-4 py-3 font-medium" scope="col">Published</th>
               <th class="px-4 py-3 font-medium" scope="col">Uploader</th>
+              <th class="px-4 py-3 font-medium" scope="col">License</th>
             </tr>
           </thead>
           <tbody class="text-left">
@@ -316,10 +326,26 @@
                 <td class="px-4 py-3">{formatNumberWithDot(version.downloads)}</td>
                 <td class="px-4 py-3">{version.published_at}</td>
                 <td class="px-4 py-3"><a class="hover:text-blue hover:underline" href="/users/{version.uploader}">{version.uploader}</a></td>
+                <td class="px-4 py-3"><a class="hover:text-blue hover:underline" href="https://spdx.org/licenses/{version.license}">{version.license}</a></td>
               </tr>
             {/each}
           </tbody>
         </table>
+      </div>
+      <div
+        class="!bg-surface !text-text p-6 md:rounded-r-lg rounded-b-lg"
+        use:melt={$tabContent("dependencies-dependants")}
+      >
+        TBD...
+
+        <p>This information should come from the back-end server and be included in the module JSON
+        object for iteration here</p>
+      </div>
+      <div
+        class="!bg-surface !text-text p-4 md:p-6 md:rounded-r-lg rounded-b-lg"
+        use:melt={$tabContent("stats")}
+      >
+        <Statistics />
       </div>
     </div>
   {:else if module === null}
