@@ -21,9 +21,9 @@ defmodule LuaNoxWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", LuaNoxWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", LuaNoxWeb do
+    pipe_through :api
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:luanox, :dev_routes) do

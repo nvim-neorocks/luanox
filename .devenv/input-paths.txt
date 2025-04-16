@@ -1,5 +1,0 @@
-/home/amartin/Develop/Elixir/luanox/.devenv.flake.nix
-/home/amartin/Develop/Elixir/luanox/.env.dev
-/home/amartin/Develop/Elixir/luanox/devenv.lock
-/home/amartin/Develop/Elixir/luanox/devenv.nix
-/home/amartin/Develop/Elixir/luanox/devenv.yaml

@@ -20,7 +20,7 @@ defmodule LuaNox.MixProject do
   def application do
     [
       mod: {LuaNox.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
