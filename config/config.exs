@@ -54,6 +54,9 @@ config :tailwind,
     cd: Path.expand("..", __DIR__)
   ]
 
+# Configure Tablerone (Tabler icons)
+config :tablerone, :otp_app, :luanox
+
 # Configures Elixir's Logger
 config :logger, :default_formatter,
   format: "$time $metadata[$level] $message\n",

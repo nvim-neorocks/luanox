@@ -19,7 +19,7 @@ defmodule LuaNoxWeb.CoreComponents do
       we build on. You will use it for layout, sizing, flexbox, grid, and
       spacing.
 
-    * [Heroicons](https://heroicons.com) - see `icon/1` for usage.
+    * [Tabler icons](https://hex.pm/packages/tablerone) - see `icon/1` for usage.
 
     * [Phoenix.Component](https://hexdocs.pm/phoenix_live_view/Phoenix.Component.html) -
       the component system used by Phoenix. Some components, such as `<.link>`
@@ -64,15 +64,15 @@ defmodule LuaNoxWeb.CoreComponents do
         @kind == :info && "alert-info",
         @kind == :error && "alert-error"
       ]}>
-        <.icon :if={@kind == :info} name="hero-information-circle-mini" class="size-5 shrink-0" />
-        <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="size-5 shrink-0" />
+        <%!-- <.icon :if={@kind == :info} name="hero-information-circle-mini" class="size-5 shrink-0" /> --%>
+        <%!-- <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="size-5 shrink-0" /> --%>
         <div>
           <p :if={@title} class="font-semibold">{@title}</p>
           <p>{msg}</p>
         </div>
         <div class="flex-1" />
         <button type="button" class="group self-start cursor-pointer" aria-label={gettext("close")}>
-          <.icon name="hero-x-mark-solid" class="size-5 opacity-40 group-hover:opacity-70" />
+          <%!-- <.icon name="hero-x-mark-solid" class="size-5 opacity-40 group-hover:opacity-70" /> --%>
         </button>
       </div>
     </div>
@@ -260,7 +260,7 @@ defmodule LuaNoxWeb.CoreComponents do
   defp error(assigns) do
     ~H"""
     <p class="mt-1.5 flex gap-2 items-center text-sm text-error">
-      <.icon name="hero-exclamation-circle-mini" class="size-5" />
+      <%!-- <.icon name="hero-exclamation-circle-mini" class="size-5" /> --%>
       {render_slot(@inner_block)}
     </p>
     """
@@ -399,12 +399,28 @@ defmodule LuaNoxWeb.CoreComponents do
       <.icon name="hero-x-mark-solid" />
       <.icon name="hero-arrow-path" class="ml-1 size-3 motion-safe:animate-spin" />
   """
-  attr :name, :string, required: true
+  attr :name, :atom, required: true
+  attr :type, :atom, required: true, values: [:filled, :outline]
   attr :class, :string, default: "size-4"
 
-  def icon(%{name: "hero-" <> _} = assigns) do
+  def icon(assigns) do
+    name = assigns[:name]
+    type = assigns[:type]
+
+    icon_contents = Tablerone.icon(name, type)
+
+    assigns =
+      assign_new(assigns, :icon_contents, fn ->
+        class =
+          [class: assigns[:class]]
+          |> Phoenix.HTML.attributes_escape()
+          |> Phoenix.HTML.safe_to_string()
+
+        String.replace(icon_contents, ~r{class="[^"]+"}, class)
+      end)
+
     ~H"""
-    <span class={[@name, @class]} />
+    {Phoenix.HTML.raw(@icon_contents)}
     """
   end
 
@@ -457,5 +473,30 @@ defmodule LuaNoxWeb.CoreComponents do
   """
   def translate_errors(errors, field) when is_list(errors) do
     for {^field, {msg, opts}} <- errors, do: translate_error({msg, opts})
+  end
+
+  def navbar(assigns) do
+    ~H"""
+    <!-- TODO: make this responsive -->
+    <nav class="navbar bg-base-200 shadow-lg px-4 md:text-lg shadow-sm">
+      <div class="flex-1">
+        <a class="flex items-center text-2xl" href="/">
+          <img src="/images/logo.svg" alt="Luanox logo" class="h-8 md:h-10 w-auto md:mr-2" />
+          <span class="hidden md:inline">Luanox</span>
+        </a>
+      </div>
+      <div class="flex items-center">
+        <LuaNoxWeb.Layouts.theme_toggle />
+        <ul class="menu menu-horizontal text-lg px-1">
+          <li>
+            <a>
+              Docs
+            </a>
+          </li>
+          <!-- TODO: add create and account handling -->
+        </ul>
+      </div>
+    </nav>
+    """
   end
 end
