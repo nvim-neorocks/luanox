@@ -8,6 +8,3 @@ inputs:
   #   url: github:cachix/devenv-nixpkgs/rolling
   nixpkgs:
     url: github:nixos/nixpkgs/nixpkgs-unstable
-imports:
-  - ./frontend/
-  - ./backend/
