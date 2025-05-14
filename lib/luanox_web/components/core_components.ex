@@ -402,7 +402,8 @@ defmodule LuaNoxWeb.CoreComponents do
   """
   attr :name, :atom, required: true
   attr :type, :atom, required: true, values: [:filled, :outline]
-  attr :class, :string, default: "size-4"
+  attr :id, :string
+  attr :class, :string, default: "size-6"
 
   def icon(assigns) do
     name = assigns[:name]
@@ -412,16 +413,43 @@ defmodule LuaNoxWeb.CoreComponents do
 
     assigns =
       assign_new(assigns, :icon_contents, fn ->
+        attrs =
+          [id: assigns[:id], class: assigns[:class]]
+          |> Phoenix.HTML.attributes_escape()
+          |> Phoenix.HTML.safe_to_string()
+
+        String.replace(icon_contents, ~r{<svg\n}, "<svg\n#{attrs}")
+      end)
+
+    ~H"""
+    {Phoenix.HTML.raw(@icon_contents)}
+    """
+  end
+
+  @doc """
+  Renders the Luanox logo SVG file
+
+  ## Examples
+
+      <.logo class="max-w-xs md:max-x-sm lg:max-x-md w-full h-auto" />
+  """
+  attr :class, :string, required: true
+
+  def logo(assigns) do
+    img_tag = "<img src=\"/images/logo.svg\" alt=\"Luanox logo\" class=\"\" />"
+
+    assigns =
+      assign_new(assigns, :img_tag, fn ->
         class =
           [class: assigns[:class]]
           |> Phoenix.HTML.attributes_escape()
           |> Phoenix.HTML.safe_to_string()
 
-        String.replace(icon_contents, ~r{class="[^"]+"}, class)
+        String.replace(img_tag, ~r{class=""}, class)
       end)
 
     ~H"""
-    {Phoenix.HTML.raw(@icon_contents)}
+    {Phoenix.HTML.raw(@img_tag)}
     """
   end
 
@@ -474,31 +502,6 @@ defmodule LuaNoxWeb.CoreComponents do
   """
   def translate_errors(errors, field) when is_list(errors) do
     for {^field, {msg, opts}} <- errors, do: translate_error({msg, opts})
-  end
-
-  def navbar(assigns) do
-    ~H"""
-    <!-- TODO: make this responsive -->
-    <nav class="navbar bg-base-200 shadow-lg px-4 md:text-lg shadow-sm">
-      <div class="flex-1">
-        <a class="flex items-center text-2xl" href="/">
-          <img src="/images/logo.svg" alt="Luanox logo" class="h-8 md:h-10 w-auto md:mr-2" />
-          <span class="hidden md:inline">Luanox</span>
-        </a>
-      </div>
-      <div class="flex items-center">
-        <LuaNoxWeb.Layouts.theme_toggle />
-        <ul class="menu menu-horizontal text-lg px-1">
-          <li>
-            <a>
-              Docs
-            </a>
-          </li>
-          <!-- TODO: add create and account handling -->
-        </ul>
-      </div>
-    </nav>
-    """
   end
 
   def footer(assigns) do
