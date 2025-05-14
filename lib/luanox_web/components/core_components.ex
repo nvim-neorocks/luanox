@@ -30,6 +30,7 @@ defmodule LuaNoxWeb.CoreComponents do
   use Gettext, backend: LuaNoxWeb.Gettext
 
   alias Phoenix.LiveView.JS
+  alias Luanox.Constants
 
   @doc """
   Renders flash notices.
@@ -497,6 +498,24 @@ defmodule LuaNoxWeb.CoreComponents do
         </ul>
       </div>
     </nav>
+    """
+  end
+
+  def footer(assigns) do
+    # TODO: Error handling?
+    {:ok, datetime} = DateTime.now("Etc/UTC")
+
+    assigns =
+      assigns
+      |> assign(:copyright_year, datetime.year)
+      |> assign(:org_name, Constants.luanox_org())
+
+    ~H"""
+    <footer class="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4">
+      <aside>
+        <p>Copyright © {@copyright_year} - All rights reserved by {@org_name}</p>
+      </aside>
+    </footer>
     """
   end
 end
