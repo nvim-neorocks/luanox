@@ -27,9 +27,9 @@
       })();
     </script>
   </head>
-  <body class="bg-base-100 antialiased md:subpixel-antialiased">
+  <body class="bg-base-100 antialiased md:subpixel-antialiased min-h-screen flex flex-col">
     <LuaNoxWeb.NavBar.navbar />
-    {@inner_content}
+    <main class="grow">{@inner_content}</main>
     <.footer />
   </body>
 </html>

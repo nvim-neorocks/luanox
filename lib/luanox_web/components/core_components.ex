@@ -403,7 +403,7 @@ defmodule LuaNoxWeb.CoreComponents do
   attr :name, :atom, required: true
   attr :type, :atom, required: true, values: [:filled, :outline]
   attr :id, :string
-  attr :class, :string, default: "size-6"
+  attr :class, :string, default: "size-5"
 
   def icon(assigns) do
     name = assigns[:name]
@@ -516,7 +516,7 @@ defmodule LuaNoxWeb.CoreComponents do
     ~H"""
     <footer class="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4">
       <aside>
-        <p>Copyright © {@copyright_year} - All rights reserved by {@org_name}</p>
+        <p>Copyright &copy; {@copyright_year} - All rights reserved by {@org_name}</p>
       </aside>
     </footer>
     """

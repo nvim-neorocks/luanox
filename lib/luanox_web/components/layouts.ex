@@ -104,15 +104,15 @@ defmodule LuaNoxWeb.Layouts do
       <div class="absolute w-[33%] h-full rounded-md bg-base-300 brightness-150 dark:brightness-200 opacity-50 left-0 [[data-theme=light]_&]:left-[33.33%] [[data-theme=dark]_&]:left-[67%] transition-[left]" />
 
       <button phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "system"})} class="p-2">
-        <.icon name={:device_desktop_cog} type={:outline} class="size-6 opacity-75 hover:opacity-100" />
+        <.icon name={:device_desktop_cog} type={:outline} class="size-5 opacity-75 hover:opacity-100" />
       </button>
 
       <button phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "light"})} class="p-2">
-        <.icon name={:sun} type={:outline} class="size-6 opacity-75 hover:opacity-100" />
+        <.icon name={:sun} type={:outline} class="size-5 opacity-75 hover:opacity-100" />
       </button>
 
       <button phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "dark"})} class="p-2">
-        <.icon name={:moon_stars} type={:outline} class="size-6 opacity-75 hover:opacity-100" />
+        <.icon name={:moon_stars} type={:outline} class="size-5 opacity-75 hover:opacity-100" />
       </button>
     </div>
 
@@ -122,19 +122,19 @@ defmodule LuaNoxWeb.Layouts do
           id="drop-system"
           name={:device_mobile_cog}
           type={:outline}
-          class="size-6 [[data-theme=light]_&]:hidden [[data-theme=dark]_&]:hidden"
+          class="size-5 [[data-theme=light]_&]:hidden [[data-theme=dark]_&]:hidden"
         />
         <.icon
           id="drop-light"
           name={:sun}
           type={:outline}
-          class="hidden [[data-theme=light]_&]:inline size-6"
+          class="hidden [[data-theme=light]_&]:inline size-5"
         />
         <.icon
           id="drop-dark"
           name={:moon_stars}
           type={:outline}
-          class="hidden [[data-theme=dark]_&]:inline size-6"
+          class="hidden [[data-theme=dark]_&]:inline size-5"
         />
       </div>
       <ul
