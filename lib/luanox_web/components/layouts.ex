@@ -13,14 +13,14 @@ defmodule LuaNoxWeb.Layouts do
 
   embed_templates "layouts/*"
 
-  def app(assigns) do
+  def app(%{current_scope: _} = assigns) do
     ~H"""
     <header>
-      <.navbar />
+      <.navbar current_scope={@current_scope} />
     </header>
 
-    <main class="px-4 py-20 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl space-y-4">
+    <main>
+      <div class="mx-auto">
         {render_slot(@inner_block)}
       </div>
     </main>

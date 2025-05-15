@@ -7,6 +7,19 @@
 # General application configuration
 import Config
 
+config :luanox, :scopes,
+  user: [
+    default: true,
+    module: LuaNox.Accounts.Scope,
+    assign_key: :current_scope,
+    access_path: [:user, :id],
+    schema_key: :user_id,
+    schema_type: :id,
+    schema_table: :users,
+    test_data_fixture: LuaNox.AccountsFixtures,
+    test_login_helper: :register_and_log_in_user
+  ]
+
 config :luanox,
   namespace: LuaNox,
   ecto_repos: [LuaNox.Repo],
