@@ -9,7 +9,7 @@ defmodule LuaNoxWeb.NavBar do
     <nav class="navbar bg-base-300 shadow-sm px-4 md:text-lg">
       <div class="navbar-start flex-1">
         <.link class="flex items-center text-2xl" navigate={~p"/"}>
-          <.logo class="h-8 md:h-10 w-auto md:mr-2" />
+          <.logo class="h-6 md:h-8 w-auto md:mr-2" />
           <span class="hidden md:inline font-semibold">Luanox</span>
         </.link>
       </div>
@@ -18,15 +18,15 @@ defmodule LuaNoxWeb.NavBar do
       <div class="flex items-center space-x-2 md:space-x-6">
         <LuaNoxWeb.Layouts.theme_toggle />
         <button
-          class="md:hidden btn btn-ghost text-lg rounded-field text-grey hover:text-base-content"
+          class="md:hidden btn btn-ghost rounded-field text-grey hover:text-base-content"
           phx-click={
             JS.toggle(to: "#mobile-menu")
             |> JS.toggle_class("hidden", to: "#menu-icon")
             |> JS.toggle_class("hidden", to: "#close-icon")
           }
         >
-          <.icon id="menu-icon" name={:menu_deep} type={:outline} class="size-6" />
-          <.icon id="close-icon" name={:x} type={:outline} class="hidden hover:text-error" />
+          <.icon id="menu-icon" name={:menu_deep} type={:outline} class="size-5" />
+          <.icon id="close-icon" name={:x} type={:outline} class="hidden hover:text-error size-5" />
         </button>
       </div>
 
@@ -43,10 +43,10 @@ defmodule LuaNoxWeb.NavBar do
       <div
         tabindex="0"
         role="button"
-        class="btn btn-ghost text-lg text-grey hover:text-info rounded-field"
+        class="btn btn-ghost text-grey hover:text-info rounded-field"
       >
         <.icon name={:square_plus} type={:outline} />
-        <span>Create</span>
+        <span class="mt-px">Create</span>
       </div>
       <ul
         tabindex="0"
@@ -79,10 +79,10 @@ defmodule LuaNoxWeb.NavBar do
       <div
         tabindex="0"
         role="button"
-        class="btn btn-ghost text-lg text-grey hover:text-info rounded-field"
+        class="btn btn-ghost text-grey hover:text-info rounded-field"
       >
         <.icon name={:user_circle} type={:outline} />
-        <span>Account</span>
+        <span class="mt-px">Account</span>
       </div>
       <ul
         tabindex="0"
@@ -105,9 +105,9 @@ defmodule LuaNoxWeb.NavBar do
     <div class="hidden md:flex items-center space-x-2">
       <ul class="menu menu-horizontal px-1 space-x-2">
         <li>
-          <.link class="btn btn-ghost text-lg text-grey hover:text-info" href="/docs">
+          <.link class="btn btn-ghost text-grey hover:text-info" href="/docs">
             <.icon name={:book_2} type={:outline} />
-            <span>Docs</span>
+            <span class="mt-px">Docs</span>
           </.link>
         </li>
         <.create_dropdown />
@@ -120,14 +120,16 @@ defmodule LuaNoxWeb.NavBar do
   defp mobile_menu(assigns) do
     ~H"""
     <div id="mobile-menu" class="hidden absolute top-16 left-0 w-full bg-base-300 rounded-b-md shadow-md flex flex-row items-center justify-between pt-2 pb-4 px-6 md:hidden z-10">
-      <ul class="menu menu-horizontal">
+      <ul class="menu menu-horizontal justify-between w-full">
         <li>
-          <.link class="btn btn-ghost text-lg text-grey hover:text-info" href="/docs">
+          <.link class="btn btn-ghost text-grey hover:text-info" href="/docs">
             <.icon name={:book_2} type={:outline} />
-              <span>Docs</span>
+              <span class="mt-px">Docs</span>
           </.link>
         </li>
+        <hr class="border-l border-dark-grey h-auto" />
         <.create_dropdown />
+        <hr class="border-l border-dark-grey h-auto" />
         <.account_dropdown />
       </ul>
     </div>
