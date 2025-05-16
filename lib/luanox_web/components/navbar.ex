@@ -73,32 +73,28 @@ defmodule LuaNoxWeb.NavBar do
     <div class="dropdown dropdown-center md:dropdown-end">
       <div tabindex="0" role="button" class="btn btn-ghost text-grey hover:text-info rounded-field">
         <.icon name={:user_circle} type={:outline} />
-        <span class="mt-px">Account</span>
+        <span class="mt-px">
+          <%= if @current_scope do %>
+            <!-- TODO: Change this to display "aka" or username -->
+            {@current_scope.user.email |> String.slice(0..10)}
+          <% else %>
+            Log In
+          <% end %>
+        </span>
       </div>
+
       <ul
+        :if={@current_scope}
         tabindex="0"
         class="menu dropdown-content bg-base-100 rounded-box z-1 mt-4 w-52 p-2 shadow-sm"
       >
-        <%= if @current_scope do %>
-          <li>
-            {@current_scope.user.email}
-          </li>
-          <li>
-            <.link href={~p"/users/settings"}>Settings</.link>
-          </li>
-          <hr class="text-dark-grey mt-1 mb-1" />
-          <li>
-            <.link href={~p"/users/log-out"} method="delete">Log out</.link>
-          </li>
-        <% else %>
-          <li>
-            <.link href={~p"/users/register"}>Register</.link>
-          </li>
-          <hr class="text-dark-grey mt-1 mb-1" />
-          <li>
-            <.link href={~p"/users/log-in"}>Log in</.link>
-          </li>
-        <% end %>
+        <li>
+          <.link href={~p"/users/settings"}>Settings</.link>
+        </li>
+        <hr class="text-dark-grey mt-1 mb-1" />
+        <li>
+          <!-- <.link href={~p"/users/logout"} method="delete">Log out</.link> -->
+        </li>
       </ul>
     </div>
     """

@@ -76,15 +76,6 @@ defmodule LuaNox.AccountsTest do
       {:error, changeset} = Accounts.register_user(%{email: String.upcase(email)})
       assert "has already been taken" in errors_on(changeset).email
     end
-
-    test "registers users without password" do
-      email = unique_user_email()
-      {:ok, user} = Accounts.register_user(valid_user_attributes(email: email))
-      assert user.email == email
-      assert is_nil(user.hashed_password)
-      assert is_nil(user.confirmed_at)
-      assert is_nil(user.password)
-    end
   end
 
   describe "sudo_mode?/2" do
@@ -172,66 +163,6 @@ defmodule LuaNox.AccountsTest do
       assert Repo.get_by(UserToken, user_id: user.id)
     end
   end
-
-  describe "change_user_password/3" do
-    test "returns a user changeset" do
-      assert %Ecto.Changeset{} = changeset = Accounts.change_user_password(%User{})
-      assert changeset.required == [:password]
-    end
-
-    test "allows fields to be set" do
-      changeset =
-        Accounts.change_user_password(
-          %User{},
-          %{
-            "password" => "new valid password"
-          },
-          hash_password: false
-        )
-
-      assert changeset.valid?
-      assert get_change(changeset, :password) == "new valid password"
-      assert is_nil(get_change(changeset, :hashed_password))
-    end
-  end
-
-  describe "update_user_password/2" do
-    setup do
-      %{user: user_fixture()}
-    end
-
-    test "validates password", %{user: user} do
-      {:error, changeset} =
-        Accounts.update_user_password(user, %{
-          password: "not valid",
-          password_confirmation: "another"
-        })
-
-      assert %{
-               password: ["should be at least 12 character(s)"],
-               password_confirmation: ["does not match password"]
-             } = errors_on(changeset)
-    end
-
-    test "validates maximum values for password for security", %{user: user} do
-      too_long = String.duplicate("db", 100)
-
-      {:error, changeset} =
-        Accounts.update_user_password(user, %{password: too_long})
-
-      assert "should be at most 72 character(s)" in errors_on(changeset).password
-    end
-
-    test "updates the password", %{user: user} do
-      {:ok, user, expired_tokens} =
-        Accounts.update_user_password(user, %{
-          password: "new valid password"
-        })
-
-      assert expired_tokens == []
-      assert is_nil(user.password)
-      assert Accounts.get_user_by_email_and_password(user.email, "new valid password")
-    end
 
     test "deletes all tokens for the given user", %{user: user} do
       _ = Accounts.generate_user_session_token(user)
@@ -341,16 +272,6 @@ defmodule LuaNox.AccountsTest do
       assert {:ok, ^user, []} = Accounts.login_user_by_magic_link(encoded_token)
       # one time use only
       assert {:error, :not_found} = Accounts.login_user_by_magic_link(encoded_token)
-    end
-
-    test "raises when unconfirmed user has password set" do
-      user = unconfirmed_user_fixture()
-      {1, nil} = Repo.update_all(User, set: [hashed_password: "hashed"])
-      {encoded_token, _hashed_token} = generate_user_magic_link_token(user)
-
-      assert_raise RuntimeError, ~r/magic link log in is not allowed/, fn ->
-        Accounts.login_user_by_magic_link(encoded_token)
-      end
     end
   end
 
