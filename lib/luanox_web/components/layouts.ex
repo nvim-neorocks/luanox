@@ -9,35 +9,14 @@ defmodule LuaNoxWeb.Layouts do
   """
   use LuaNoxWeb, :html
 
+  import LuaNoxWeb.NavBar
+
   embed_templates "layouts/*"
 
   def app(assigns) do
     ~H"""
-    <header class="navbar px-4 sm:px-6 lg:px-8">
-      <div class="flex-1">
-        <a href="/" class="flex-1 flex items-center gap-2">
-          <img src={~p"/images/logo.svg"} width="36" />
-          <span class="text-sm font-semibold">v{Application.spec(:phoenix, :vsn)}</span>
-        </a>
-      </div>
-      <div class="flex-none">
-        <ul class="flex flex-column px-1 space-x-4 items-center">
-          <li>
-            <a href="https://phoenixframework.org/" class="btn btn-ghost">Website</a>
-          </li>
-          <li>
-            <a href="https://github.com/phoenixframework/phoenix" class="btn btn-ghost">GitHub</a>
-          </li>
-          <li>
-            <.theme_toggle />
-          </li>
-          <li>
-            <a href="https://hexdocs.pm/phoenix/overview.html" class="btn btn-primary">
-              Get Started <span aria-hidden="true">&rarr;</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+    <header>
+      <.navbar />
     </header>
 
     <main class="px-4 py-20 sm:px-6 lg:px-8">
@@ -45,6 +24,10 @@ defmodule LuaNoxWeb.Layouts do
         {render_slot(@inner_block)}
       </div>
     </main>
+
+    <footer>
+      <.footer />
+    </footer>
 
     <.flash_group flash={@flash} />
     """
@@ -104,15 +87,15 @@ defmodule LuaNoxWeb.Layouts do
       <div class="absolute w-[33%] h-full rounded-md bg-base-300 brightness-150 dark:brightness-200 opacity-50 left-0 [[data-theme=light]_&]:left-[33.33%] [[data-theme=dark]_&]:left-[67%] transition-[left]" />
 
       <button phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "system"})} class="p-2">
-        <.icon name={:device_desktop_cog} type={:outline} class="size-6 opacity-75 hover:opacity-100" />
+        <.icon name={:device_desktop_cog} type={:outline} class="size-5 opacity-75 hover:opacity-100" />
       </button>
 
       <button phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "light"})} class="p-2">
-        <.icon name={:sun} type={:outline} class="size-6 opacity-75 hover:opacity-100" />
+        <.icon name={:sun} type={:outline} class="size-5 opacity-75 hover:opacity-100" />
       </button>
 
       <button phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "dark"})} class="p-2">
-        <.icon name={:moon_stars} type={:outline} class="size-6 opacity-75 hover:opacity-100" />
+        <.icon name={:moon_stars} type={:outline} class="size-5 opacity-75 hover:opacity-100" />
       </button>
     </div>
 
@@ -122,19 +105,19 @@ defmodule LuaNoxWeb.Layouts do
           id="drop-system"
           name={:device_mobile_cog}
           type={:outline}
-          class="size-6 [[data-theme=light]_&]:hidden [[data-theme=dark]_&]:hidden"
+          class="size-5 [[data-theme=light]_&]:hidden [[data-theme=dark]_&]:hidden"
         />
         <.icon
           id="drop-light"
           name={:sun}
           type={:outline}
-          class="hidden [[data-theme=light]_&]:inline size-6"
+          class="hidden [[data-theme=light]_&]:inline size-5"
         />
         <.icon
           id="drop-dark"
           name={:moon_stars}
           type={:outline}
-          class="hidden [[data-theme=dark]_&]:inline size-6"
+          class="hidden [[data-theme=dark]_&]:inline size-5"
         />
       </div>
       <ul
