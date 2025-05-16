@@ -138,4 +138,10 @@ defmodule LuaNox.Accounts do
     {:ok, query} = UserToken.verify_session_token_query(token)
     Repo.one(query)
   end
+
+  @doc """
+  Creates a user from the given Ueberauth auth table.
+  """
+  def create_user_from_ueberauth!(%Ueberauth.Auth{} = auth) do
+  end
 end
