@@ -1,5 +1,4 @@
 defmodule LuaNoxWeb.Router do
-  alias LuaNoxWeb.UserLive
   use LuaNoxWeb, :router
 
   import LuaNoxWeb.UserAuth
@@ -29,8 +28,6 @@ defmodule LuaNoxWeb.Router do
       on_mount: [{LuaNoxWeb.UserAuth, :mount_current_scope}] do
       live "/login", UserLive.Login, :new
     end
-
-    # post "/login", UserLive.Login, :create
   end
 
   # Authentication routes
@@ -41,7 +38,7 @@ defmodule LuaNoxWeb.Router do
       live "/settings", UserLive.Settings, :edit
     end
 
-    # delete "/logout", UserLive, :logout
+    delete "/logout", UserAuthController, :log_out_user
   end
 
   scope "/auth", LuaNoxWeb do
