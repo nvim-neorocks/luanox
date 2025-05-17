@@ -1,4 +1,4 @@
-defmodule LuanoxWeb.UserOauth do
+defmodule LuaNoxWeb.UserOauth do
   use LuaNoxWeb, :controller
   plug Ueberauth
 
@@ -9,8 +9,17 @@ defmodule LuanoxWeb.UserOauth do
   end
 
   def callback(%{assigns: %{ueberauth_auth: %Ueberauth.Auth{} = auth}} = conn, _params) do
-    {:ok, user} = LuaNoxWeb.Accounts.create_user_from_ueberauth(auth)
+    case LuaNox.Accounts.create_user_from_ueberauth(auth) do
+      {:ok, user} ->
+        conn
+        |> put_flash(:info, "Welcome #{user.username}")
+        |> LuaNoxWeb.UserAuth.log_in_user(user)
 
-    LuaNoxWeb.UserAuth.log_in_user(conn, user)
+      {:error, changeset} ->
+        IO.inspect changeset, label: "Error changeset"
+        conn
+        |> put_flash(:error, "Authentication went through, but failed to create user")
+        |> redirect(to: ~p"/")
+    end
   end
 end

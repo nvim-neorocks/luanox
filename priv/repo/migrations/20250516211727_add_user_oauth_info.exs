@@ -3,8 +3,8 @@ defmodule LuaNox.Repo.Migrations.AddUserOauthInfo do
 
   def change do
     alter table(:users) do
-      add :provider, :string
-      add :username, :string
+      add :provider, :string, null: false
+      add :username, :string, null: false
       add :aka, :string
     end
 

@@ -78,7 +78,7 @@ defmodule LuaNoxWeb.UserLive.Login do
     """
   end
 
-  def mount(_params, _session, socket) do
+  def mount(%{action: "new"}, _session, socket) do
     email =
       Phoenix.Flash.get(socket.assigns.flash, :email) ||
         get_in(socket.assigns, [:current_scope, Access.key(:user), Access.key(:email)])

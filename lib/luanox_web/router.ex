@@ -1,4 +1,5 @@
 defmodule LuaNoxWeb.Router do
+  alias LuaNoxWeb.UserLive
   use LuaNoxWeb, :router
 
   import LuaNoxWeb.UserAuth
@@ -26,28 +27,28 @@ defmodule LuaNoxWeb.Router do
 
     live_session :current_user,
       on_mount: [{LuaNoxWeb.UserAuth, :mount_current_scope}] do
-      live "/users/login", UserLive.Login, :new
+      live "/login", UserLive.Login, :new
     end
 
-    # post "/users/log-in", UserSessionController, :create
-    # delete "/users/log-out", UserSessionController, :delete
+    # post "/login", UserLive.Login, :create
   end
 
   # Authentication routes
   scope "/", LuaNoxWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    live_session :require_authenticated_user,
-      on_mount: [{LuaNoxWeb.UserAuth, :require_authenticated}] do
-      live "/users/settings", UserLive.Settings, :edit
+    live_session :require_authenticated_user do
+      live "/settings", UserLive.Settings, :edit
     end
+
+    # delete "/logout", UserLive, :logout
   end
 
   scope "/auth", LuaNoxWeb do
     pipe_through :browser
 
-    get "/:provider", AuthController, :request
-    get "/:provider/callback", AuthController, :callback
+    get "/:provider", UserOauth, :request
+    get "/:provider/callback", UserOauth, :callback
   end
 
   # Other scopes may use custom stacks.

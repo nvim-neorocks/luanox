@@ -23,34 +23,34 @@ defmodule LuaNox.Accounts.User do
   end
 
   def oauth_changeset(user, %Auth{} = auth) do
-    if !Auth.valid?(auth) do
-      add_error(user, :ueberauth, "invalid auth")
-      user
-    else
-      attrs = %{
-        provider: auth.provider,
-        username: auth.info.name,
-        aka: auth.info.nickname
-      }
+    attrs = %{
+      provider: to_string(auth.provider),
+      # TODO: Github does this for some reason. We must test if gitlab does this too
+      username: auth.info.nickname,
+      aka: auth.info.name
+    }
 
-      user
-      |> email_changeset(%{email: auth.info.email}, validate_email: true)
-      |> cast(attrs, [:provider, :username, :aka])
-      |> unique_constraint([:provider, :username])
-      |> validate_provider()
-      |> validate_aka()
-    end
+    IO.inspect(attrs, label: "Oauth changeset")
+  
+    user
+    |> email_changeset(%{email: auth.info.email}, validate_email: true)
+    |> cast(attrs, [:provider, :username, :aka])
+    |> validate_required([:username])
+    |> unique_constraint([:provider, :username])
+    |> validate_provider()
+    |> validate_aka()
   end
 
   defp validate_provider(changeset) do
     changeset
-    |> validate_required([:provider])
-    |> validate_subset(:provider, ["github", "gitlab"])
+    |> validate_required(:provider)
+    |> validate_inclusion(:provider, ["github", "gitlab"])
   end
 
   defp validate_aka(changeset) do
     changeset =
       changeset
+      |> unique_constraint(:aka)
       |> validate_length(:aka, min: 1, max: 20)
       |> validate_format(:aka, ~r/^[a-zA-Z0-9_\-]+$/,
         message: "only allows letters, numbers and underscores"
@@ -60,8 +60,7 @@ defmodule LuaNox.Accounts.User do
     aka = changeset |> get_field(:aka)
 
     if username_exists?(username) && is_nil(aka) do
-      changeset
-      |> validate_required([:aka])
+      validate_required(changeset, [:aka])
     else
       changeset
     end
