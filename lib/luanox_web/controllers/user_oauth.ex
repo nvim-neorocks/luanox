@@ -9,7 +9,7 @@ defmodule LuanoxWeb.UserOauth do
   end
 
   def callback(%{assigns: %{ueberauth_auth: %Ueberauth.Auth{} = auth}} = conn, _params) do
-    user = LuaNoxWeb.Accounts.create_user_from_ueberauth!(auth)
+    {:ok, user} = LuaNoxWeb.Accounts.create_user_from_ueberauth(auth)
 
     LuaNoxWeb.UserAuth.log_in_user(conn, user)
   end

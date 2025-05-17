@@ -43,7 +43,7 @@ defmodule LuaNoxWeb.Router do
     end
   end
 
-  scope "/auth", MyAppWeb do
+  scope "/auth", LuaNoxWeb do
     pipe_through :browser
 
     get "/:provider", AuthController, :request

@@ -26,6 +26,10 @@ defmodule LuaNox.Accounts do
     Repo.get_by(User, email: email)
   end
 
+  def get_user_by_username(username) when is_binary(username) do
+    Repo.get_by(User, username: username)
+  end
+
   @doc """
   Gets a single user.
 
@@ -78,46 +82,6 @@ defmodule LuaNox.Accounts do
 
   def sudo_mode?(_user, _minutes), do: false
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for changing the user email.
-
-  See `LuaNox.Accounts.User.email_changeset/3` for a list of supported options.
-
-  ## Examples
-
-      iex> change_user_email(user)
-      %Ecto.Changeset{data: %User{}}
-
-  """
-  def change_user_email(user, attrs \\ %{}, opts \\ []) do
-    User.email_changeset(user, attrs, opts)
-  end
-
-  @doc """
-  Updates the user email using the given token.
-
-  If the token matches, the user email is updated and the token is deleted.
-  """
-  def update_user_email(user, token) do
-    context = "change:#{user.email}"
-
-    with {:ok, query} <- UserToken.verify_change_email_token_query(token, context),
-         %UserToken{sent_to: email} <- Repo.one(query),
-         {:ok, _} <- Repo.transaction(user_email_multi(user, email, context)) do
-      :ok
-    else
-      _ -> :error
-    end
-  end
-
-  defp user_email_multi(user, email, context) do
-    changeset = User.email_changeset(user, %{email: email})
-
-    Ecto.Multi.new()
-    |> Ecto.Multi.update(:user, changeset)
-    |> Ecto.Multi.delete_all(:tokens, UserToken.by_user_and_contexts_query(user, [context]))
-  end
-
   ## Session
 
   @doc """
@@ -142,6 +106,9 @@ defmodule LuaNox.Accounts do
   @doc """
   Creates a user from the given Ueberauth auth table.
   """
-  def create_user_from_ueberauth!(%Ueberauth.Auth{} = auth) do
+  def create_user_from_ueberauth(%Ueberauth.Auth{} = auth) do
+    %User{}
+    |> User.oauth_changeset(auth)
+    |> Repo.insert()
   end
 end

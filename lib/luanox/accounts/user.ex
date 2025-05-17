@@ -1,4 +1,5 @@
 defmodule LuaNox.Accounts.User do
+  alias Ueberauth.Auth
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -7,24 +8,67 @@ defmodule LuaNox.Accounts.User do
     field :confirmed_at, :utc_datetime
     field :authenticated_at, :utc_datetime, virtual: true
 
+    # Used to uniquely identify the user in the database
+    field :provider, :string
+    field :username, :string
+    field :aka, :string
+
     timestamps(type: :utc_datetime)
   end
 
-  @doc """
-  A user changeset for registering or changing the email.
-
-  It requires the email to change otherwise an error is added.
-
-  ## Options
-
-    * `:validate_email` - Set to false if you don't want to validate the
-      uniqueness of the email, useful when displaying live validations.
-      Defaults to `true`.
-  """
   def email_changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, [:email])
     |> validate_email(opts)
+  end
+
+  def oauth_changeset(user, %Auth{} = auth) do
+    if !Auth.valid?(auth) do
+      add_error(user, :ueberauth, "invalid auth")
+      user
+    else
+      attrs = %{
+        provider: auth.provider,
+        username: auth.info.name,
+        aka: auth.info.nickname
+      }
+
+      user
+      |> email_changeset(%{email: auth.info.email}, validate_email: true)
+      |> cast(attrs, [:provider, :username, :aka])
+      |> unique_constraint([:provider, :username])
+      |> validate_provider()
+      |> validate_aka()
+    end
+  end
+
+  defp validate_provider(changeset) do
+    changeset
+    |> validate_required([:provider])
+    |> validate_subset(:provider, ["github", "gitlab"])
+  end
+
+  defp validate_aka(changeset) do
+    changeset =
+      changeset
+      |> validate_length(:aka, min: 1, max: 20)
+      |> validate_format(:aka, ~r/^[a-zA-Z0-9_\-]+$/,
+        message: "only allows letters, numbers and underscores"
+      )
+
+    username = changeset |> get_field(:username)
+    aka = changeset |> get_field(:aka)
+
+    if username_exists?(username) && is_nil(aka) do
+      changeset
+      |> validate_required([:aka])
+    else
+      changeset
+    end
+  end
+
+  defp username_exists?(username) do
+    !is_nil(LuaNox.Accounts.get_user_by_username(username))
   end
 
   defp validate_email(changeset, opts) do
@@ -52,13 +96,5 @@ defmodule LuaNox.Accounts.User do
     else
       changeset
     end
-  end
-
-  @doc """
-  Confirms the account by setting `confirmed_at`.
-  """
-  def confirm_changeset(user) do
-    now = DateTime.utc_now(:second)
-    change(user, confirmed_at: now)
   end
 end
