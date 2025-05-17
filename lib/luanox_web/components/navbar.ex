@@ -3,6 +3,8 @@ defmodule LuaNoxWeb.NavBar do
 
   alias Phoenix.LiveView.JS
 
+  alias LuaNox.Accounts.User
+
   def navbar(%{current_scope: _} = assigns) do
     ~H"""
     <nav class="navbar bg-base-300 shadow-sm px-4 md:text-lg">
@@ -66,7 +68,7 @@ defmodule LuaNoxWeb.NavBar do
         <div tabindex="0" role="button" class="btn btn-ghost text-grey hover:text-info rounded-field">
           <.icon name={:user_circle} type={:outline} />
           <span class="mt-px">
-            {(@current_scope.user.nickname || @current_scope.user.name) |> String.slice(0..10)}
+            {User.unique_username(@current_scope.user) |> String.slice(0..20)}
           </span>
         </div>
       <% else %>

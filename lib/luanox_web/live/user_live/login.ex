@@ -19,9 +19,8 @@ defmodule LuaNoxWeb.UserLive.Login do
         <div class="flex flex-col space-y-4">
           <.link
             class="btn btn-primary"
-            navigate={~p"/auth/github"}
             id="github-login"
-            phx-hook="GithubLogin"
+            navigate={~p"/auth/github"}
           >
             <%!-- <.icon name={:github} type={:filled} class="mr-2" /> --%> GitHub
           </.link>

@@ -41,6 +41,8 @@ defmodule LuaNox.Accounts.User do
     |> validate_aka()
   end
 
+  def unique_username(%LuaNox.Accounts.User{} = user), do: user.aka || user.username
+
   defp validate_provider(changeset) do
     changeset
     |> validate_required(:provider)

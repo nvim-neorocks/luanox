@@ -9,17 +9,23 @@ defmodule LuaNoxWeb.UserOauth do
   end
 
   def callback(%{assigns: %{ueberauth_auth: %Ueberauth.Auth{} = auth}} = conn, _params) do
-    case LuaNox.Accounts.create_user_from_ueberauth(auth) do
-      {:ok, user} ->
+    case LuaNox.Accounts.get_user_by_auth(auth) do
+      %LuaNox.Accounts.User{} = user ->
         conn
-        |> put_flash(:info, "Welcome #{user.username}")
         |> LuaNoxWeb.UserAuth.log_in_user(user)
 
-      {:error, changeset} ->
-        IO.inspect changeset, label: "Error changeset"
-        conn
-        |> put_flash(:error, "Authentication went through, but failed to create user")
-        |> redirect(to: ~p"/")
+      nil ->
+        case LuaNox.Accounts.create_user_from_ueberauth(auth) do
+          {:ok, user} ->
+            conn
+            |> put_flash(:info, "Account created successfully.")
+            |> LuaNoxWeb.UserAuth.log_in_user(user)
+
+          {:error, _changeset} ->
+            conn
+            |> put_flash(:error, "Authentication succeeded, but failed to create user.")
+            |> redirect(to: ~p"/")
+        end
     end
   end
 end

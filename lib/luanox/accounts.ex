@@ -30,6 +30,10 @@ defmodule LuaNox.Accounts do
     Repo.get_by(User, username: username)
   end
 
+  def get_user_by_auth(%Ueberauth.Auth{} = auth) do
+    get_user_by_email(auth.info.email)
+  end
+
   @doc """
   Gets a single user.
 
