@@ -16,6 +16,9 @@ defmodule LuaNox.Accounts.Scope do
   growing application requirements.
   """
 
+  alias LuaNox.Packages.Release
+  alias LuaNox.Repo
+  alias LuaNox.Packages.Package
   alias LuaNox.Accounts.User
 
   defstruct user: nil
@@ -30,4 +33,16 @@ defmodule LuaNox.Accounts.Scope do
   end
 
   def for_user(nil), do: nil
+
+  def for_package(%Package{} = package) do
+    %__MODULE__{user: Repo.preload(package, :user) |> Map.get(:user)}
+  end
+
+  def for_package(nil), do: nil
+
+  def for_release(%Release{} = release) do
+    %__MODULE__{user: for_package(Repo.preload(release, :package) |> Map.get(:package))}
+  end
+
+  def for_release(nil), do: nil
 end
