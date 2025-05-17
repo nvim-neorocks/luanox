@@ -505,12 +505,11 @@ defmodule LuaNoxWeb.CoreComponents do
   end
 
   def footer(assigns) do
-    # TODO: Error handling?
-    {:ok, datetime} = DateTime.now("Etc/UTC")
+    current_year = DateTime.utc_now().year
 
     assigns =
       assigns
-      |> assign(:copyright_year, datetime.year)
+      |> assign(:copyright_year, current_year)
       |> assign(:org_name, Constants.luanox_org())
 
     ~H"""
