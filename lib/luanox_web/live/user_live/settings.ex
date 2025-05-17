@@ -6,9 +6,9 @@ defmodule LuaNoxWeb.UserLive.Settings do
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash} current_scope={@current_scope}>
-      <.header class="text-center">
+      <.header class="text-center py-4">
         Account Settings
-        <:subtitle>Manage your account email address and password settings</:subtitle>
+        <:subtitle>Manage your nicknames and other credentials here.</:subtitle>
       </.header>
 
       <%!-- TODO: Add "update nickname" and other things here --%>
