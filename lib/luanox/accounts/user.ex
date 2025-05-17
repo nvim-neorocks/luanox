@@ -16,11 +16,7 @@ defmodule LuaNox.Accounts.User do
     timestamps(type: :utc_datetime)
   end
 
-  def email_changeset(user, attrs, opts \\ []) do
-    user
-    |> cast(attrs, [:email])
-    |> validate_email(opts)
-  end
+  def unique_username(%LuaNox.Accounts.User{} = user), do: user.aka || user.username
 
   def oauth_changeset(user, %Auth{} = auth) do
     attrs = %{
@@ -30,18 +26,14 @@ defmodule LuaNox.Accounts.User do
       aka: auth.info.name
     }
 
-    IO.inspect(attrs, label: "Oauth changeset")
-  
     user
-    |> email_changeset(%{email: auth.info.email}, validate_email: true)
+    |> email_changeset(%{email: auth.info.email})
     |> cast(attrs, [:provider, :username, :aka])
     |> validate_required([:username])
     |> unique_constraint([:provider, :username])
     |> validate_provider()
     |> validate_aka()
   end
-
-  def unique_username(%LuaNox.Accounts.User{} = user), do: user.aka || user.username
 
   defp validate_provider(changeset) do
     changeset
@@ -58,8 +50,8 @@ defmodule LuaNox.Accounts.User do
         message: "only allows letters, numbers and underscores"
       )
 
-    username = changeset |> get_field(:username)
-    aka = changeset |> get_field(:aka)
+    username = get_field(changeset, :username)
+    aka = get_field(changeset, :aka)
 
     if username_exists?(username) && is_nil(aka) do
       validate_required(changeset, [:aka])
@@ -72,30 +64,18 @@ defmodule LuaNox.Accounts.User do
     !is_nil(LuaNox.Accounts.get_user_by_username(username))
   end
 
-  defp validate_email(changeset, opts) do
-    changeset =
-      changeset
-      |> validate_required([:email])
-      |> validate_format(:email, ~r/^[^@,;\s]+@[^@,;\s]+$/,
-        message: "must have the @ sign and no spaces"
-      )
-      |> validate_length(:email, max: 160)
-
-    if Keyword.get(opts, :validate_email, true) do
-      changeset
-      |> unsafe_validate_unique(:email, LuaNox.Repo)
-      |> unique_constraint(:email)
-      |> validate_email_changed()
-    else
-      changeset
-    end
+  defp email_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:email])
+    |> validate_email()
   end
 
-  defp validate_email_changed(changeset) do
-    if get_field(changeset, :email) && get_change(changeset, :email) == nil do
-      add_error(changeset, :email, "did not change")
-    else
-      changeset
-    end
+  defp validate_email(changeset) do
+    changeset
+    |> validate_required([:email])
+    |> validate_format(:email, ~r/^[^@,;\s]+@[^@,;\s]+$/,
+      message: "must have the @ sign and no spaces"
+    )
+    |> validate_length(:email, max: 160)
   end
 end

@@ -15,7 +15,7 @@ defmodule LuaNoxWeb.UserOauth do
         |> LuaNoxWeb.UserAuth.log_in_user(user)
 
       nil ->
-        case LuaNox.Accounts.create_user_from_ueberauth(auth) do
+        case LuaNox.Accounts.register_user(auth) do
           {:ok, user} ->
             conn
             |> put_flash(:info, "Account created successfully.")

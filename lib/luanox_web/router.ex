@@ -22,10 +22,6 @@ defmodule LuaNoxWeb.Router do
 
     live_session :default, on_mount: [{LuaNoxWeb.UserAuth, :mount_current_scope}] do
       live "/", PageLive
-    end
-
-    live_session :current_user,
-      on_mount: [{LuaNoxWeb.UserAuth, :mount_current_scope}] do
       live "/login", UserLive.Login, :new
     end
   end
@@ -34,9 +30,7 @@ defmodule LuaNoxWeb.Router do
   scope "/", LuaNoxWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    live_session :require_authenticated_user do
-      live "/settings", UserLive.Settings, :edit
-    end
+    live "/settings", UserLive.Settings, :edit
 
     delete "/logout", UserAuthController, :log_out_user
   end

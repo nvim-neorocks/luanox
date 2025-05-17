@@ -53,20 +53,16 @@ defmodule LuaNox.Accounts do
   ## User registration
 
   @doc """
-  Registers a user.
+  Registers a user from a successful oauth login.
 
   ## Examples
 
-      iex> register_user(%{field: value})
+      iex> register_user(%Ueberauth.Auth{} = auth)
       {:ok, %User{}}
-
-      iex> register_user(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
-  def register_user(attrs) do
+  def register_user(%Ueberauth.Auth{} = auth) do
     %User{}
-    |> User.email_changeset(attrs)
+    |> User.oauth_changeset(auth)
     |> Repo.insert()
   end
 
@@ -105,15 +101,6 @@ defmodule LuaNox.Accounts do
   def get_user_by_session_token(token) do
     {:ok, query} = UserToken.verify_session_token_query(token)
     Repo.one(query)
-  end
-
-  @doc """
-  Creates a user from the given Ueberauth auth table.
-  """
-  def create_user_from_ueberauth(%Ueberauth.Auth{} = auth) do
-    %User{}
-    |> User.oauth_changeset(auth)
-    |> Repo.insert()
   end
 
   @doc """
