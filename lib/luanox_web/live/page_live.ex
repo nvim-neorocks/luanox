@@ -1,4 +1,5 @@
 defmodule LuaNoxWeb.PageLive do
+  alias LuaNox.Packages
   use LuaNoxWeb, :live_view
 
   import LuaNoxWeb.PackageBox
@@ -6,8 +7,6 @@ defmodule LuaNoxWeb.PageLive do
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:packages, [
-       %{name: "luanox", description: "A Lua package manager", version: "0.1.0"}
-     ])}
+     |> assign(:packages, Packages.list_packages())}
   end
 end

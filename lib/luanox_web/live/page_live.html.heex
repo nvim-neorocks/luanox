@@ -34,8 +34,8 @@
   <div class="flex flex-col items-center justify-center py-4">
     <%!-- <h2 class="text-2xl font-bold mb-4">Featured Packages</h2> --%>
     <div class="flex gap-4 max-w-screen-lg">
-      <%= for %{name: name, version: version, description: description} <- @packages do %>
-        <.package name={name} version={version} description={description} />
+      <%= for %{name: name, summary: summary, releases: releases} <- @packages do %>
+        <.package name={name} version={List.last(releases).version || ""} description={summary} />
       <% end %>
     </div>
   </div>

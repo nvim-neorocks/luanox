@@ -15,6 +15,7 @@ defmodule LuaNoxWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_current_scope_for_user
   end
 
   scope "/", LuaNoxWeb do
@@ -45,6 +46,8 @@ defmodule LuaNoxWeb.Router do
   # Other scopes may use custom stacks.
   scope "/api", LuaNoxWeb do
     pipe_through :api
+
+    resources "/packages", PackageController, except: [:edit]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
