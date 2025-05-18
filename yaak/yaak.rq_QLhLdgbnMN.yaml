@@ -1,0 +1,27 @@
+type: http_request
+model: http_request
+id: rq_QLhLdgbnMN
+createdAt: 2025-05-20T15:44:25.586738487
+updatedAt: 2025-05-20T16:12:16.842944576
+workspaceId: wk_mMzjgebEKx
+folderId: null
+authentication:
+  token: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhbGxvd2VkX3BhY2thZ2VzIjpudWxsLCJhdWQiOiJsdWFub3giLCJleHAiOjE3NTAxNzQ4MjEsImlhdCI6MTc0Nzc1NTYyMSwiaXNzIjoibHVhbm94IiwianRpIjoiMjBmOGY4NjgtMjk0Ny00MTE0LTkyNDMtYjhhNjAzOTVkMGMwIiwibmJmIjoxNzQ3NzU1NjIwLCJzdWIiOiIxMCIsInR5cCI6ImFjY2VzcyIsIndyaXRlX3Jlc3RyaWN0aW9uIjpmYWxzZX0.Fd7BOTY2SjaAYKp2Sn-ykYvpQxfl-SM8S8-vGMTNUR9ZSokde88ACNOU8SyWDNXKo4cmA8bTqVRVfBLqJ2r3Yg
+authenticationType: bearer
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Get Release
+sortPriority: 4000.0
+url: http://localhost:4000/api/releases/9
+urlParameters:
+- enabled: true
+  name: package
+  value: lua
+  id: chCDcn7FPz
+- enabled: true
+  name: ''
+  value: ''
+  id: bddGCSHJRM

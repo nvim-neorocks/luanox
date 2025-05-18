@@ -59,6 +59,19 @@ defmodule LuaNoxWeb.UserAuth do
     |> redirect(to: ~p"/")
   end
 
+  def fetch_current_api_token_for_user(conn, _opts) do
+    LuaNox.Guardian.Plug.current_resource(conn)
+    |> case do
+      %Scope{} = scope ->
+        conn
+        |> assign(:current_scope, scope)
+
+      nil ->
+        conn
+        |> assign(:current_scope, nil)
+    end
+  end
+
   @doc """
   Authenticates the user by looking into the session and remember me token.
 

@@ -1,4 +1,5 @@
 defmodule LuaNoxWeb.Router do
+  alias LuaNoxWeb.Pipelines
   use LuaNoxWeb, :router
 
   import LuaNoxWeb.UserAuth
@@ -15,7 +16,8 @@ defmodule LuaNoxWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug :fetch_current_scope_for_user
+    plug Pipelines.ApiPipeline
+    plug :fetch_current_api_token_for_user
   end
 
   scope "/", LuaNoxWeb do
@@ -28,10 +30,13 @@ defmodule LuaNoxWeb.Router do
   end
 
   # Authentication routes
-  scope "/", LuaNoxWeb do
+  scope "/", LuaNoxWeb, on_mount: [{LuaNoxWeb.UserAuth, :mount_current_scope}] do
     pipe_through [:browser, :require_authenticated_user]
 
-    live "/settings", UserLive.Settings, :edit
+    live_session :authenticated, on_mount: [{LuaNoxWeb.UserAuth, :mount_current_scope}] do
+      live "/settings", UserLive.Settings, :edit
+      live "/keys", UserLive.Keys, :index
+    end
 
     delete "/logout", UserAuthController, :log_out_user
   end
@@ -43,11 +48,11 @@ defmodule LuaNoxWeb.Router do
     get "/:provider/callback", UserOauth, :callback
   end
 
-  # Other scopes may use custom stacks.
   scope "/api", LuaNoxWeb do
     pipe_through :api
 
-    resources "/packages", PackageController, except: [:edit]
+    resources "/packages", PackageController, except: [:edit, :update], param: "name"
+    resources "/releases", ReleaseController, except: [:edit, :update]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

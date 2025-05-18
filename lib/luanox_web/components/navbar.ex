@@ -39,7 +39,6 @@ defmodule LuaNoxWeb.NavBar do
 
   defp create_dropdown(assigns) do
     ~H"""
-    <!-- TODO: make this hidden unless an user is logged in -->
     <div class="dropdown dropdown-center">
       <div tabindex="0" role="button" class="btn btn-ghost text-grey hover:text-info rounded-field">
         <.icon name={:square_plus} type={:outline} />
@@ -50,7 +49,7 @@ defmodule LuaNoxWeb.NavBar do
         class="menu dropdown-content bg-base-100 rounded-box z-1 mt-4 w-52 p-2 shadow-sm"
       >
         <li>
-          <.link>API Key</.link>
+          <.link navigate={~p"/keys"}>API Key</.link>
         </li>
         <hr class="text-dark-grey mt-1 mb-1" />
         <li>
