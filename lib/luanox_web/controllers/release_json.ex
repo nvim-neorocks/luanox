@@ -17,7 +17,6 @@ defmodule LuaNoxWeb.ReleaseJSON do
 
   defp data(%Release{} = release) do
     %{
-      id: release.id,
       version: release.version,
       rockspec: release.rockspec
     }

@@ -18,7 +18,14 @@ defmodule LuaNoxWeb.FallbackController do
   def call(conn, {:error, :not_found}) do
     conn
     |> put_status(:not_found)
-    |> put_view(html: LuaNoxWeb.ErrorHTML, json: LuaNoxWeb.ErrorJSON)
+    |> put_view(json: LuaNoxWeb.ErrorJSON)
     |> render(:"404")
+  end
+
+  def call(conn, {:error, :no_query_string}) do
+    conn
+    |> put_status(:bad_request)
+    |> put_view(json: LuaNoxWeb.ErrorJSON)
+    |> render(:no_query_string)
   end
 end
