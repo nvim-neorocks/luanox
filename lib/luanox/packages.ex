@@ -32,16 +32,17 @@ defmodule LuaNox.Packages do
   end
 
   @doc """
-  Returns the list of packages.
-
-  ## Examples
-
-      iex> list_packages(scope)
-      [%Package{}, ...]
-
+  Returns the list of packages with a given search query.
   """
-  def list_packages() do
-    Repo.all(Package) |> Repo.preload(:releases)
+  def list_packages(:exact, query) when is_binary(query) do
+    Package
+    |> where([p], ilike(p.name, ^"%#{query}%"))
+    |> preload(:releases)
+    |> Repo.all()
+  end
+
+  def list_packages(:fuzzy, query) when is_binary(query) do
+    raise "Not yet implemented"
   end
 
   @doc """
@@ -59,7 +60,7 @@ defmodule LuaNox.Packages do
 
   """
   def get_package!(id) do
-    Repo.get_by!(Package, id: id)
+    Repo.get_by!(Package, id: id) |> Repo.preload(:releases)
   end
 
   @doc """
@@ -78,6 +79,7 @@ defmodule LuaNox.Packages do
     with {:ok, package = %Package{}} <-
            %Package{}
            |> Package.changeset(attrs, scope)
+           |> preload(:releases)
            |> Repo.insert() do
       broadcast(scope, {:created, package})
       {:ok, package}
