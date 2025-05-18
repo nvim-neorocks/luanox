@@ -1,10 +1,11 @@
 defmodule LuaNoxWeb.NavBar do
   use LuaNoxWeb, :html
-  use Phoenix.Component
 
   alias Phoenix.LiveView.JS
 
-  def navbar(assigns) do
+  alias LuaNox.Accounts.User
+
+  def navbar(%{current_scope: _} = assigns) do
     ~H"""
     <nav class="navbar bg-base-300 shadow-sm px-4 md:text-lg">
       <div class="navbar-start flex-1">
@@ -13,7 +14,7 @@ defmodule LuaNoxWeb.NavBar do
           <span class="hidden md:inline font-semibold">Luanox</span>
         </.link>
       </div>
-
+      
     <!-- Global menu items (always there no matters if mobile or desktop) -->
       <div class="flex items-center space-x-2 md:space-x-6">
         <LuaNoxWeb.Layouts.theme_toggle />
@@ -30,8 +31,8 @@ defmodule LuaNoxWeb.NavBar do
         </button>
       </div>
 
-      <.desktop_menu />
-      <.mobile_menu />
+      <.desktop_menu current_scope={@current_scope} />
+      <.mobile_menu current_scope={@current_scope} />
     </nav>
     """
   end
@@ -40,11 +41,7 @@ defmodule LuaNoxWeb.NavBar do
     ~H"""
     <!-- TODO: make this hidden unless an user is logged in -->
     <div class="dropdown dropdown-center">
-      <div
-        tabindex="0"
-        role="button"
-        class="btn btn-ghost text-grey hover:text-info rounded-field"
-      >
+      <div tabindex="0" role="button" class="btn btn-ghost text-grey hover:text-info rounded-field">
         <.icon name={:square_plus} type={:outline} />
         <span class="mt-px">Create</span>
       </div>
@@ -64,36 +61,35 @@ defmodule LuaNoxWeb.NavBar do
     """
   end
 
-  defp account_dropdown(assigns) do
+  defp account_dropdown(%{current_scope: _} = assigns) do
     ~H"""
-    <!--
-      TODO: add logged user items and use conditionals.
-
-      logged user items:
-        - profile
-        - settings
-        - reports
-        - logout (add a separator before this one)
-    -->
     <div class="dropdown dropdown-center md:dropdown-end">
-      <div
-        tabindex="0"
-        role="button"
-        class="btn btn-ghost text-grey hover:text-info rounded-field"
-      >
-        <.icon name={:user_circle} type={:outline} />
-        <span class="mt-px">Account</span>
-      </div>
+      <%= if @current_scope do %>
+        <div tabindex="0" role="button" class="btn btn-ghost text-grey hover:text-info rounded-field">
+          <.icon name={:user_circle} type={:outline} />
+          <span class="mt-px">
+            {User.unique_username(@current_scope.user) |> String.slice(0..20)}
+          </span>
+        </div>
+      <% else %>
+        <.link class="btn btn-ghost text-grey hover:text-info rounded-field" navigate={~p"/login"}>
+          <.icon name={:user_circle} type={:outline} />
+          <span class="mt-px">
+            Log In
+          </span>
+        </.link>
+      <% end %>
       <ul
+        :if={@current_scope}
         tabindex="0"
         class="menu dropdown-content bg-base-100 rounded-box z-1 mt-4 w-52 p-2 shadow-sm"
       >
         <li>
-          <.link>Login</.link>
+          <.link href={~p"/settings"}>Settings</.link>
         </li>
         <hr class="text-dark-grey mt-1 mb-1" />
         <li>
-          <.link>Register</.link>
+          <.link href={~p"/logout"} method="delete">Log out</.link>
         </li>
       </ul>
     </div>
@@ -111,7 +107,7 @@ defmodule LuaNoxWeb.NavBar do
           </.link>
         </li>
         <.create_dropdown />
-        <.account_dropdown />
+        <.account_dropdown current_scope={@current_scope} />
       </ul>
     </div>
     """
@@ -119,18 +115,21 @@ defmodule LuaNoxWeb.NavBar do
 
   defp mobile_menu(assigns) do
     ~H"""
-    <div id="mobile-menu" class="hidden absolute top-16 left-0 w-full bg-base-300 rounded-b-md shadow-md flex flex-row items-center justify-between pt-2 pb-4 px-6 md:hidden z-10">
+    <div
+      id="mobile-menu"
+      class="hidden absolute top-16 left-0 w-full bg-base-300 rounded-b-md shadow-md flex flex-row items-center justify-between pt-2 pb-4 px-6 md:hidden z-10"
+    >
       <ul class="menu menu-horizontal justify-between w-full">
         <li>
           <.link class="btn btn-ghost text-grey hover:text-info" href="/docs">
             <.icon name={:book_2} type={:outline} />
-              <span class="mt-px">Docs</span>
+            <span class="mt-px">Docs</span>
           </.link>
         </li>
         <hr class="border-l border-dark-grey h-auto" />
         <.create_dropdown />
         <hr class="border-l border-dark-grey h-auto" />
-        <.account_dropdown />
+        <.account_dropdown current_scope={@current_scope} />
       </ul>
     </div>
     """

@@ -1,6 +1,8 @@
 defmodule LuaNoxWeb.Router do
   use LuaNoxWeb, :router
 
+  import LuaNoxWeb.UserAuth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,6 +10,7 @@ defmodule LuaNoxWeb.Router do
     plug :put_root_layout, html: {LuaNoxWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_scope_for_user
   end
 
   pipeline :api do
@@ -17,7 +20,26 @@ defmodule LuaNoxWeb.Router do
   scope "/", LuaNoxWeb do
     pipe_through :browser
 
-    live "/", PageLive
+    live_session :default, on_mount: [{LuaNoxWeb.UserAuth, :mount_current_scope}] do
+      live "/", PageLive
+      live "/login", UserLive.Login, :new
+    end
+  end
+
+  # Authentication routes
+  scope "/", LuaNoxWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live "/settings", UserLive.Settings, :edit
+
+    delete "/logout", UserAuthController, :log_out_user
+  end
+
+  scope "/auth", LuaNoxWeb do
+    pipe_through :browser
+
+    get "/:provider", UserOauth, :request
+    get "/:provider/callback", UserOauth, :callback
   end
 
   # Other scopes may use custom stacks.
