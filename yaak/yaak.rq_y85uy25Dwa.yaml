@@ -1,0 +1,36 @@
+type: http_request
+model: http_request
+id: rq_y85uy25Dwa
+createdAt: 2025-05-19T10:30:14.921989698
+updatedAt: 2025-05-20T16:12:07.105142351
+workspaceId: wk_mMzjgebEKx
+folderId: null
+authentication:
+  disabled: false
+  token: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhbGxvd2VkX3BhY2thZ2VzIjpudWxsLCJhdWQiOiJsdWFub3giLCJleHAiOjE3NTAxNzQ4MjEsImlhdCI6MTc0Nzc1NTYyMSwiaXNzIjoibHVhbm94IiwianRpIjoiMjBmOGY4NjgtMjk0Ny00MTE0LTkyNDMtYjhhNjAzOTVkMGMwIiwibmJmIjoxNzQ3NzU1NjIwLCJzdWIiOiIxMCIsInR5cCI6ImFjY2VzcyIsIndyaXRlX3Jlc3RyaWN0aW9uIjpmYWxzZX0.Fd7BOTY2SjaAYKp2Sn-ykYvpQxfl-SM8S8-vGMTNUR9ZSokde88ACNOU8SyWDNXKo4cmA8bTqVRVfBLqJ2r3Yg
+authenticationType: bearer
+body:
+  text: |-
+    {
+      "package": {
+        "name": "lua",
+        "summary": "This shouldn't be here.",
+        "description": "Fast language go brr."
+      }
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: 5ya5epMIbU
+- enabled: true
+  name: ''
+  value: ''
+  id: mDNz68VuIe
+method: POST
+name: Create Package
+sortPriority: 2000.0
+url: http://localhost:4000/api/packages
+urlParameters: []

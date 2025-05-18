@@ -16,6 +16,7 @@ defmodule LuaNox.Packages.Release do
     release
     |> cast(attrs, [:version, :rockspec])
     |> validate_required([:version, :rockspec])
+    |> unique_constraint([:version, :package_id], name: :unique_package_version)
     |> validate_format(:version, ~r/^\d+(\.\d+){2}$/)
   end
 end

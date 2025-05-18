@@ -1,0 +1,30 @@
+type: http_request
+model: http_request
+id: rq_pF9arrj9VW
+createdAt: 2025-05-20T16:10:01.837991663
+updatedAt: 2025-05-20T16:11:47.444691050
+workspaceId: wk_mMzjgebEKx
+folderId: null
+authentication:
+  token: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhbGxvd2VkX3BhY2thZ2VzIjpudWxsLCJhdWQiOiJsdWFub3giLCJleHAiOjE3NDc3NTczODYsImlhdCI6MTc0Nzc1NzM4NCwiaXNzIjoibHVhbm94IiwianRpIjoiYTA4YjdhMTMtZjU0Zi00M2FjLWE4MzItMDQyNzU4MTAzYjIwIiwibmJmIjoxNzQ3NzU3MzgzLCJzdWIiOiIxMCIsInR5cCI6ImFjY2VzcyIsIndyaXRlX3Jlc3RyaWN0aW9uIjpmYWxzZX0.GmUUJRoW9Dim0aMFWipjD45FGs9dQqeVnnwSb9MTFTZU-BC1QiOG1LYwCLyStfTparHxCANp810UmY2s-8f45Q
+authenticationType: bearer
+body:
+  text: |-
+    {
+      "package": {
+        "name": "bruh",
+        "description": "damn"
+      }
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: x6p9nhp7dw
+method: POST
+name: Expired Token
+sortPriority: 4000.0
+url: http://localhost:4000/api/packages
+urlParameters: []

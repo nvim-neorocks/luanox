@@ -1,4 +1,5 @@
 defmodule LuaNoxWeb.ReleaseJSON do
+  alias LuaNox.Packages.Package
   alias LuaNox.Packages.Release
 
   @doc """
@@ -17,6 +18,7 @@ defmodule LuaNoxWeb.ReleaseJSON do
 
   defp data(%Release{} = release) do
     %{
+      id: release.id,
       version: release.version,
       rockspec: release.rockspec
     }

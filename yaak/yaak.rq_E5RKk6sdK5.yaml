@@ -1,0 +1,26 @@
+type: http_request
+model: http_request
+id: rq_E5RKk6sdK5
+createdAt: 2025-05-19T10:22:05.223160521
+updatedAt: 2025-05-20T16:11:54.668627975
+workspaceId: wk_mMzjgebEKx
+folderId: null
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Get Any Package
+sortPriority: 0.0
+url: http://localhost:4000/api/packages
+urlParameters:
+- enabled: true
+  name: query
+  value: lua
+  id: dnjyFCQsq6
+- enabled: true
+  name: ''
+  value: ''
+  id: tywamCQkVG

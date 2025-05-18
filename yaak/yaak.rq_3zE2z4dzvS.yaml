@@ -1,0 +1,43 @@
+type: http_request
+model: http_request
+id: rq_3zE2z4dzvS
+createdAt: 2025-05-20T14:12:09.508952191
+updatedAt: 2025-05-20T16:12:13.134677882
+workspaceId: wk_mMzjgebEKx
+folderId: null
+authentication:
+  token: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhbGxvd2VkX3BhY2thZ2VzIjpudWxsLCJhdWQiOiJsdWFub3giLCJleHAiOjE3NTAxNzQ4MjEsImlhdCI6MTc0Nzc1NTYyMSwiaXNzIjoibHVhbm94IiwianRpIjoiMjBmOGY4NjgtMjk0Ny00MTE0LTkyNDMtYjhhNjAzOTVkMGMwIiwibmJmIjoxNzQ3NzU1NjIwLCJzdWIiOiIxMCIsInR5cCI6ImFjY2VzcyIsIndyaXRlX3Jlc3RyaWN0aW9uIjpmYWxzZX0.Fd7BOTY2SjaAYKp2Sn-ykYvpQxfl-SM8S8-vGMTNUR9ZSokde88ACNOU8SyWDNXKo4cmA8bTqVRVfBLqJ2r3Yg
+authenticationType: bearer
+body:
+  text: |-
+    {
+      "package_name": "lua",
+      "release": {
+        "version": "1.6.0",
+        "rockspec": "<content>"
+      }
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: b4BwAdWcgy
+method: POST
+name: Create Release
+sortPriority: 3000.0
+url: http://localhost:4000/api/releases
+urlParameters:
+- enabled: false
+  name: package_name
+  value: luanox
+  id: 2iyWRTjnU7
+- enabled: false
+  name: ''
+  value: ''
+  id: k6kqBJs8Ca
+- enabled: true
+  name: ''
+  value: ''
+  id: p8dakazsDB

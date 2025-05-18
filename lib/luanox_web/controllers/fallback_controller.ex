@@ -28,4 +28,19 @@ defmodule LuaNoxWeb.FallbackController do
     |> put_view(json: LuaNoxWeb.ErrorJSON)
     |> render(:no_query_string)
   end
+
+  def call(conn, {:error, :insufficient_permissions}) do
+    conn
+    |> put_status(:forbidden)
+    |> put_view(json: LuaNoxWeb.ErrorJSON)
+    |> render(:forbidden)
+    end
+
+  # For guardian errors in the plug pipeline
+  def auth_error(conn, {type, err}, _opts) do
+    conn
+    |> put_status(:unauthorized)
+    |> put_view(json: LuaNoxWeb.ErrorJSON)
+    |> render(:unauthorized, type: type, err: err)
+  end
 end

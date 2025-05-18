@@ -20,6 +20,7 @@ defmodule LuaNoxWeb.UserLive.Login do
           <.link
             class="btn btn-primary"
             id="github-login"
+            phx-disable-with="Redirecting..."
             navigate={~p"/auth/github"}
           >
             <%!-- <.icon name={:github} type={:filled} class="mr-2" /> --%> GitHub
