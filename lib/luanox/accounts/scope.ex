@@ -21,7 +21,7 @@ defmodule LuaNox.Accounts.Scope do
   alias LuaNox.Packages.Package
   alias LuaNox.Accounts.User
 
-  defstruct user: nil
+  defstruct user: nil, package_whitelist: nil, write_restricted: false
 
   @doc """
   Creates a scope for the given user.
@@ -29,20 +29,40 @@ defmodule LuaNox.Accounts.Scope do
   Returns nil if no user is given.
   """
   def for_user(%User{} = user) do
-    %__MODULE__{user: user}
+    %__MODULE__{user: user, package_whitelist: nil, write_restricted: false}
   end
 
   def for_user(nil), do: nil
 
   def for_package(%Package{} = package) do
-    %__MODULE__{user: Repo.preload(package, :user) |> Map.get(:user)}
+    Repo.preload(package, :user) |> Map.get(:user) |> for_user()
   end
 
   def for_package(nil), do: nil
 
   def for_release(%Release{} = release) do
-    %__MODULE__{user: for_package(Repo.preload(release, :package) |> Map.get(:package))}
+    Repo.preload(release, :package) |> Map.get(:package) |> for_package()
   end
 
   def for_release(nil), do: nil
+
+  def for_jwt(%{
+        user: %User{} = user,
+        package_whitelist: package_whitelist,
+        write_restricted: write_restricted
+      }) do
+    for_user(user)
+    |> Map.put(:package_whitelist, package_whitelist)
+    |> Map.put(:write_restricted, write_restricted)
+  end
+
+  def package_permitted?(%__MODULE__{package_whitelist: nil}, _package), do: true
+
+  def package_permitted?(%__MODULE__{package_whitelist: package_whitelist}, %Package{} = package) do
+    package.name in package_whitelist
+  end
+
+  def package_permitted?(%__MODULE__{package_whitelist: package_whitelist}, %{"name" => name}) do
+    name in package_whitelist
+  end
 end

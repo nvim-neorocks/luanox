@@ -33,7 +33,7 @@ defmodule LuaNoxWeb.PackageJSON do
       name: package.name,
       summary: package.summary,
       description: package.description,
-      releases: ReleaseJSON.index(%{releases: package.releases}).data
+      releases: ReleaseJSON.index(%{package: package}).data
     }
   end
 end

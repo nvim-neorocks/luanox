@@ -9,6 +9,14 @@ defmodule LuaNoxWeb.ErrorJSON do
     %{errors: %{detail: "No query string provided"}}
   end
 
+  def render("unauthorized.json", %{type: type, err: err}) do
+    %{errors: %{detail: "Bearer token authentication failed (#{type}): #{to_string(err)}"}}
+  end
+
+  def render("forbidden.json", _assigns) do
+    %{errors: %{detail: "You do not have permission to perform this action"}}
+  end
+
   # By default, Phoenix returns the status message from
   # the template name. For example, "404.json" becomes
   # "Not Found".

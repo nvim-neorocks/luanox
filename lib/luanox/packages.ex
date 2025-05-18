@@ -4,6 +4,7 @@ defmodule LuaNox.Packages do
   """
 
   import Ecto.Query, warn: false
+  alias LuaNox.Accounts.User
   alias LuaNox.Repo
 
   alias LuaNox.Packages.Package
@@ -49,41 +50,48 @@ defmodule LuaNox.Packages do
   Gets a single package.
 
   Raises `Ecto.NoResultsError` if the Package does not exist.
-
-  ## Examples
-
-      iex> get_package!(123)
-      %Package{}
-
-      iex> get_package!(456)
-      ** (Ecto.NoResultsError)
-
   """
-  def get_package!(id) do
-    Repo.get_by!(Package, id: id) |> Repo.preload(:releases)
+  def get_package!(name) do
+    Repo.get_by!(Package, name: name) |> Repo.preload(:releases)
+  end
+
+  def get_package(name) do
+    case Repo.get_by(Package, name: name) do
+      nil ->
+        nil
+
+      package ->
+        package
+        |> Repo.preload(:releases)
+    end
   end
 
   @doc """
   Creates a package.
-
-  ## Examples
-
-      iex> create_package(%{field: value})
-      {:ok, %Package{}}
-
-      iex> create_package(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
-  def create_package(%Scope{} = scope, attrs) do
-    with {:ok, package = %Package{}} <-
-           %Package{}
-           |> Package.changeset(attrs, scope)
-           |> preload(:releases)
-           |> Repo.insert() do
-      broadcast(scope, {:created, package})
-      {:ok, package}
+  def create_package(
+        %Scope{} = scope,
+        %{"name" => _} = attrs
+      ) do
+    if has_permission?(scope, attrs) do
+      with {:ok, package = %Package{}} <-
+             %Package{}
+             |> Package.changeset(attrs, scope)
+             |> Repo.insert() do
+        package = Repo.preload(package, :releases)
+        broadcast(scope, {:created, package})
+        {:ok, package}
+      else
+        {:error, changeset} ->
+          {:error, changeset}
+      end
+    else
+      {:error, :insufficient_permissions}
     end
+  end
+
+  def create_package(_, _) do
+    {:error, :insufficient_permissions}
   end
 
   @doc """
@@ -103,15 +111,21 @@ defmodule LuaNox.Packages do
         %Package{} = package,
         %{summary: _, description: _} = attrs
       ) do
-    true = package.user_id == scope.user.id
-
-    with {:ok, package = %Package{}} <-
-           package
-           |> Package.changeset(attrs, scope)
-           |> Repo.update() do
-      broadcast(scope, {:updated, package})
-      {:ok, package}
+    if has_permission?(scope, package) do
+      with {:ok, package = %Package{}} <-
+             package
+             |> Package.changeset(attrs, scope)
+             |> Repo.update() do
+        broadcast(scope, {:updated, package})
+        {:ok, package}
+      end
+    else
+      {:error, :insufficient_permissions}
     end
+  end
+
+  def update_package(_, _) do
+    {:error, :insufficient_permissions}
   end
 
   @doc """
@@ -126,14 +140,24 @@ defmodule LuaNox.Packages do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_package(%Scope{} = scope, %Package{} = package) do
-    true = package.user_id == scope.user.id
-
-    with {:ok, package = %Package{}} <-
-           Repo.delete(package) do
-      broadcast(scope, {:deleted, package})
-      {:ok, package}
+  # TODO: Maybe add a delete_restricted flag to the scope?
+  def delete_package(
+        %Scope{} = scope,
+        %Package{} = package
+      ) do
+    if has_permission?(scope, package) do
+      with {:ok, package = %Package{}} <-
+             Repo.delete(package) do
+        broadcast(scope, {:deleted, package})
+        {:ok, package}
+      end
+    else
+      {:error, :insufficient_permissions}
     end
+  end
+
+  def delete_package(_, _) do
+    {:error, :insufficient_permissions}
   end
 
   @doc """
@@ -145,10 +169,21 @@ defmodule LuaNox.Packages do
       %Ecto.Changeset{data: %Package{}}
 
   """
-  def change_package(%Scope{} = scope, %Package{} = package, attrs \\ %{}) do
-    true = package.user_id == scope.user.id
+  def change_package(
+        %Scope{} = scope,
+        %Package{} = package,
+        attrs
+      ) do
+    if has_permission?(scope, package) do
+      Package.changeset(package, attrs, scope)
+    else
+      Package.changeset(package, attrs, scope)
+      |> Ecto.Changeset.add_error(:name, "insufficient permissions to change package")
+    end
+  end
 
-    Package.changeset(package, attrs, scope)
+  def change_package(_, _, _) do
+    {:error, :insufficient_permissions}
   end
 
   alias LuaNox.Packages.Release
@@ -202,18 +237,30 @@ defmodule LuaNox.Packages do
     Repo.get_by!(Release, id: id)
   end
 
+  def get_release(id) do
+    Repo.get_by(Release, id: id)
+  end
+
   @doc """
   Creates a release.
   """
   def add_release(%Scope{} = scope, %Package{} = package, attrs) do
-    with {:ok, release} <-
-           package
-           |> Ecto.build_assoc(:releases)
-           |> Release.changeset(attrs)
-           |> Repo.insert() do
-      broadcast(scope, {:created, release})
-      {:ok, release}
+    if has_permission?(scope, package) do
+      with {:ok, release} <-
+             package
+             |> Ecto.build_assoc(:releases)
+             |> Release.changeset(attrs)
+             |> Repo.insert() do
+        broadcast(scope, {:created, release})
+        {:ok, release}
+      end
+    else
+      {:error, :insufficient_permissions}
     end
+  end
+
+  def add_release(_, _, _) do
+    {:error, :insufficient_permissions}
   end
 
   @doc """
@@ -229,14 +276,44 @@ defmodule LuaNox.Packages do
 
   """
   def delete_release(%Scope{} = scope, %Release{} = release) do
+    if has_permission?(scope, release) do
+      with {:ok, release = %Release{}} <-
+             Repo.delete(release) do
+        broadcast(scope, {:deleted, release})
+        {:ok, release}
+      end
+    else
+      {:error, :insufficient_permissions}
+    end
+  end
+
+  def delete_release(_, _) do
+    {:error, :insufficient_permissions}
+  end
+
+  # Regular scopes are not allowed to modify or create packages
+  defp has_permission?(
+         %Scope{user: %User{}, write_restricted: false, package_whitelist: _} =
+           scope,
+         %{"name" => _} = attrs
+       ) do
+    Scope.package_permitted?(scope, attrs)
+  end
+
+  defp has_permission?(
+         %Scope{user: %User{} = user, write_restricted: false, package_whitelist: _} =
+           scope,
+         %Package{} = package
+       ) do
+    package.user_id == user.id && Scope.package_permitted?(scope, package)
+  end
+
+  defp has_permission?(%Scope{user: %User{}}, %{"name" => _}), do: false
+  defp has_permission?(%Scope{user: %User{}}, %Package{}), do: false
+
+  defp has_permission?(%Scope{user: %User{}} = scope, %Release{} = release) do
     release_scope = Scope.for_release(release)
 
-    true = release_scope == scope
-
-    with {:ok, release = %Release{}} <-
-           Repo.delete(release) do
-      broadcast(scope, {:deleted, release})
-      {:ok, release}
-    end
+    release_scope == scope && Scope.package_permitted?(scope, release.package)
   end
 end

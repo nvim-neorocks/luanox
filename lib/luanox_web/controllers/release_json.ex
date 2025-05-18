@@ -1,4 +1,5 @@
 defmodule LuaNoxWeb.ReleaseJSON do
+  alias LuaNox.Packages.Package
   alias LuaNox.Packages.Release
 
   @doc """
