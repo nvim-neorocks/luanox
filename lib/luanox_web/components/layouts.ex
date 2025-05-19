@@ -60,7 +60,9 @@ defmodule LuaNoxWeb.Layouts do
         hidden
       >
         {gettext("Attempting to reconnect")}
-        <%!-- <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 motion-safe:animate-spin" /> --%>
+        <%!-- <span class="inline-flex items-baseline"> --%>
+        <%!--   <.icon name={:refresh} type={:outline} class="ml-1 size-3 motion-safe:animate-spin" /> --%>
+        <%!-- </span> --%>
       </.flash>
 
       <.flash
@@ -72,7 +74,9 @@ defmodule LuaNoxWeb.Layouts do
         hidden
       >
         {gettext("Hang in there while we get back on track")}
-        <%!-- <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 motion-safe:animate-spin" /> --%>
+        <%!-- <span class="inline-flex items-baseline"> --%>
+        <%!--   <.icon name={:refresh} type={:outline} class="ml-1 size-3 motion-safe:animate-spin" /> --%>
+        <%!-- </span> --%>
       </.flash>
     </div>
     """
