@@ -15,19 +15,21 @@ defmodule LuaNoxWeb.Layouts do
 
   def app(%{current_scope: _} = assigns) do
     ~H"""
-    <header>
-      <.navbar current_scope={@current_scope} />
-    </header>
+    <div class="min-h-screen flex flex-col">
+      <header>
+        <.navbar current_scope={@current_scope} />
+      </header>
 
-    <main>
-      <div class="mx-auto">
-        {render_slot(@inner_block)}
-      </div>
-    </main>
+      <main class="grow">
+        <div class="mx-auto">
+          {render_slot(@inner_block)}
+        </div>
+      </main>
 
-    <footer>
-      <.footer />
-    </footer>
+      <footer>
+        <.footer />
+      </footer>
+    </div>
 
     <.flash_group flash={@flash} />
     """
