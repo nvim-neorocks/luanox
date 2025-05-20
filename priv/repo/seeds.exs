@@ -10,11 +10,13 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
+alias LuaNox.RevokedKeys.RevokedKey
 alias LuaNox.Packages.Release
 alias LuaNox.Accounts.User
 alias LuaNox.Repo
 alias LuaNox.Packages.Package
 
+Repo.delete_all(RevokedKey)
 Repo.delete_all(Release)
 Repo.delete_all(Package)
 Repo.delete_all(User)

@@ -23,7 +23,6 @@ defmodule LuaNox.Guardian do
         "allowed_packages" => allowed_packages,
         "write_restriction" => write_restriction
       }) do
-    # TODO: Check if the key hasn't been revoked
     case LuaNox.Accounts.get_user(id) do
       %User{} = user ->
         {:ok,

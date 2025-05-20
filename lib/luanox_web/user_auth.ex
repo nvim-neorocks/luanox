@@ -4,6 +4,7 @@ defmodule LuaNoxWeb.UserAuth do
   import Plug.Conn
   import Phoenix.Controller
 
+  alias LuaNox.RevokedKeys
   alias LuaNox.Accounts
   alias LuaNox.Accounts.Scope
 
@@ -60,15 +61,23 @@ defmodule LuaNoxWeb.UserAuth do
   end
 
   def fetch_current_api_token_for_user(conn, _opts) do
-    LuaNox.Guardian.Plug.current_resource(conn)
-    |> case do
-      %Scope{} = scope ->
-        conn
-        |> assign(:current_scope, scope)
+    token = LuaNox.Guardian.Plug.current_token(conn)
 
-      nil ->
+    cond do
+      token == nil or RevokedKeys.is_revoked?(token) ->
         conn
         |> assign(:current_scope, nil)
+
+      true ->
+        case LuaNox.Guardian.Plug.current_resource(conn) do
+          nil ->
+            conn
+            |> assign(:current_scope, nil)
+
+          %Scope{} = scope ->
+            conn
+            |> assign(:current_scope, scope)
+        end
     end
   end
 
