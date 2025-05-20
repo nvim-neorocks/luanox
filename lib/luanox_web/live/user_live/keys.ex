@@ -43,8 +43,13 @@ defmodule LuaNoxWeb.UserLive.Keys do
     true = user != nil
 
     # TODO: Add customizable claims and TTL
+    # Never allow unbounded TTL as it will not only be a security risk but also
+    # cause us to have to store a potentially infinite amount of revoked tokens in our database.
+    # with bounded TTLs we can sweep the database for revoked tokens every 24h or so.
     {:ok, token, _claims} =
-      LuaNox.Guardian.encode_and_sign(user, %{allowed_packages: nil, write_restriction: false})
+      LuaNox.Guardian.encode_and_sign(user, %{allowed_packages: nil, write_restriction: false},
+        ttl: {4 * 24, :weeks}
+      )
 
     # TODO: Remove
     IO.puts("Generated token: #{token}")

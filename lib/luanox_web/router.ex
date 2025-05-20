@@ -53,6 +53,7 @@ defmodule LuaNoxWeb.Router do
 
     resources "/packages", PackageController, except: [:edit, :update], param: "name"
     resources "/releases", ReleaseController, except: [:edit, :update]
+    post "/revoke", RevokedKeyController, :create
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
