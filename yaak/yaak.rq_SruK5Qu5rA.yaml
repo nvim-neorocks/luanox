@@ -1,8 +1,8 @@
 type: http_request
 model: http_request
-id: rq_goBL4aqeG2
-createdAt: 2025-05-20T15:55:42.916319362
-updatedAt: 2025-05-20T19:17:26.128629915
+id: rq_SruK5Qu5rA
+createdAt: 2025-05-20T16:45:38.740199472
+updatedAt: 2025-05-20T19:17:34.086036925
 workspaceId: wk_mMzjgebEKx
 folderId: null
 authentication:
@@ -12,8 +12,8 @@ body: {}
 bodyType: null
 description: ''
 headers: []
-method: DELETE
-name: Delete Release
+method: POST
+name: Revoking Key
 sortPriority: 4000.0
-url: http://localhost:4000/api/releases/31
+url: http://localhost:4000/api/revoke
 urlParameters: []
