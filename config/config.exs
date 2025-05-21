@@ -36,10 +36,6 @@ config :luanox, LuaNoxWeb.Endpoint,
   pubsub_server: LuaNox.PubSub,
   live_view: [signing_salt: "BLDXxYv8"]
 
-config :luanox, LuaNox.Guardian,
-  issuer: "luanox",
-  secret_key: "6edg497dRRnjrb4vVkC3tKtjUa8murczurc66WajBraegP3Bf9Hl3+c74ldwhg8H"
-
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
