@@ -17,7 +17,6 @@ defmodule LuaNox.Packages do
 
     * {:created, %Package{}}
     * {:updated, %Package{}}
-    * {:deleted, %Package{}}
 
   """
   def subscribe_packages(%Scope{} = scope) do
@@ -125,38 +124,6 @@ defmodule LuaNox.Packages do
   end
 
   def update_package(_, _) do
-    {:error, :insufficient_permissions}
-  end
-
-  @doc """
-  Deletes a package.
-
-  ## Examples
-
-      iex> delete_package(package)
-      {:ok, %Package{}}
-
-      iex> delete_package(package)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  # TODO: Maybe add a delete_restricted flag to the scope?
-  def delete_package(
-        %Scope{} = scope,
-        %Package{} = package
-      ) do
-    if has_permission?(scope, package) do
-      with {:ok, package = %Package{}} <-
-             Repo.delete(package) do
-        broadcast(scope, {:deleted, package})
-        {:ok, package}
-      end
-    else
-      {:error, :insufficient_permissions}
-    end
-  end
-
-  def delete_package(_, _) do
     {:error, :insufficient_permissions}
   end
 
