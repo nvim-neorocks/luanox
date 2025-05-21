@@ -30,6 +30,10 @@ config :luanox, LuaNoxWeb.Endpoint,
     tailwind: {Tailwind, :install_and_run, [:luanox, ~w(--watch)]}
   ]
 
+config :luanox, LuaNox.Guardian,
+  issuer: "luanox",
+  secret_key: "6edg497dRRnjrb4vVkC3tKtjUa8murczurc66WajBraegP3Bf9Hl3+c74ldwhg8H"
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
