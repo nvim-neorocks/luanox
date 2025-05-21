@@ -14,22 +14,19 @@ defmodule LuaNoxWeb.UserLive.Keys do
         Create API Key
       </.button>
 
-      <dialog id="api_modal" class="modal" phx-blur="delete_key">
-        <div class="modal-box">
-          <h3 class="text-lg font-bold">Hello!</h3>
-          <p class="py-4">Here is your API key:</p>
-          <p class="py-4">
-            <span class="font-bold">{@generated_key}</span>
-          </p>
-          <p class="py-4">Yap yap keep it somewhere safe please.</p>
-          <div class="modal-action">
-            <form method="dialog">
-              <!-- if there is a button in form, it will close the modal -->
-              <button class="btn">Close</button>
-            </form>
-          </div>
+      <div :if={@generated_key}>
+        <p class="py-4">Here is your API key:</p>
+        <p class="py-4">
+          <span class="font-bold">{@generated_key}</span>
+        </p>
+        <p class="py-4">Yap yap keep it somewhere safe please.</p>
+        <div class="modal-action">
+          <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn">Close</button>
+          </form>
         </div>
-      </dialog>
+      </div>
     </Layouts.app>
     """
   end
@@ -50,9 +47,6 @@ defmodule LuaNoxWeb.UserLive.Keys do
       LuaNox.Guardian.encode_and_sign(user, %{allowed_packages: nil, write_restriction: false},
         ttl: {4 * 24, :weeks}
       )
-
-    # TODO: Remove
-    IO.puts("Generated token: #{token}")
 
     {:noreply, assign(socket, :generated_key, token)}
   end
