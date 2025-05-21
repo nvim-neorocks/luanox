@@ -51,7 +51,7 @@ defmodule LuaNoxWeb.Router do
   scope "/api", LuaNoxWeb do
     pipe_through :api
 
-    resources "/packages", PackageController, except: [:edit, :update], param: "name"
+    resources "/packages", PackageController, except: [:edit, :update, :delete], param: "name"
     resources "/releases", ReleaseController, except: [:edit, :update]
     post "/revoke", RevokedKeyController, :create
   end

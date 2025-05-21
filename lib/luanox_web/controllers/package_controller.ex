@@ -40,15 +40,4 @@ defmodule LuaNoxWeb.PackageController do
       {:error, _} = ret -> ret
     end
   end
-
-  # TODO: Do we want to be able to even delete packages?
-  def delete(conn, %{"name" => name}) do
-    package = Packages.get_package!(name)
-
-    with {:ok, %Package{}} <- Packages.delete_package(conn.assigns.current_scope, package) do
-      send_resp(conn, :no_content, "")
-    else
-      {:error, _} = ret -> ret
-    end
-  end
 end
