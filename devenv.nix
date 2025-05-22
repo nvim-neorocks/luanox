@@ -19,6 +19,7 @@ in
     languages.nix.enable = true;
 
     packages = with pkgs; [
+      yarn          # Bundled JS dependencies
       alejandra     # Nix formatter
       tailwindcss_4 # We cannot use the bundled TailwindCSS CLI from Phoenix on NixOS
       inotify-tools # Required for file watching on Phoenix
