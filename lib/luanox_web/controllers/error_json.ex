@@ -17,6 +17,10 @@ defmodule LuaNoxWeb.ErrorJSON do
     %{errors: %{detail: "You do not have permission to perform this action"}}
   end
 
+  def render("invalid_rockspec.json", _assigns) do
+    %{errors: %{detail: "The provided rockspec file is invalid"}}
+  end
+
   # By default, Phoenix returns the status message from
   # the template name. For example, "404.json" becomes
   # "Not Found".

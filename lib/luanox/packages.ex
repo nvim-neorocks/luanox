@@ -4,11 +4,14 @@ defmodule LuaNox.Packages do
   """
 
   import Ecto.Query, warn: false
+  alias Ecto.Multi
   alias LuaNox.Accounts.User
   alias LuaNox.Repo
 
   alias LuaNox.Packages.Package
   alias LuaNox.Accounts.Scope
+
+  require Logger
 
   @doc """
   Subscribes to scoped notifications about any package changes.
@@ -56,6 +59,26 @@ defmodule LuaNox.Packages do
 
   def get_package(name) do
     case Repo.get_by(Package, name: name) do
+      nil ->
+        nil
+
+      package ->
+        package
+        |> Repo.preload(:releases)
+    end
+  end
+
+  @doc """
+  Gets a single package.
+
+  Raises `Ecto.NoResultsError` if the Package does not exist.
+  """
+  def get_package_by_id!(id) do
+    Repo.get_by!(Package, id: id) |> Repo.preload(:releases)
+  end
+
+  def get_package_by_id(id) do
+    case Repo.get_by(Package, id: id) do
       nil ->
         nil
 
@@ -211,15 +234,50 @@ defmodule LuaNox.Packages do
   @doc """
   Creates a release.
   """
-  def add_release(%Scope{} = scope, %Package{} = package, attrs) do
+  def add_release(
+        %Scope{} = scope,
+        %Package{} = package,
+        %{
+          "package" => package_name,
+          "version" => version,
+          "rockspec" => %Plug.Upload{} = rockspec
+        } = attrs
+      ) do
     if has_permission?(scope, package) do
-      with {:ok, release} <-
+      case Multi.new()
+           |> Multi.insert(
+             :release,
              package
              |> Ecto.build_assoc(:releases)
-             |> Release.changeset(attrs)
-             |> Repo.insert() do
-        broadcast(scope, {:created, release})
-        {:ok, release}
+             |> Release.changeset(%{attrs | "rockspec" => File.read!(rockspec.path)})
+           )
+           |> Multi.run(:copy_rockspec, fn _repo, %{release: release} ->
+             case File.cp(
+                    rockspec.path,
+                    Application.app_dir(
+                      :luanox,
+                      "priv/static/releases/#{package_name}-#{version}.rockspec"
+                    )
+                  ) do
+               :ok ->
+                 {:ok, release}
+
+               {:error, reason} ->
+                 {:error, reason}
+             end
+           end)
+           |> Repo.transaction() do
+        {:ok, %{release: release}} ->
+          broadcast(scope, {:created, release})
+          {:ok, release}
+
+        {:error, :copy_rockspec, reason, _changes} ->
+          Logger.error("Failed to copy rockspec file: #{reason}")
+          {:error, :file_copy_failed}
+
+        {:error, _step, reason, _changes} ->
+          Logger.error("Failed to create release: #{reason}")
+          {:error, reason}
       end
     else
       {:error, :insufficient_permissions}
@@ -244,10 +302,39 @@ defmodule LuaNox.Packages do
   """
   def delete_release(%Scope{} = scope, %Release{} = release) do
     if has_permission?(scope, release) do
-      with {:ok, release = %Release{}} <-
-             Repo.delete(release) do
-        broadcast(scope, {:deleted, release})
-        {:ok, release}
+      case Multi.new()
+           |> Multi.delete(
+             :release,
+             release
+           )
+           |> Multi.run(:delete_rockspec, fn _repo, %{release: release} ->
+             release = Repo.preload(release, :package)
+
+             case File.rm(
+                    Application.app_dir(
+                      :luanox,
+                      "priv/static/releases/#{release.package.name}-#{release.version}.rockspec"
+                    )
+                  ) do
+               :ok ->
+                 {:ok, release}
+
+               {:error, reason} ->
+                 {:error, reason}
+             end
+           end)
+           |> Repo.transaction() do
+        {:ok, %{release: release}} ->
+          broadcast(scope, {:deleted, release})
+          {:ok, release}
+
+        {:error, :delete_rockspec, reason, _changes} ->
+          Logger.error("Failed to delete rockspec file: #{reason}")
+          {:error, :file_delete_failed}
+
+        {:error, _step, reason, _changes} ->
+          Logger.error("Failed to delete release: #{reason}")
+          {:error, reason}
       end
     else
       {:error, :insufficient_permissions}
