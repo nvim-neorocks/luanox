@@ -4,8 +4,8 @@ defmodule LuaNox.Repo.Migrations.CreatePackages do
   def change do
     create table(:packages) do
       add :name, :string, null: false
-      add :summary, :string
-      add :description, :string
+      add :summary, :text
+      add :description, :text
       add :user_id, references(:users, type: :id, on_delete: :delete_all)
 
       timestamps(type: :utc_datetime)

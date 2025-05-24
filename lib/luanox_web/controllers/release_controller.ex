@@ -14,22 +14,33 @@ defmodule LuaNoxWeb.ReleaseController do
     end
   end
 
-  def create(conn, %{"package" => package_name, "release" => release_params}) do
-    case Packages.get_package(package_name) do
-      nil ->
-        {:error, :not_found}
+  def create(
+        conn,
+        %{
+          "package" => package_name,
+          "version" => _,
+          "rockspec" => %Plug.Upload{} = rockspec
+        } = release_params
+      ) do
+    if Path.extname(rockspec.filename) == ".rockspec" do
+      case Packages.get_package(package_name) do
+        nil ->
+          {:error, :not_found}
 
-      %Package{} = package ->
-        case Packages.add_release(conn.assigns.current_scope, package, release_params) do
-          {:ok, %Release{} = release} ->
-            conn
-            |> put_status(:created)
-            |> put_resp_header("location", ~p"/api/releases/#{release.id}")
-            |> render(:show, release: release)
+        %Package{} = package ->
+          case Packages.add_release(conn.assigns.current_scope, package, release_params) do
+            {:ok, %Release{} = release} ->
+              conn
+              |> put_status(:created)
+              |> put_resp_header("location", ~p"/api/releases/#{release.id}")
+              |> render(:show, release: release)
 
-          {:error, _} = ret ->
-            ret
-        end
+            {:error, _} = ret ->
+              ret
+          end
+      end
+    else
+      {:error, :invalid_rockspec}
     end
   end
 
@@ -39,7 +50,16 @@ defmodule LuaNoxWeb.ReleaseController do
         {:error, :not_found}
 
       %Release{} = release ->
-        render(conn, :show, release: release)
+        full_file_path =
+          Application.app_dir(:luanox, "priv/static/releases/#{release.rockspec_path}")
+
+        conn
+        |> put_resp_header(
+          "content-disposition",
+          "attachment; filename=\"#{release.rockspec_path}\""
+        )
+        |> put_resp_content_type(MIME.from_path(full_file_path) || "application/octet-stream")
+        |> send_file(200, full_file_path)
     end
   end
 

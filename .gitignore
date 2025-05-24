@@ -28,6 +28,9 @@ luanox-*.tar
 # Ignore assets that are produced by build tools.
 /priv/static/assets/
 
+# Ignore rockspecs generated during testing.
+/priv/static/releases/
+
 # Ignore digested assets cache.
 /priv/static/cache_manifest.json
 

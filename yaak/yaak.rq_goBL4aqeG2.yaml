@@ -2,11 +2,11 @@ type: http_request
 model: http_request
 id: rq_goBL4aqeG2
 createdAt: 2025-05-20T15:55:42.916319362
-updatedAt: 2025-05-20T19:17:26.128629915
+updatedAt: 2025-05-25T18:19:14.448820821
 workspaceId: wk_mMzjgebEKx
 folderId: null
 authentication:
-  token: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhbGxvd2VkX3BhY2thZ2VzIjpudWxsLCJhdWQiOiJsdWFub3giLCJleHAiOjE4MDU4MjkzOTUsImlhdCI6MTc0Nzc2ODU5NSwiaXNzIjoibHVhbm94IiwianRpIjoiODIxYmFkN2MtYzFmYS00YjFjLTg5NzItNmYyOTc1ODFlYTg1IiwibmJmIjoxNzQ3NzY4NTk0LCJzdWIiOiIxNCIsInR5cCI6ImFjY2VzcyIsIndyaXRlX3Jlc3RyaWN0aW9uIjpmYWxzZX0.9yT-xNTuzjBB3saJgg9rdeL5_qmuR-Ob9cHhC8-38H3CN2X3DXuq1L92sEiutwL6FdQOY6KINs-JPoF1-xjZuw
+  token: ' eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhbGxvd2VkX3BhY2thZ2VzIjpudWxsLCJhdWQiOiJsdWFub3giLCJleHAiOjE4MDYyNTUxMjAsImlhdCI6MTc0ODE5NDMyMCwiaXNzIjoibHVhbm94IiwianRpIjoiNDM4ZWNjNjAtMTkxNC00NDAxLWE1Y2QtNWY1ZTRhNTg4ZDA1IiwibmJmIjoxNzQ4MTk0MzE5LCJzdWIiOiIyMSIsInR5cCI6ImFjY2VzcyIsIndyaXRlX3Jlc3RyaWN0aW9uIjpmYWxzZX0.tXCgcohkmd6WkcmKr44RHPSFlCNqOFkTP-j8Rc5s06rG2vsCtCO9QXaNNOrdHvfGuPh_-hYq1VC_terU0bD9DA '
 authenticationType: bearer
 body: {}
 bodyType: null
@@ -14,6 +14,6 @@ description: ''
 headers: []
 method: DELETE
 name: Delete Release
-sortPriority: 4000.0
-url: http://localhost:4000/api/releases/31
+sortPriority: 3750.0
+url: http://localhost:4000/api/releases/8
 urlParameters: []

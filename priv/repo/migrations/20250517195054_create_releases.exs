@@ -4,7 +4,7 @@ defmodule LuaNox.Repo.Migrations.CreateReleases do
   def change do
     create table(:releases) do
       add :version, :string
-      add :rockspec, :string
+      add :rockspec_path, :text
       add :package_id, references(:packages, on_delete: :nothing)
 
       timestamps(type: :utc_datetime)

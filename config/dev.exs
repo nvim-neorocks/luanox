@@ -68,6 +68,9 @@ config :luanox, LuaNoxWeb.Endpoint,
     ]
   ]
 
+config :luanox,
+  rockspec_verification_endpoint: "http://localhost:3000/verify"
+
 # Enable dev routes for dashboard and mailbox
 config :luanox, dev_routes: true
 

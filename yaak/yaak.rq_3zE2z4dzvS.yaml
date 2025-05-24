@@ -2,29 +2,38 @@ type: http_request
 model: http_request
 id: rq_3zE2z4dzvS
 createdAt: 2025-05-20T14:12:09.508952191
-updatedAt: 2025-05-21T09:30:12.155240171
+updatedAt: 2025-05-25T17:32:10.840077160
 workspaceId: wk_mMzjgebEKx
 folderId: null
 authentication:
   disabled: false
-  token: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhbGxvd2VkX3BhY2thZ2VzIjpudWxsLCJhdWQiOiJsdWFub3giLCJleHAiOjE4MDU4ODA1OTEsImlhdCI6MTc0NzgxOTc5MSwiaXNzIjoibHVhbm94IiwianRpIjoiMzVlM2IwZmMtZTRmZi00MDdhLTkwN2QtY2NmOWJjNGM0ZWUzIiwibmJmIjoxNzQ3ODE5NzkwLCJzdWIiOiIzIiwidHlwIjoiYWNjZXNzIiwid3JpdGVfcmVzdHJpY3Rpb24iOmZhbHNlfQ.m-ZVRuqLRD1WVfIaP8zAe1AZ6HgdT0lTboxYPF3C_uKE-ayH2xFYznR-camf52hCrPV3-9Df4n3Wp7IdUd-ljw
+  token: ' eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhbGxvd2VkX3BhY2thZ2VzIjpudWxsLCJhdWQiOiJsdWFub3giLCJleHAiOjE4MDYyNTUxMjAsImlhdCI6MTc0ODE5NDMyMCwiaXNzIjoibHVhbm94IiwianRpIjoiNDM4ZWNjNjAtMTkxNC00NDAxLWE1Y2QtNWY1ZTRhNTg4ZDA1IiwibmJmIjoxNzQ4MTk0MzE5LCJzdWIiOiIyMSIsInR5cCI6ImFjY2VzcyIsIndyaXRlX3Jlc3RyaWN0aW9uIjpmYWxzZX0.tXCgcohkmd6WkcmKr44RHPSFlCNqOFkTP-j8Rc5s06rG2vsCtCO9QXaNNOrdHvfGuPh_-hYq1VC_terU0bD9DA '
 authenticationType: bearer
 body:
-  text: |-
-    {
-      "package": "lua",
-      "release": {
-        "version": "1.11.0",
-        "rockspec": "<content>"
-      }
-    }
-bodyType: application/json
+  form:
+  - enabled: true
+    id: yUGCBnKZAT
+    name: package
+    value: lua
+  - enabled: true
+    id: ziWd7QBNTK
+    name: version
+    value: 0.1.0-1
+  - enabled: true
+    file: /home/vhyrro/dev/projects/lux/lux-0.1.0-1.rockspec
+    id: ndZfQMNKs5
+    name: rockspec
+  - enabled: true
+    id: NP0QNtQDNr
+    name: ''
+    value: ''
+bodyType: multipart/form-data
 description: ''
 headers:
 - enabled: true
   name: Content-Type
-  value: application/json
-  id: b4BwAdWcgy
+  value: multipart/form-data
+  id: N6rYeU6aTs
 method: POST
 name: Create Release
 sortPriority: 3000.0

@@ -34,7 +34,14 @@ defmodule LuaNoxWeb.FallbackController do
     |> put_status(:forbidden)
     |> put_view(json: LuaNoxWeb.ErrorJSON)
     |> render(:forbidden)
-    end
+  end
+
+  def call(conn, {:error, :invalid_rockspec}) do
+    conn
+    |> put_status(:bad_request)
+    |> put_view(json: LuaNoxWeb.ErrorJSON)
+    |> render(:invalid_rockspec)
+  end
 
   # For guardian errors in the plug pipeline
   def auth_error(conn, {type, err}, _opts) do
