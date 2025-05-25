@@ -30,7 +30,7 @@ defmodule LuaNoxWeb.CoreComponents do
   use Gettext, backend: LuaNoxWeb.Gettext
 
   alias Phoenix.LiveView.JS
-  alias Luanox.Constants
+  alias LuaNox.Constants
 
   @doc """
   Renders flash notices.

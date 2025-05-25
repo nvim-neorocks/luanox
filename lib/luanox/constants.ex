@@ -1,4 +1,4 @@
-defmodule Luanox.Constants do
+defmodule LuaNox.Constants do
   @moduledoc """
   Constants for the Luanox library.
   """
