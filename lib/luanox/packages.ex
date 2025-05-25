@@ -231,6 +231,12 @@ defmodule LuaNox.Packages do
     Repo.get_by(Release, id: id)
   end
 
+  def get_release_by_package_and_version(%Package{} = package, version) do
+    Release
+    |> where(package_id: ^package.id, version: ^version)
+    |> Repo.one()
+  end
+
   @doc """
   Creates a release.
   """

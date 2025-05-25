@@ -1,6 +1,7 @@
 defmodule LuaNoxWeb.PackageController do
   use LuaNoxWeb, :controller
 
+  alias LuaNox.Packages.Release
   alias LuaNox.Packages
   alias LuaNox.Packages.Package
 
@@ -38,6 +39,27 @@ defmodule LuaNoxWeb.PackageController do
       render(conn, :show, package: package)
     else
       {:error, _} = ret -> ret
+    end
+  end
+
+  def download(conn, %{"name" => name, "version" => version}) do
+    case Packages.get_package(name) do
+      nil ->
+        {:error, :not_found}
+
+      package ->
+        case Packages.get_release_by_package_and_version(package, version) do
+          nil ->
+            {:error, :not_found}
+
+          %Release{} = release ->
+            conn
+            |> put_resp_content_type("application/octet-stream")
+            |> send_file(
+              200,
+              Application.app_dir(:luanox, "priv/static/releases/#{release.rockspec_path}")
+            )
+        end
     end
   end
 end

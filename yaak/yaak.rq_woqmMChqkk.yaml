@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_woqmMChqkk
+createdAt: 2025-05-25T18:41:26.667373508
+updatedAt: 2025-05-25T18:44:59.998943038
+workspaceId: wk_mMzjgebEKx
+folderId: null
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Get Release (Normally)
+sortPriority: 3500.0
+url: http://localhost:4000/api/packages/lua/0.1.0-1
+urlParameters: []
