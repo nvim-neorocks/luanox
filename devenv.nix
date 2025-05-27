@@ -13,7 +13,6 @@ in
         filename = [ ".env.dev" ".env.prod" ];
     };
 
-    # https://devenv.sh/languages/
     languages.elixir.enable = true;
 
     languages.nix.enable = true;
@@ -41,27 +40,42 @@ in
 
     tasks = {
       "luanox:setupHex" = {
-          exec = "mix local.hex --if-missing";
+          exec = "mix local.hex --force --if-missing";
           before = [ "devenv:enterShell" "devenv:enterTest" ];
       };
       "luanox:getDependencies" = {
-          exec = "mix deps.get";
-          status = "test -d ${config.env.DEVENV_ROOT}/deps";
+          exec = "cd ${config.env.DEVENV_ROOT}/luanox; mix deps.get";
+          status = "test -d ${config.env.DEVENV_ROOT}/luanox/deps";
+          before = [ "devenv:enterShell" "devenv:enterTest" ];
+          after = [ "luanox:setupHex" ];
+      };
+      "luanox:getJSDependencies" = {
+          exec = "yarn --cwd ${config.env.DEVENV_ROOT}/luanox/assets";
+          status = "test -d ${config.env.DEVENV_ROOT}/luanox/assets/node_modules";
+          before = [ "devenv:enterShell" "devenv:enterTest" ];
+      };
+      "luanox-verifier:getDependencies" = {
+          exec = "cd ${config.env.DEVENV_ROOT}/luanox-rockspec-verifier; mix deps.get";
+          status = "test -d ${config.env.DEVENV_ROOT}/luanox-rockspec-verifier/deps";
           before = [ "devenv:enterShell" "devenv:enterTest" ];
           after = [ "luanox:setupHex" ];
       };
     };
 
-    scripts = {
-      migrate.exec = "mix ecto.migrate";
-      genschema.exec = "mix phx.gen.schema $@";
-    };
-
     processes.luanox.exec = ''
+      cd ${config.env.DEVENV_ROOT}/luanox
       mix phx.server
     '';
 
-    enterTest = ''
-      mix test
+    processes.luanox-rockspec-verifier.exec = ''
+      cd ${config.env.DEVENV_ROOT}/luanox-rockspec-verifier
+      mix phx.server
     '';
+
+    # enterTest = ''
+    #   cd ${config.env.DEVENV_ROOT}/luanox
+    #   mix test
+    #   cd ${config.env.DEVENV_ROOT}/luanox-rockspec-verifier
+    #   mix test
+    # '';
 }
