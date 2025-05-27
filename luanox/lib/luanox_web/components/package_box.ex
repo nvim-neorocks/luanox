@@ -7,19 +7,47 @@ defmodule LuaNoxWeb.PackageBox do
 
   def package(assigns) do
     ~H"""
-    <button class="btn btn-tertiary btn-block rounded-md border border-dark-grey w-[15rem] h-[4rem] p-2">
-      <div class="grid grid-rows-2 grid-cols-2 row-gap-5 w-full h-full">
-        <h3 class="font-bold justify-self-start">
-          {@name}
-        </h3>
-        <h3 class="font-normal justify-self-end">
-          {@version}
-        </h3>
-        <p class="font-normal col-span-2 justify-self-start">
-          {@description}
-        </p>
+    <.link navigate={~p"/package/#{@name}"}>
+      <div role="button" class="card w-72 md:w-96 transition-colors ease-in duration-200 motion-reduce:transition-none motion-reduce:hover:transform-none bg-base-200 hover:bg-base-300 border border-dark-grey">
+        <div class="card-body">
+          <div class="flex justify-between">
+            <h2 class="card-title">{@name}</h2>
+            <span class="font-semibold md:text-lg">v{@version}</span>
+          </div>
+          <p class="justify-self-start">{@description}</p>
+        </div>
       </div>
-    </button>
+    </.link>
+    """
+  end
+
+  attr :packages, :map, required: true
+
+  def packages(assigns) do
+    ~H"""
+    <div class="flex flex-col items-center py-4">
+      <%!-- FIXME: this should show the most downloaded packages once we implement downloads count --%>
+      <h2 class="text-2xl font-bold mb-4">Featured Packages</h2>
+      <div class="flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap gap-4 items-center justify-center max-w-screen-lg md:w-full mb-12">
+        <%= for %{name: name, summary: summary, releases: releases} <- assigns[:packages] |> Enum.take(4) do %>
+          <.package
+            name={name}
+            version={(List.last(releases) || %{version: ""}) |> Map.get(:version)}
+            description={summary}
+          />
+        <% end %>
+      </div>
+      <h2 class="text-2xl font-bold mb-4">Most Recent Updates</h2>
+      <div class="flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap gap-4 items-center justify-center max-w-screen-lg md:w-full mb-12">
+        <%= for %{name: name, summary: summary, releases: releases} <- assigns[:packages] |> Enum.take(4) do %>
+          <.package
+            name={name}
+            version={(List.last(releases) || %{version: ""}) |> Map.get(:version)}
+            description={summary}
+          />
+        <% end %>
+      </div>
+    </div>
     """
   end
 end

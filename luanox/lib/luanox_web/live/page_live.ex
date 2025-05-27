@@ -7,6 +7,6 @@ defmodule LuaNoxWeb.PageLive do
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:packages, Packages.list_packages(:exact, "lua"))}
+     |> assign(:packages, Packages.list_packages(:exact, ""))}
   end
 end
