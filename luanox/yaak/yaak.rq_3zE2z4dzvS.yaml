@@ -2,12 +2,12 @@ type: http_request
 model: http_request
 id: rq_3zE2z4dzvS
 createdAt: 2025-05-20T14:12:09.508952191
-updatedAt: 2025-05-25T17:32:10.840077160
+updatedAt: 2025-05-27T16:28:48.785698830
 workspaceId: wk_mMzjgebEKx
 folderId: null
 authentication:
   disabled: false
-  token: ' eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhbGxvd2VkX3BhY2thZ2VzIjpudWxsLCJhdWQiOiJsdWFub3giLCJleHAiOjE4MDYyNTUxMjAsImlhdCI6MTc0ODE5NDMyMCwiaXNzIjoibHVhbm94IiwianRpIjoiNDM4ZWNjNjAtMTkxNC00NDAxLWE1Y2QtNWY1ZTRhNTg4ZDA1IiwibmJmIjoxNzQ4MTk0MzE5LCJzdWIiOiIyMSIsInR5cCI6ImFjY2VzcyIsIndyaXRlX3Jlc3RyaWN0aW9uIjpmYWxzZX0.tXCgcohkmd6WkcmKr44RHPSFlCNqOFkTP-j8Rc5s06rG2vsCtCO9QXaNNOrdHvfGuPh_-hYq1VC_terU0bD9DA '
+  token: ' eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhbGxvd2VkX3BhY2thZ2VzIjpudWxsLCJhdWQiOiJsdWFub3giLCJleHAiOjE4MDY0MjQwOTEsImlhdCI6MTc0ODM2MzI5MSwiaXNzIjoibHVhbm94IiwianRpIjoiZDFhMzI3NjctMDcyNy00ZWNiLWE4MDgtMzQxYWFiZDIyNzMxIiwibmJmIjoxNzQ4MzYzMjkwLCJzdWIiOiIzIiwidHlwIjoiYWNjZXNzIiwid3JpdGVfcmVzdHJpY3Rpb24iOmZhbHNlfQ.InQiOvemtWV15i8xSbSAMCKDIToK29EZuCvbEEzv6NoKjjPUzMzy7nluCgRR6T859Dd_3wJkaM4FKyeUpAD1GA '
 authenticationType: bearer
 body:
   form:
@@ -24,7 +24,7 @@ body:
     id: ndZfQMNKs5
     name: rockspec
   - enabled: true
-    id: NP0QNtQDNr
+    id: Dmeb3gEBcj
     name: ''
     value: ''
 bodyType: multipart/form-data
