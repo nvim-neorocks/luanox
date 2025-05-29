@@ -82,3 +82,11 @@ if (process.env.NODE_ENV === "development") {
   })
 }
 
+window.addEventListener("phx:clipcopy", (event) => {
+  if ("clipboard" in navigator) {
+    const text = event.target.textContent;
+    navigator.clipboard.writeText(text);
+  } else {
+    alert("Sorry, your browser does not support clipboard copy.");
+  }
+});
