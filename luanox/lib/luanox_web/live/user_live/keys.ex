@@ -1,6 +1,8 @@
 defmodule LuaNoxWeb.UserLive.Keys do
   use LuaNoxWeb, :live_view
 
+  alias Phoenix.LiveView.JS
+
   on_mount {LuaNoxWeb.UserAuth, :require_sudo_mode}
 
   def render(assigns) do
@@ -10,22 +12,31 @@ defmodule LuaNoxWeb.UserLive.Keys do
         API Keys
         <:subtitle>Manage your API keys here.</:subtitle>
       </.header>
-      <.button phx-click="generate_key" onclick="api_modal.showModal()">
-        Create API Key
-      </.button>
 
-      <div :if={@generated_key}>
-        <p class="py-4">Here is your API key:</p>
-        <p class="py-4">
-          <span class="font-bold">{@generated_key}</span>
-        </p>
-        <p class="py-4">Yap yap keep it somewhere safe please.</p>
-        <div class="modal-action">
+      <div class="flex flex-col items-center">
+        <button role="button" class="btn btn-primary btn-soft btn-wide " phx-click="generate_key" onclick="api_modal.showModal()">
+          Create API Key
+        </button>
+      </div>
+
+      <div class="pt-4 md:container mx-8 md:mx-auto" :if={@generated_key}>
+        <div class="divider"></div>
+        <p class="py-4 font-semibold">Here is your API key:</p>
+        <div class="p-4 bg-base-300 rounded-sm">
+          <p id="generated-key" class="font-bold font-mono wrap-anywhere">{@generated_key}</p>
+        </div>
+        <button class="btn btn-primary btn-soft btn-block mt-4" phx-click={JS.dispatch("phx:clipcopy", to: "#generated-key") |> JS.push("copy_key")}>
+          <.icon name={:clipboard_text} type={:filled} class="size-5" />
+          Copy API key
+        </button>
+        <p class="py-4 font-bold">Please make sure to keep it somewhere safe.</p>
+        <%!-- TODO: make the whole generated API key div a modal so that this works --%>
+        <%!-- <div class="modal-action">
           <form method="dialog">
             <!-- if there is a button in form, it will close the modal -->
             <button class="btn">Close</button>
           </form>
-        </div>
+        </div> --%>
       </div>
     </Layouts.app>
     """
@@ -53,5 +64,12 @@ defmodule LuaNoxWeb.UserLive.Keys do
 
   def handle_event("delete_key", _params, socket) do
     {:noreply, socket |> assign(:generated_key, nil)}
+  end
+
+  def handle_event("copy_key", _params, socket) do
+    socket
+    |> clear_flash()
+    |> put_flash(:info, "Copied successfully!")
+    |> (&{:noreply, &1}).()
   end
 end
