@@ -5,7 +5,7 @@ defmodule LuaNoxWeb.ReleaseController do
   alias LuaNox.Packages
   alias LuaNox.Packages.Release
 
-  action_fallback LuaNoxWeb.FallbackController
+  action_fallback(LuaNoxWeb.FallbackController)
 
   def index(conn, %{"package" => package_name}) when is_binary(package_name) do
     case Packages.get_package(package_name) do
@@ -52,6 +52,8 @@ defmodule LuaNoxWeb.ReleaseController do
       %Release{} = release ->
         full_file_path =
           Application.app_dir(:luanox, "priv/static/releases/#{release.rockspec_path}")
+
+        Packages.increment_release_download_count(release)
 
         conn
         |> put_resp_header(

@@ -27,6 +27,9 @@ defmodule LuaNoxWeb.Router do
       live "/", PageLive
       live "/login", UserLive.Login, :new
     end
+
+    get "/download/:name", PackageController, :download
+    get "/download/:name/:version", PackageController, :download
   end
 
   # Authentication routes
@@ -51,7 +54,6 @@ defmodule LuaNoxWeb.Router do
   scope "/api", LuaNoxWeb do
     pipe_through :api
 
-    get "/packages/:name/:version", PackageController, :download
     resources "/packages", PackageController, except: [:edit, :update, :delete], param: "name"
 
     resources "/releases", ReleaseController, except: [:edit, :update]

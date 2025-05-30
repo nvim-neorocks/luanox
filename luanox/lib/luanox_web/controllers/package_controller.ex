@@ -1,11 +1,12 @@
 defmodule LuaNoxWeb.PackageController do
   use LuaNoxWeb, :controller
 
+  alias LuaNoxWeb.ReleaseController
   alias LuaNox.Packages.Release
   alias LuaNox.Packages
   alias LuaNox.Packages.Package
 
-  action_fallback LuaNoxWeb.FallbackController
+  action_fallback(LuaNoxWeb.FallbackController)
 
   def index(conn, %{"query" => query}) when is_binary(query) do
     packages = Packages.list_packages(:exact, query)
@@ -53,12 +54,23 @@ defmodule LuaNoxWeb.PackageController do
             {:error, :not_found}
 
           %Release{} = release ->
-            conn
-            |> put_resp_content_type("application/octet-stream")
-            |> send_file(
-              200,
-              Application.app_dir(:luanox, "priv/static/releases/#{release.rockspec_path}")
-            )
+            ReleaseController.show(conn, %{"id" => release.id})
+        end
+    end
+  end
+
+  def download(conn, %{"name" => name}) do
+    case Packages.get_package(name) do
+      nil ->
+        {:error, :not_found}
+
+      package ->
+        case List.last(package.releases) do
+          nil ->
+            {:error, :not_found}
+
+          %Release{} = release ->
+            ReleaseController.show(conn, %{"id" => release.id})
         end
     end
   end

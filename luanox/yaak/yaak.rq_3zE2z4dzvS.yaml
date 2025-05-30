@@ -2,12 +2,12 @@ type: http_request
 model: http_request
 id: rq_3zE2z4dzvS
 createdAt: 2025-05-20T14:12:09.508952191
-updatedAt: 2025-05-27T16:28:48.785698830
+updatedAt: 2025-05-30T08:28:57.688848589
 workspaceId: wk_mMzjgebEKx
 folderId: null
 authentication:
   disabled: false
-  token: ' eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhbGxvd2VkX3BhY2thZ2VzIjpudWxsLCJhdWQiOiJsdWFub3giLCJleHAiOjE4MDY0MjQwOTEsImlhdCI6MTc0ODM2MzI5MSwiaXNzIjoibHVhbm94IiwianRpIjoiZDFhMzI3NjctMDcyNy00ZWNiLWE4MDgtMzQxYWFiZDIyNzMxIiwibmJmIjoxNzQ4MzYzMjkwLCJzdWIiOiIzIiwidHlwIjoiYWNjZXNzIiwid3JpdGVfcmVzdHJpY3Rpb24iOmZhbHNlfQ.InQiOvemtWV15i8xSbSAMCKDIToK29EZuCvbEEzv6NoKjjPUzMzy7nluCgRR6T859Dd_3wJkaM4FKyeUpAD1GA '
+  token: ' eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhbGxvd2VkX3BhY2thZ2VzIjpudWxsLCJhdWQiOiJsdWFub3giLCJleHAiOjE4MDY2NTM0MzMsImlhdCI6MTc0ODU5MjYzMywiaXNzIjoibHVhbm94IiwianRpIjoiZjg4ZGI5NTYtYTY4Yi00MGZlLWEyNDMtOWUxMmU2MzVmZDM3IiwibmJmIjoxNzQ4NTkyNjMyLCJzdWIiOiI1IiwidHlwIjoiYWNjZXNzIiwid3JpdGVfcmVzdHJpY3Rpb24iOmZhbHNlfQ.SLenDrK-w8_qJNFpjuZqpiplUWe38R_IfmZgtXjAjkkE4-xrXQXjijtuGRLgCV5so67HUDwaZCbwFX5BWulhFA '
 authenticationType: bearer
 body:
   form:
@@ -20,11 +20,11 @@ body:
     name: version
     value: 0.1.0-1
   - enabled: true
-    file: /home/vhyrro/dev/projects/lux/lux-0.1.0-1.rockspec
+    file: /home/vhyrro/lux/lux-0.1.0-1.rockspec
     id: ndZfQMNKs5
     name: rockspec
   - enabled: true
-    id: Dmeb3gEBcj
+    id: EpPcTXehYN
     name: ''
     value: ''
 bodyType: multipart/form-data

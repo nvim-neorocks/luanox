@@ -8,6 +8,7 @@ defmodule LuaNox.Packages.Release do
     field :version, :string
     field :rockspec_path, :string
     field :rockspec, :any, virtual: true
+    field :download_count, :integer, default: 0
     belongs_to :package, LuaNox.Packages.Package
 
     timestamps(type: :utc_datetime)

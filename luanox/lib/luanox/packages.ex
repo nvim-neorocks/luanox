@@ -294,6 +294,12 @@ defmodule LuaNox.Packages do
     {:error, :insufficient_permissions}
   end
 
+  def increment_release_download_count(%Release{} = release) do
+    release
+    |> Ecto.Changeset.change(%{download_count: release.download_count + 1})
+    |> Repo.update!()
+  end
+
   @doc """
   Deletes a release.
 
