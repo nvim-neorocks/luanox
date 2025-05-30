@@ -21,6 +21,16 @@ Repo.delete_all(Release)
 Repo.delete_all(Package)
 Repo.delete_all(User)
 
+File.write!(
+  Application.app_dir(:luanox, "priv/static/releases/luanox-1.0.0-1.rockspec"),
+  "test content for luanox-1.0.0-1.rockspec"
+)
+
+File.write!(
+  Application.app_dir(:luanox, "priv/static/releases/luarocks-0.2.0-1.rockspec"),
+  "test content for luarocks-0.2.0-1.rockspec"
+)
+
 user =
   Repo.insert!(%User{
     email: "admin@example.com",
@@ -39,28 +49,26 @@ package =
 
 Repo.insert!(%Release{
   version: "1.0.0",
-  rockspec: "<content>",
   package_id: package.id
 })
 
 Repo.insert!(%Release{
   version: "1.0.1",
-  rockspec: "<content>",
   package_id: package.id
 })
 
 # ------------------------------------------------
 
-package2 = Repo.insert!(%Package{
-  name: "luarocks",
-  summary: "The other epic Lua site",
-  description: "Full description of the package",
-  user_id: user.id,
-})
+package2 =
+  Repo.insert!(%Package{
+    name: "luarocks",
+    summary: "The other epic Lua site",
+    description: "Full description of the package",
+    user_id: user.id
+  })
 
 Repo.insert!(%Release{
   version: "0.2.0",
-  rockspec: "<content>",
   package_id: package2.id
 })
 

@@ -4,6 +4,7 @@ defmodule LuaNoxWeb.PackageBox do
   attr :name, :string, required: true
   attr :description, :string, default: ""
   attr :version, :string, default: "0.1.0"
+  attr :download_count, :integer, default: 0
 
   def package(assigns) do
     ~H"""
@@ -33,6 +34,7 @@ defmodule LuaNoxWeb.PackageBox do
           <.package
             name={name}
             version={(List.last(releases) || %{version: ""}) |> Map.get(:version)}
+            download_count={Enum.sum(for r <- releases, do: r.download_count)}
             description={summary}
           />
         <% end %>
