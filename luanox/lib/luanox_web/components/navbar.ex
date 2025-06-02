@@ -9,7 +9,7 @@ defmodule LuaNoxWeb.NavBar do
     ~H"""
     <nav class="navbar bg-base-300 shadow-sm px-4 md:text-lg">
       <div class="navbar-start flex-1">
-        <.link class="flex items-center text-2xl" navigate={~p"/"}>
+        <.link class="flex items-center text-xl" navigate={~p"/"}>
           <.logo class="h-6 md:h-8 w-auto md:mr-2" />
           <span class="hidden md:inline font-semibold">Luanox</span>
         </.link>
