@@ -1491,6 +1491,51 @@
       }
     }
   }
+  .dropdown-end {
+    --anchor-h: span-left;
+    :where(.dropdown-content) {
+      inset-inline-end: calc(0.25rem * 0);
+      translate: 0 0;
+    }
+    &.dropdown-left {
+      --anchor-h: left;
+      --anchor-v: span-top;
+      .dropdown-content {
+        top: auto;
+        bottom: calc(0.25rem * 0);
+      }
+    }
+    &.dropdown-right {
+      --anchor-h: right;
+      --anchor-v: span-top;
+      .dropdown-content {
+        top: auto;
+        bottom: calc(0.25rem * 0);
+      }
+    }
+  }
+  .dropdown-start {
+    --anchor-h: span-right;
+    :where(.dropdown-content) {
+      inset-inline-end: auto;
+    }
+    &.dropdown-left {
+      --anchor-h: left;
+      --anchor-v: span-bottom;
+      .dropdown-content {
+        top: calc(0.25rem * 0);
+        bottom: auto;
+      }
+    }
+    &.dropdown-right {
+      --anchor-h: right;
+      --anchor-v: span-bottom;
+      .dropdown-content {
+        top: calc(0.25rem * 0);
+        bottom: auto;
+      }
+    }
+  }
   .top-16 {
     top: calc(var(--spacing) * 16);
   }
@@ -1624,15 +1669,6 @@
   }
   .mx-auto {
     margin-inline: auto;
-  }
-  .my-4 {
-    margin-block: calc(var(--spacing) * 4);
-  }
-  .my-8 {
-    margin-block: calc(var(--spacing) * 8);
-  }
-  .my-12 {
-    margin-block: calc(var(--spacing) * 12);
   }
   .label {
     display: inline-flex;
@@ -2010,9 +2046,6 @@
   .cursor-pointer {
     cursor: pointer;
   }
-  .grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .grid-rows-1 {
     grid-template-rows: repeat(1, minmax(0, 1fr));
   }
@@ -2371,9 +2404,21 @@
       --cardtitle-fs: 1rem;
     }
   }
+  .btn-accent {
+    --btn-color: var(--color-accent);
+    --btn-fg: var(--color-accent-content);
+  }
+  .btn-info {
+    --btn-color: var(--color-info);
+    --btn-fg: var(--color-info-content);
+  }
   .btn-primary {
     --btn-color: var(--color-primary);
     --btn-fg: var(--color-primary-content);
+  }
+  .btn-secondary {
+    --btn-color: var(--color-secondary);
+    --btn-fg: var(--color-secondary-content);
   }
   .input-error {
     &, &:focus, &:focus-within {
@@ -2650,44 +2695,9 @@
       width: 100%;
     }
   }
-  .md\:min-w-1\/3 {
-    @media (width >= 48rem) {
-      min-width: calc(1/3 * 100%);
-    }
-  }
   .md\:min-w-2\/3 {
     @media (width >= 48rem) {
       min-width: calc(2/3 * 100%);
-    }
-  }
-  .md\:min-w-\[1\/3\] {
-    @media (width >= 48rem) {
-      min-width: 1/3;
-    }
-  }
-  .md\:min-w-\[1\/3fr\] {
-    @media (width >= 48rem) {
-      min-width: 1/3fr;
-    }
-  }
-  .md\:min-w-\[50\%\] {
-    @media (width >= 48rem) {
-      min-width: 50%;
-    }
-  }
-  .md\:min-w-\[66\%\] {
-    @media (width >= 48rem) {
-      min-width: 66%;
-    }
-  }
-  .md\:min-w-\[70\%\] {
-    @media (width >= 48rem) {
-      min-width: 70%;
-    }
-  }
-  .md\:min-w-\[75\%\] {
-    @media (width >= 48rem) {
-      min-width: 75%;
     }
   }
   .md\:grid-cols-2 {
@@ -2769,18 +2779,6 @@
   .lg\:p-12 {
     @media (width >= 64rem) {
       padding: calc(var(--spacing) * 12);
-    }
-  }
-  .lg\:text-2xl {
-    @media (width >= 64rem) {
-      font-size: var(--text-2xl);
-      line-height: var(--tw-leading, var(--text-2xl--line-height));
-    }
-  }
-  .lg\:text-lg {
-    @media (width >= 64rem) {
-      font-size: var(--text-lg);
-      line-height: var(--tw-leading, var(--text-lg--line-height));
     }
   }
   .lg\:text-xl {

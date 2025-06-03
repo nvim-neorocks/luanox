@@ -37,32 +37,9 @@ defmodule LuaNoxWeb.NavBar do
     """
   end
 
-  defp create_dropdown(assigns) do
-    ~H"""
-    <div class="dropdown dropdown-center">
-      <div tabindex="0" role="button" class="btn btn-ghost text-grey hover:text-info rounded-field">
-        <.icon name={:square_plus} type={:outline} />
-        <span class="mt-px">Create</span>
-      </div>
-      <ul
-        tabindex="0"
-        class="menu dropdown-content bg-base-100 rounded-box z-1 mt-4 w-52 p-2 shadow-sm"
-      >
-        <li>
-          <.link navigate={~p"/keys"}>API Key</.link>
-        </li>
-        <hr class="text-dark-grey mt-1 mb-1" />
-        <li>
-          <.link>Module</.link>
-        </li>
-      </ul>
-    </div>
-    """
-  end
-
   defp account_dropdown(%{current_scope: _} = assigns) do
     ~H"""
-    <div class="dropdown dropdown-center md:dropdown-end">
+    <div class="dropdown dropdown-end">
       <%= if @current_scope do %>
         <div tabindex="0" role="button" class="btn btn-ghost text-grey hover:text-info rounded-field">
           <.icon name={:user_circle} type={:outline} />
@@ -86,6 +63,9 @@ defmodule LuaNoxWeb.NavBar do
         <li>
           <.link href={~p"/settings"}>Settings</.link>
         </li>
+        <li>
+          <.link href={~p"/keys"}>API keys</.link>
+        </li>
         <hr class="text-dark-grey mt-1 mb-1" />
         <li>
           <.link href={~p"/logout"} method="delete">Log out</.link>
@@ -105,7 +85,6 @@ defmodule LuaNoxWeb.NavBar do
             <span class="mt-px">Docs</span>
           </.link>
         </li>
-        <.create_dropdown />
         <.account_dropdown current_scope={@current_scope} />
       </ul>
     </div>
@@ -125,8 +104,6 @@ defmodule LuaNoxWeb.NavBar do
             <span class="mt-px">Docs</span>
           </.link>
         </li>
-        <hr class="border-l border-dark-grey h-auto" />
-        <.create_dropdown />
         <hr class="border-l border-dark-grey h-auto" />
         <.account_dropdown current_scope={@current_scope} />
       </ul>
