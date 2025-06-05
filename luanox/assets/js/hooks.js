@@ -3,7 +3,7 @@ import Typed from "typed.js";
 const Typewriter = {
   mounted() {
     this.typed = new Typed(this.el, {
-      strings: ["modern", "fast", "scalable", "secure"],
+      strings: ["modern", "fast", "reliable", "secure"],
       typeSpeed: 100,
       backSpeed: 50,
       loop: true,
