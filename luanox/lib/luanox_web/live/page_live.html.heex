@@ -5,8 +5,7 @@
       <div class="ml-0 md:ml-4 mt-4 md:mt-0">
         <p class="md:text-lg lg:text-xl text-center md:text-left">
           <strong>Luanox</strong>
-          is a <span id="typewriter" phx-hook="Typewriter" class="font-semibold"></span> Lua<br class="hidden md:inline lg:hidden" /> module host for the
-          <br />
+          is a <span id="typewriter" phx-hook="Typewriter" class="font-semibold"></span> Lua<br class="hidden md:inline lg:hidden" /> module host for <br class="md:hidden" /> the
           <a class="text-info hover:underline" href="https://github.com/nvim-neorocks/lux">Lux</a>
           package manager that is compatible with the
           <a
@@ -21,12 +20,16 @@
     <div class="flex flex-col space-y-4 w-full md:w-auto items-center justify-center mb-4 md:mb-0">
       <input
         type="text"
-        placeholder="Search something..."
+        placeholder="Search packages..."
         class="w-full md:w-auto md:min-w-2/3 bg-base-300 border border-dark-grey md:border-transparent rounded-md lg:w-1/2 p-2 focus:outline-none hover:border-info focus:border-info text-center md:text-left"
       />
       <div class="grid w-full md:w-2/3 md:grid-cols-2 gap-y-4 md:gap-x-4">
-        <button class="btn btn-primary btn-soft">Get Started</button>
-        <button class="btn btn-outline btn-primary text-nowrap">Browse packages</button>
+        <button class="btn btn-primary btn-soft">
+          <.link navigate={~p"/docs"}>Get Started</.link>
+        </button>
+        <button class="btn btn-outline btn-primary">
+          <.link navigate={~p"/packages"}>Browse packages</.link>
+        </button>
       </div>
     </div>
   </div>
