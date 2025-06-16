@@ -31,7 +31,11 @@ defmodule LuaNox.Accounts do
   end
 
   def get_user_by_auth(%Ueberauth.Auth{} = auth) do
-    get_user_by_email(auth.info.email)
+    if auth.info.email do
+      get_user_by_email(auth.info.email)
+    else
+      nil
+    end
   end
 
   @doc """

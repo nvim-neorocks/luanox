@@ -1,3 +1,4 @@
 {
-    "elixirLS.useCurrentRootFolderAsProjectDir": true
+    "elixirLS.useCurrentRootFolderAsProjectDir": true,
+    "git.enabled": false
 }

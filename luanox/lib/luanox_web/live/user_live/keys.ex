@@ -14,20 +14,27 @@ defmodule LuaNoxWeb.UserLive.Keys do
       </.header>
 
       <div class="flex flex-col items-center">
-        <button role="button" class="btn btn-primary btn-soft btn-wide " phx-click="generate_key" onclick="api_modal.showModal()">
+        <button
+          role="button"
+          class="btn btn-primary btn-soft btn-wide "
+          phx-click="generate_key"
+          onclick="api_modal.showModal()"
+        >
           Create API Key
         </button>
       </div>
 
-      <div class="pt-4 md:container mx-8 md:mx-auto" :if={@generated_key}>
+      <div :if={@generated_key} class="pt-4 md:container mx-8 md:mx-auto">
         <div class="divider"></div>
         <p class="py-4 font-semibold">Here is your API key:</p>
         <div class="p-4 bg-base-300 rounded-sm">
           <p id="generated-key" class="font-bold font-mono wrap-anywhere">{@generated_key}</p>
         </div>
-        <button class="btn btn-primary btn-soft btn-block mt-4" phx-click={JS.dispatch("phx:clipcopy", to: "#generated-key") |> JS.push("copy_key")}>
-          <.icon name={:clipboard_text} type={:filled} class="size-5" />
-          Copy API key
+        <button
+          class="btn btn-primary btn-soft btn-block mt-4"
+          phx-click={JS.dispatch("phx:clipcopy", to: "#generated-key") |> JS.push("copy_key")}
+        >
+          <.icon name={:clipboard_text} type={:filled} class="size-5" /> Copy API key
         </button>
         <p class="py-4 font-bold">Please make sure to keep it somewhere safe.</p>
         <%!-- TODO: make the whole generated API key div a modal so that this works --%>

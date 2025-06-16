@@ -25,14 +25,19 @@ defmodule LuaNox.RevokedKeysTest do
       revoked_key = revoked_key_fixture(scope)
       other_scope = user_scope_fixture()
       assert RevokedKeys.get_revoked_key!(scope, revoked_key.id) == revoked_key
-      assert_raise Ecto.NoResultsError, fn -> RevokedKeys.get_revoked_key!(other_scope, revoked_key.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        RevokedKeys.get_revoked_key!(other_scope, revoked_key.id)
+      end
     end
 
     test "create_revoked_key/2 with valid data creates a revoked_key" do
       valid_attrs = %{hashed_revoked_key: "some hashed_revoked_key"}
       scope = user_scope_fixture()
 
-      assert {:ok, %RevokedKey{} = revoked_key} = RevokedKeys.create_revoked_key(scope, valid_attrs)
+      assert {:ok, %RevokedKey{} = revoked_key} =
+               RevokedKeys.create_revoked_key(scope, valid_attrs)
+
       assert revoked_key.hashed_revoked_key == "some hashed_revoked_key"
       assert revoked_key.user_id == scope.user.id
     end
@@ -47,7 +52,9 @@ defmodule LuaNox.RevokedKeysTest do
       revoked_key = revoked_key_fixture(scope)
       update_attrs = %{hashed_revoked_key: "some updated hashed_revoked_key"}
 
-      assert {:ok, %RevokedKey{} = revoked_key} = RevokedKeys.update_revoked_key(scope, revoked_key, update_attrs)
+      assert {:ok, %RevokedKey{} = revoked_key} =
+               RevokedKeys.update_revoked_key(scope, revoked_key, update_attrs)
+
       assert revoked_key.hashed_revoked_key == "some updated hashed_revoked_key"
     end
 
@@ -64,7 +71,10 @@ defmodule LuaNox.RevokedKeysTest do
     test "update_revoked_key/3 with invalid data returns error changeset" do
       scope = user_scope_fixture()
       revoked_key = revoked_key_fixture(scope)
-      assert {:error, %Ecto.Changeset{}} = RevokedKeys.update_revoked_key(scope, revoked_key, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               RevokedKeys.update_revoked_key(scope, revoked_key, @invalid_attrs)
+
       assert revoked_key == RevokedKeys.get_revoked_key!(scope, revoked_key.id)
     end
 
@@ -72,7 +82,10 @@ defmodule LuaNox.RevokedKeysTest do
       scope = user_scope_fixture()
       revoked_key = revoked_key_fixture(scope)
       assert {:ok, %RevokedKey{}} = RevokedKeys.delete_revoked_key(scope, revoked_key)
-      assert_raise Ecto.NoResultsError, fn -> RevokedKeys.get_revoked_key!(scope, revoked_key.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        RevokedKeys.get_revoked_key!(scope, revoked_key.id)
+      end
     end
 
     test "delete_revoked_key/2 with invalid scope raises" do

@@ -74,12 +74,13 @@ Repo.insert!(%Release{
 
 # ------------------------------------------------
 
-package3 = Repo.insert!(%Package{
-  name: "sweetie.nvim",
-  summary: "Neovim colorscheme",
-  description: "A clean, delightful and highly customizable Neovim colorscheme written in Lua",
-  user_id: user.id,
-})
+package3 =
+  Repo.insert!(%Package{
+    name: "sweetie.nvim",
+    summary: "Neovim colorscheme",
+    description: "A clean, delightful and highly customizable Neovim colorscheme written in Lua",
+    user_id: user.id
+  })
 
 Repo.insert!(%Release{
   version: "3.2.0",
@@ -89,12 +90,13 @@ Repo.insert!(%Release{
 
 # ------------------------------------------------
 
-package4 = Repo.insert!(%Package{
-  name: "busted",
-  summary: "Elegant Lua unit testing",
-  description: "Full description of the package",
-  user_id: user.id,
-})
+package4 =
+  Repo.insert!(%Package{
+    name: "busted",
+    summary: "Elegant Lua unit testing",
+    description: "Full description of the package",
+    user_id: user.id
+  })
 
 Repo.insert!(%Release{
   version: "2.2.0",
