@@ -66,7 +66,12 @@ defmodule LuaNoxWeb.CoreComponents do
         @kind == :error && "alert-error"
       ]}>
         <.icon :if={@kind == :info} name={:info_circle} type={:filled} class="size-5 shrink-0" />
-        <.icon :if={@kind == :error} name={:exclamation_circle} type={:filled} class="size-5 shrink-0" />
+        <.icon
+          :if={@kind == :error}
+          name={:exclamation_circle}
+          type={:filled}
+          class="size-5 shrink-0"
+        />
         <div>
           <p :if={@title} class="font-semibold">{@title}</p>
           <p>{msg}</p>
@@ -261,7 +266,7 @@ defmodule LuaNoxWeb.CoreComponents do
   defp error(assigns) do
     ~H"""
     <p class="mt-1.5 flex gap-2 items-center text-sm text-error">
-      <.icon name={:exclamation_circle} type={:filled} class="size-5" /> --%>
+      <.icon name={:exclamation_circle} type={:filled} class="size-5" />
       {render_slot(@inner_block)}
     </p>
     """

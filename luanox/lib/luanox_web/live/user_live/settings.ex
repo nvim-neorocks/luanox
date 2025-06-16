@@ -20,7 +20,8 @@ defmodule LuaNoxWeb.UserLive.Settings do
       <%!-- TODO: Add "update nickname" and other things here --%>
       <div class="md:container md:mx-auto mx-8">
         <%!-- TODO: add handle_event function for the update_email event --%>
-        <.form for={@email_form} id="email_form" phx-submit="update_email"> <%!-- phx-change="validate_email"> --%>
+        <.form for={@email_form} id="email_form" phx-submit="update_email">
+          <%!-- phx-change="validate_email"> --%>
           <.input
             field={@current_scope.user.email}
             type="email"
@@ -31,11 +32,14 @@ defmodule LuaNoxWeb.UserLive.Settings do
             autocomplete="username"
             required
           />
-          <button role="button" class="btn btn-primary btn-block" phx-disable-with="Changing...">Change Email</button>
+          <button role="button" class="btn btn-primary btn-block" phx-disable-with="Changing...">
+            Change Email
+          </button>
         </.form>
         <div class="divider" />
         <%!-- TODO: add handle_event function for the update_email event --%>
-        <.form for={@username_form} id="username_form" phx-submit="update_username"> <%!-- phx-change="validate_username"> --%>
+        <.form for={@username_form} id="username_form" phx-submit="update_username">
+          <%!-- phx-change="validate_username"> --%>
           <.input
             field={@current_scope.user.username}
             type="username"
@@ -46,7 +50,9 @@ defmodule LuaNoxWeb.UserLive.Settings do
             autocomplete="username"
             required
           />
-          <button role="button" class="btn btn-primary btn-block" phx-disable-with="Changing...">Change Username</button>
+          <button role="button" class="btn btn-primary btn-block" phx-disable-with="Changing...">
+            Change Username
+          </button>
         </.form>
       </div>
     </Layouts.app>

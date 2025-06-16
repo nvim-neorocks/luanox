@@ -14,8 +14,8 @@ defmodule LuaNoxWeb.NavBar do
           <span class="hidden md:inline font-semibold">Luanox</span>
         </.link>
       </div>
-
-      <!-- Global menu items (always there no matters if mobile or desktop) -->
+      
+    <!-- Global menu items (always there no matters if mobile or desktop) -->
       <div class="flex items-center space-x-2 md:space-x-6">
         <LuaNoxWeb.Layouts.theme_toggle />
         <button

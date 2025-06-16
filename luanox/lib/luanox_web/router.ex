@@ -26,6 +26,9 @@ defmodule LuaNoxWeb.Router do
     live_session :default, on_mount: [{LuaNoxWeb.UserAuth, :mount_current_scope}] do
       live "/", PageLive
       live "/login", UserLive.Login, :new
+      live "/provide-email", UserLive.ProvideEmail, :new
+
+      post "/complete-signup", UserOauth, :complete_signup
     end
 
     get "/download/:name", PackageController, :download

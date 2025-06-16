@@ -1,6 +1,6 @@
 defmodule LuaNoxWeb.UserOauth do
   use LuaNoxWeb, :controller
-  plug Ueberauth
+  plug(Ueberauth)
 
   def callback(%{assigns: %{ueberauth_failure: %Ueberauth.Failure{}}} = conn, _params) do
     conn
@@ -14,7 +14,23 @@ defmodule LuaNoxWeb.UserOauth do
         conn
         |> LuaNoxWeb.UserAuth.log_in_user(user)
 
+      # TODO: Remove the `not` and the email nullification
+      nil when is_nil(auth.info.email) ->
+        auth_stripped = %{
+          provider: auth.provider,
+          info: %{
+            nickname: auth.info.nickname,
+            name: auth.info.name,
+            email: auth.info.email
+          }
+        }
+
+        conn
+        |> put_session(:oauth_signup_token, auth_stripped)
+        |> redirect(to: ~p"/provide-email")
+
       nil ->
+        # User doesn't exist but has email from OAuth, create the user
         case LuaNox.Accounts.register_user(auth) do
           {:ok, user} ->
             conn
@@ -27,5 +43,46 @@ defmodule LuaNoxWeb.UserOauth do
             |> redirect(to: ~p"/")
         end
     end
+  end
+
+  def complete_signup(conn, %{"user" => %{"email" => email}, "token" => token}) do
+    auth = get_session(conn, :oauth_signup_token)
+
+    # The email has already been set and the user has navigated to the page in an unnatural way
+    if not is_nil(auth.info.email) do
+      conn
+      |> put_flash(
+        :error,
+        "Unable to modify account with public email. Please try authenticating again."
+      )
+      |> redirect(to: ~p"/login")
+    else
+      ueberauth = %Ueberauth.Auth{
+        provider: auth.provider,
+        info: %Ueberauth.Auth.Info{
+          nickname: auth.info.nickname,
+          name: auth.info.name,
+          email: email
+        }
+      }
+
+      case LuaNox.Accounts.register_user(ueberauth) do
+        {:ok, user} ->
+          conn
+          |> put_flash(:info, "Account created successfully.")
+          |> LuaNoxWeb.UserAuth.log_in_user(user)
+
+        {:error, _changeset} ->
+          conn
+          |> put_flash(:error, "Failed to create account. Please check your email.")
+          |> redirect(to: ~p"/provide-email")
+      end
+    end
+  end
+
+  def complete_signup(conn, _params) do
+    conn
+    |> put_flash(:error, "Missing required parameters. Please try authenticating again.")
+    |> redirect(to: ~p"/login")
   end
 end

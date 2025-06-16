@@ -9,7 +9,10 @@ defmodule LuaNoxWeb.PackageBox do
   def package(assigns) do
     ~H"""
     <.link navigate={~p"/package/#{@name}"}>
-      <div role="button" class="card-sm rounded-sm w-72 md:w-96 transition-colors ease-in duration-200 motion-reduce:transition-none motion-reduce:hover:transform-none bg-base-200 hover:bg-base-300 border border-dark-grey">
+      <div
+        role="button"
+        class="card-sm rounded-sm w-72 md:w-96 transition-colors ease-in duration-200 motion-reduce:transition-none motion-reduce:hover:transform-none bg-base-200 hover:bg-base-300 border border-dark-grey"
+      >
         <div class="card-body">
           <div class="flex justify-between">
             <h2 class="card-title">{@name}</h2>

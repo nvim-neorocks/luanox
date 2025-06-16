@@ -64,7 +64,7 @@ defmodule LuaNox.Accounts.User do
     !is_nil(LuaNox.Accounts.get_user_by_username(username))
   end
 
-  defp email_changeset(user, attrs) do
+  def email_changeset(user, attrs) do
     user
     |> cast(attrs, [:email])
     |> validate_email()
