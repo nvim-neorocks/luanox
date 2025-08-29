@@ -18,6 +18,7 @@ defmodule LuaNoxWeb.Router do
     plug :accepts, ["json"]
     plug Pipelines.ApiPipeline
     plug :fetch_current_api_token_for_user
+    plug OpenApiSpex.Plug.PutApiSpec, module: LuaNoxWeb.ApiSpec
   end
 
   scope "/", LuaNoxWeb do
@@ -31,9 +32,6 @@ defmodule LuaNoxWeb.Router do
 
       post "/complete-signup", UserOauth, :complete_signup
     end
-
-    get "/download/:name", PackageController, :download
-    get "/download/:name/:version", PackageController, :download
   end
 
   # Authentication routes
@@ -58,10 +56,25 @@ defmodule LuaNoxWeb.Router do
   scope "/api", LuaNoxWeb do
     pipe_through :api
 
-    resources "/packages", PackageController, except: [:edit, :update, :delete], param: "name"
+    resources "/packages", PackageController, except: [:new, :edit, :update, :delete], param: "name"
 
-    resources "/releases", ReleaseController, except: [:edit, :update]
+    resources "/releases", ReleaseController, except: [:new, :edit, :update]
     post "/revoke", RevokedKeyController, :create
+
+    get "/download/:name", PackageController, :download
+    get "/download/:name/:version", PackageController, :download
+  end
+
+  scope "/api" do
+    pipe_through :api
+
+    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+  end
+
+  scope "/" do
+    pipe_through :browser
+
+    get "/swaggerui", OpenApiSpex.Plug.SwaggerUI, path: "/api/openapi"
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
