@@ -8,7 +8,7 @@ defmodule LuaNoxWeb.PackageBox do
 
   def package(assigns) do
     ~H"""
-    <.link href={"/package/#{@name}"} class="group">
+    <.link navigate={~p"/package/#{@name}"} class="group">
       <div class="bg-base-100 border border-base-300 hover:border-primary/40 transition-colors duration-200 p-6">
         <div class="space-y-4">
           <div class="flex items-start justify-between">
