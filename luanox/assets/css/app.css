@@ -19,7 +19,7 @@
 /* Default dark and light themes are based off sweetie.nvim colorscheme */
 @plugin "../vendor/daisyui-theme" {
   name: "dark";
-  default: false;
+  default: true;
   prefersdark: true;
   color-scheme: "dark";
   --color-base-100: oklch(0.29 0.029 284.46);
@@ -56,7 +56,7 @@
 
 @plugin "../vendor/daisyui-theme" {
   name: "light";
-  default: true;
+  default: false;
   prefersdark: false;
   color-scheme: "light";
   --color-base-100: oklch(0.9 0.0135 286.12);
