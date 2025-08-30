@@ -1,0 +1,134 @@
+<Layouts.app flash={@flash} current_scope={@current_scope}>
+  <div class="min-h-screen bg-base-100">
+    <!-- Header Section -->
+    <div class="bg-base-200 border-b border-base-300">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+        <div class="mb-4 lg:mb-6">
+          <.link
+            href={~p"/"}
+            class="text-sm text-base-content/60 hover:text-primary transition-colors"
+          >
+            ← Back to home
+          </.link>
+        </div>
+
+        <div class="flex flex-col gap-4 lg:gap-6">
+          <div>
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-base-content mb-3 lg:mb-4">
+              Browse Packages
+            </h1>
+            <p class="text-base-content/80 text-base lg:text-lg leading-relaxed">
+              Discover and explore our collection of Lua packages
+            </p>
+          </div>
+          
+<!-- Search and Filter Section -->
+          <div class="bg-base-100 border border-base-300 p-4 lg:p-6">
+            <.form for={%{}} phx-change="update_filter" class="space-y-4">
+              <div class="flex flex-col sm:flex-row gap-4">
+                <!-- Search Input -->
+                <div class="flex-1">
+                  <input
+                    name="search"
+                    type="text"
+                    placeholder="Search packages..."
+                    value={@params["search"] || ""}
+                    class="input input-bordered w-full bg-base-100 border-base-300 focus:border-primary"
+                    maxlength="30"
+                  />
+                </div>
+                
+<!-- Sort Dropdown -->
+                <div class="sm:w-48">
+                  <select
+                    name="sort"
+                    class="select select-bordered w-full bg-base-100 border-base-300 focus:border-primary"
+                  >
+                    <option value="recent" selected={(@params["sort"] || "recent") == "recent"}>
+                      Most Recent
+                    </option>
+                    <option value="name" selected={@params["sort"] == "name"}>Name (A-Z)</option>
+                  </select>
+                </div>
+                
+<!-- Search Button -->
+                <button type="submit" class="btn btn-primary">
+                  <.icon name={:search} type={:outline} class="w-4 h-4 mr-2" /> Search
+                </button>
+              </div>
+            </.form>
+            
+<!-- Results Info -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mt-4 pt-4 border-t border-base-300">
+              <div class="text-sm text-base-content/60">
+                Showing {length(@packages)} of {@meta.total_count} packages
+                <%= if @params["search"] && @params["search"] != "" do %>
+                  for "<span class="font-medium text-base-content">{@params["search"]}</span>"
+                <% end %>
+              </div>
+
+              <%= if @params["search"] && @params["search"] != "" do %>
+                <.link
+                  patch={~p"/packages"}
+                  class="text-sm text-primary hover:text-primary/80 transition-colors"
+                >
+                  Clear search
+                </.link>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+      <%= if length(@packages) > 0 do %>
+        <!-- Pagination -->
+        <div class="flex justify-center pb-8 lg:mb-12 border-b border-base-300">
+          <div class="flop-pagination">
+            <Flop.Phoenix.pagination meta={@meta} path={~p"/packages"} />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <%= for package <- @packages do %>
+            <.package
+              name={package.name}
+              version={(List.last(package.releases) || %{version: "0.1.0"}) |> Map.get(:version)}
+              download_count={Enum.sum(for r <- package.releases, do: r.download_count)}
+              description={package.summary || ""}
+            />
+          <% end %>
+        </div>
+      <% else %>
+        <!-- Empty State -->
+        <div class="text-center py-12 lg:py-16">
+          <div class="max-w-md mx-auto">
+            <div class="w-16 h-16 mx-auto mb-4 bg-base-200 border border-base-300 flex items-center justify-center">
+              <.icon name={:folder} type={:outline} class="w-8 h-8 text-base-content/40" />
+            </div>
+
+            <%= if @params["search"] && @params["search"] != "" do %>
+              <h3 class="text-lg font-semibold text-base-content mb-2">
+                No packages found
+              </h3>
+              <p class="text-base-content/60 mb-4">
+                We couldn't find any packages matching "{@params["search"]}". Try adjusting your search terms.
+              </p>
+              <.link href={~p"/packages"} class="btn btn-primary">
+                View All Packages
+              </.link>
+            <% else %>
+              <h3 class="text-lg font-semibold text-base-content mb-2">
+                No packages available
+              </h3>
+              <p class="text-base-content/60">
+                There are currently no packages available. Check back later!
+              </p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</Layouts.app>

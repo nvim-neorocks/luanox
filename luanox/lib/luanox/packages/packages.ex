@@ -35,6 +35,15 @@ defmodule LuaNox.Packages do
   end
 
   @doc """
+  Returns a paginated list of packages using Flop.
+  """
+  def list_packages_paginated(flop_params \\ %{}) do
+    Package
+    |> preload(:releases)
+    |> Flop.validate_and_run(flop_params, for: Package)
+  end
+
+  @doc """
   Returns the list of packages with a given search query.
   """
   def list_packages(:exact, query) when is_binary(query) do

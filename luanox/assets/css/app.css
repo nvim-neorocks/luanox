@@ -104,4 +104,106 @@
 /* Make LiveView wrapper divs transparent for layout */
 [data-phx-root-id] { display: contents }
 
+/* Flop Phoenix pagination styling with DaisyUI */
+.flop-pagination {
+  @apply flex justify-center items-center gap-1;
+}
+
+.flop-pagination nav {
+  @apply flex items-center gap-1 p-1 bg-base-200 rounded-md border border-base-300 shadow-sm backdrop-blur-sm;
+}
+
+/* Direct children of nav (Previous/Next buttons and ul) */
+.flop-pagination nav > a,
+.flop-pagination nav > span {
+  @apply min-w-10 max-w-20 h-10 flex items-center justify-center text-sm font-medium rounded-sm transition-all duration-200 border border-transparent select-none px-3;
+}
+
+/* Page list styling */
+.flop-pagination nav ul {
+  @apply flex items-center gap-1 list-none m-0 p-0;
+}
+
+.flop-pagination nav ul li {
+  @apply flex;
+}
+
+/* Page links inside list items */
+.flop-pagination nav ul li a,
+.flop-pagination nav ul li span {
+  @apply min-w-10 h-10 flex items-center justify-center text-sm font-medium rounded-sm transition-all duration-200 border border-transparent select-none;
+}
+
+/* Regular page links */
+.flop-pagination nav a:not([aria-current]):not([disabled]),
+.flop-pagination nav ul li a:not([aria-current]):not([disabled]) {
+  @apply text-base-content/70 hover:text-base-content hover:bg-base-100 hover:border-base-300 hover:shadow-sm hover:scale-105 active:scale-95;
+}
+
+/* Current page */
+.flop-pagination nav a[aria-current="page"],
+.flop-pagination nav ul li a[aria-current="page"] {
+  @apply bg-primary text-primary-content border-primary shadow-md font-semibold scale-105;
+}
+
+/* Disabled links */
+.flop-pagination nav a[disabled],
+.flop-pagination nav span[disabled],
+.flop-pagination nav ul li a[disabled],
+.flop-pagination nav ul li span[disabled] {
+  @apply text-base-content/30 cursor-not-allowed opacity-50;
+}
+
+/* Previous/Next buttons */
+.flop-pagination nav > a[rel="prev"],
+.flop-pagination nav > a[rel="next"] {
+  @apply px-3 text-base-content/60 hover:text-base-content hover:bg-base-100 hover:border-base-300;
+}
+
+/* Ellipsis styling */
+.flop-pagination nav ul li span:not([disabled]) {
+  @apply text-base-content/50 cursor-default;
+}
+
+/* Focus states for accessibility */
+.flop-pagination nav a:focus-visible,
+.flop-pagination nav ul li a:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .flop-pagination nav {
+    @apply gap-0.5 p-1.5;
+  }
+  
+  .flop-pagination nav > a,
+  .flop-pagination nav > span {
+    @apply w-14 h-9 text-xs px-1;
+  }
+  
+  .flop-pagination nav ul {
+    @apply gap-0.5;
+  }
+  
+  .flop-pagination nav ul li a,
+  .flop-pagination nav ul li span {
+    @apply w-9 h-9 text-xs px-0;
+  }
+  
+  .flop-pagination nav > a[rel="prev"],
+  .flop-pagination nav > a[rel="next"] {
+    @apply px-1 w-14;
+  }
+  
+  /* Hide scale effects on mobile to prevent layout shifts */
+  .flop-pagination nav a:hover {
+    @apply scale-100;
+  }
+  
+  .flop-pagination nav ul li a[aria-current="page"] {
+    @apply scale-100;
+  }
+}
+
 /* This file is for your main application CSS */
