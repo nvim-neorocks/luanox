@@ -89,19 +89,28 @@ defmodule LuaNoxWeb.Layouts do
   """
   def theme_toggle(assigns) do
     ~H"""
-    <div class="hidden card relative md:flex flex-row items-center border-2 border-base-200 bg-base-300 rounded-lg">
-      <div class="absolute w-[33%] h-full rounded-md bg-base-300 brightness-150 dark:brightness-200 opacity-50 left-0 [[data-theme=light]_&]:left-[33.33%] [[data-theme=dark]_&]:left-[67%] transition-[left]" />
+    <div class="hidden md:flex relative items-center bg-gradient-to-r from-base-200/80 to-base-300/80 backdrop-blur-sm border border-base-content/20">
+      <div class="absolute w-[33.33%] h-full bg-gradient-to-r from-primary/20 to-primary/30 border border-primary/30 left-0 [[data-theme=light]_&]:left-[33.33%] [[data-theme=dark]_&]:left-[66.67%] transition-all duration-300 ease-out" />
 
-      <button phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "system"})} class="p-2">
-        <.icon name={:device_desktop_cog} type={:outline} class="size-5 opacity-75 hover:opacity-100" />
+      <button
+        phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "system"})}
+        class="relative z-10 px-3 py-2 transition-all duration-200 hover:bg-base-content/10 group"
+      >
+        <.icon name={:device_desktop_cog} type={:outline} class="size-4 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-200" />
       </button>
 
-      <button phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "light"})} class="p-2">
-        <.icon name={:sun} type={:outline} class="size-5 opacity-75 hover:opacity-100" />
+      <button
+        phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "light"})}
+        class="relative z-10 px-3 py-2 transition-all duration-200 hover:bg-base-content/10 group"
+      >
+        <.icon name={:sun} type={:outline} class="size-4 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-200" />
       </button>
 
-      <button phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "dark"})} class="p-2">
-        <.icon name={:moon_stars} type={:outline} class="size-5 opacity-75 hover:opacity-100" />
+      <button
+        phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "dark"})}
+        class="relative z-10 px-3 py-2 transition-all duration-200 hover:bg-base-content/10 group"
+      >
+        <.icon name={:moon_stars} type={:outline} class="size-4 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-200" />
       </button>
     </div>
 
