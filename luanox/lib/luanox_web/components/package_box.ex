@@ -13,21 +13,21 @@ defmodule LuaNoxWeb.PackageBox do
         <div class="space-y-4">
           <div class="flex items-start justify-between">
             <h2 class="text-lg font-semibold text-base-content group-hover:text-primary transition-colors">
-              <%= @name %>
+              {@name}
             </h2>
             <div class="bg-primary/10 text-primary border border-primary/20 px-2 py-1 text-xs font-mono">
-              v<%= @version %>
+              v{@version}
             </div>
           </div>
 
           <p class="text-base-content/70 text-sm leading-relaxed min-h-[3rem] line-clamp-2">
-            <%= if @description != "", do: @description, else: "No description available" %>
+            {if @description != "", do: @description, else: "No description available"}
           </p>
 
           <div class="flex items-center justify-between pt-3 border-t border-base-300">
             <div class="flex items-center space-x-2 text-xs text-base-content/60">
               <.icon name={:download} type={:outline} class="w-3 h-3" />
-              <span><%= @download_count %> downloads</span>
+              <span>{@download_count} downloads</span>
             </div>
             <div class="text-xs text-primary group-hover:text-primary/80 transition-colors">
               View Details →
@@ -69,8 +69,8 @@ defmodule LuaNoxWeb.PackageBox do
             <% end %>
           </div>
         </div>
-
-        <!-- Most Recent Updates Section -->
+        
+    <!-- Most Recent Updates Section -->
         <div class="mb-16">
           <div class="text-center mb-12">
             <div class="flex items-center justify-center space-x-4 mb-6">
@@ -94,8 +94,8 @@ defmodule LuaNoxWeb.PackageBox do
             <% end %>
           </div>
         </div>
-
-        <!-- Call to Action -->
+        
+    <!-- Call to Action -->
         <div class="text-center">
           <div class="bg-base-100 border border-base-300 py-16 px-8">
             <h3 class="text-2xl font-bold text-base-content mb-4">
@@ -104,9 +104,11 @@ defmodule LuaNoxWeb.PackageBox do
             <p class="text-base-content/70 mb-8 max-w-md mx-auto">
               Browse our complete collection of Lua packages and find the perfect tools for your project.
             </p>
-            <.link href="/packages" class="bg-primary text-primary-content border border-primary hover:bg-primary/90 px-8 py-3 font-medium transition-colors inline-flex items-center">
-              <.icon name={:folder} type={:outline} class="w-5 h-5 mr-2" />
-              View All Packages
+            <.link
+              href="/packages"
+              class="bg-primary text-primary-content border border-primary hover:bg-primary/90 px-8 py-3 font-medium transition-colors inline-flex items-center"
+            >
+              <.icon name={:folder} type={:outline} class="w-5 h-5 mr-2" /> View All Packages
             </.link>
           </div>
         </div>

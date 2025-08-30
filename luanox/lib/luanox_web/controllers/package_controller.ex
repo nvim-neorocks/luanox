@@ -9,7 +9,7 @@ defmodule LuaNoxWeb.PackageController do
 
   action_fallback(LuaNoxWeb.FallbackController)
 
-  operation :index,
+  operation(:index,
     summary: "Search packages",
     description: "Search for packages by name or keyword",
     parameters: [
@@ -22,17 +22,24 @@ defmodule LuaNoxWeb.PackageController do
       ]
     ],
     responses: %{
-      200 => {"Package search results", "application/json", %OpenApiSpex.Schema{
-        type: :object,
-        properties: %{
-          data: %OpenApiSpex.Schema{
-            type: :object,
-            additionalProperties: %OpenApiSpex.Reference{"$ref": "#/components/schemas/Package"}
-          }
-        }
-      }},
-      400 => {"Missing query parameter", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
+      200 =>
+        {"Package search results", "application/json",
+         %OpenApiSpex.Schema{
+           type: :object,
+           properties: %{
+             data: %OpenApiSpex.Schema{
+               type: :object,
+               additionalProperties: %OpenApiSpex.Reference{
+                 "$ref": "#/components/schemas/Package"
+               }
+             }
+           }
+         }},
+      400 =>
+        {"Missing query parameter", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
     }
+  )
 
   def index(conn, %{"query" => query}) when is_binary(query) do
     packages = Packages.list_packages(:exact, query)
@@ -41,16 +48,25 @@ defmodule LuaNoxWeb.PackageController do
 
   def index(_conn, _params), do: {:error, :no_query_string}
 
-  operation :create,
+  operation(:create,
     summary: "Create a new package",
     description: "Create a new package in the repository",
-    request_body: {"Package data", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/PackageInput"}},
+    request_body:
+      {"Package data", "application/json",
+       %OpenApiSpex.Reference{"$ref": "#/components/schemas/PackageInput"}},
     responses: %{
-      201 => {"Package created successfully", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Package"}},
-      422 => {"Validation errors", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/ValidationError"}},
-      401 => {"Authentication required", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
+      201 =>
+        {"Package created successfully", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Package"}},
+      422 =>
+        {"Validation errors", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/ValidationError"}},
+      401 =>
+        {"Authentication required", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
     },
     security: [%{"ApiKeyAuth" => []}]
+  )
 
   def create(conn, %{"package" => package_params}) do
     with {:ok, %Package{} = package} <-
@@ -64,7 +80,7 @@ defmodule LuaNoxWeb.PackageController do
     end
   end
 
-  operation :show,
+  operation(:show,
     summary: "Get a package",
     description: "Retrieve details for a specific package by name",
     parameters: [
@@ -77,16 +93,21 @@ defmodule LuaNoxWeb.PackageController do
       ]
     ],
     responses: %{
-      200 => {"Package details", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Package"}},
-      404 => {"Package not found", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
+      200 =>
+        {"Package details", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Package"}},
+      404 =>
+        {"Package not found", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
     }
+  )
 
   def show(conn, %{"name" => name}) do
     package = Packages.get_package!(name)
     render(conn, :show, package: package)
   end
 
-  operation :update,
+  operation(:update,
     summary: "Update a package",
     description: "Update package information",
     parameters: [
@@ -98,14 +119,25 @@ defmodule LuaNoxWeb.PackageController do
         example: "lua-cjson"
       ]
     ],
-    request_body: {"Updated package data", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/PackageInput"}},
+    request_body:
+      {"Updated package data", "application/json",
+       %OpenApiSpex.Reference{"$ref": "#/components/schemas/PackageInput"}},
     responses: %{
-      200 => {"Package updated successfully", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Package"}},
-      404 => {"Package not found", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}},
-      422 => {"Validation errors", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/ValidationError"}},
-      401 => {"Authentication required", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
+      200 =>
+        {"Package updated successfully", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Package"}},
+      404 =>
+        {"Package not found", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}},
+      422 =>
+        {"Validation errors", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/ValidationError"}},
+      401 =>
+        {"Authentication required", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
     },
     security: [%{"ApiKeyAuth" => []}]
+  )
 
   def update(conn, %{"name" => name, "package" => package_params}) do
     package = Packages.get_package!(name)
@@ -118,7 +150,7 @@ defmodule LuaNoxWeb.PackageController do
     end
   end
 
-  operation :download,
+  operation(:download,
     summary: "Download package release",
     description: "Download the latest release or a specific version of a package",
     parameters: [
@@ -138,9 +170,14 @@ defmodule LuaNoxWeb.PackageController do
       ]
     ],
     responses: %{
-      200 => {"Rockspec file", "application/octet-stream", %OpenApiSpex.Schema{type: :string, format: :binary}},
-      404 => {"Package or release not found", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
+      200 =>
+        {"Rockspec file", "application/octet-stream",
+         %OpenApiSpex.Schema{type: :string, format: :binary}},
+      404 =>
+        {"Package or release not found", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
     }
+  )
 
   def download(conn, %{"name" => name, "version" => version}) do
     case Packages.get_package(name) do

@@ -80,7 +80,10 @@ defmodule LuaNoxWeb.NavBar do
     <div class="hidden md:flex items-center space-x-2">
       <ul class="menu menu-horizontal px-1 space-x-2">
         <li>
-          <.link class="btn btn-ghost text-grey hover:text-info" href="/docs">
+          <.link
+            class="btn btn-ghost text-grey hover:text-info"
+            href="https://nvim-neorocks.github.io"
+          >
             <.icon name={:book_2} type={:outline} />
             <span class="mt-px">Docs</span>
           </.link>
@@ -99,7 +102,10 @@ defmodule LuaNoxWeb.NavBar do
     >
       <ul class="menu menu-horizontal justify-between w-full">
         <li>
-          <.link class="btn btn-ghost text-grey hover:text-info" href="/docs">
+          <.link
+            class="btn btn-ghost text-grey hover:text-info"
+            href="https://nvim-neorocks.github.io"
+          >
             <.icon name={:book_2} type={:outline} />
             <span class="mt-px">Docs</span>
           </.link>

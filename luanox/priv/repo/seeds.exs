@@ -42,7 +42,8 @@ user =
 package =
   Repo.insert!(%Package{
     name: "luanox",
-    summary: "A particularly long summary for the package to test line clamping in the UI. This summary is intentionally made long so that we can observe how the line clamping behaves in the user interface.",
+    summary:
+      "A particularly long summary for the package to test line clamping in the UI. This summary is intentionally made long so that we can observe how the line clamping behaves in the user interface.",
     description: "Full description of the package",
     user_id: user.id
   })

@@ -8,7 +8,7 @@ defmodule LuaNoxWeb.ReleaseController do
 
   action_fallback(LuaNoxWeb.FallbackController)
 
-  operation :index,
+  operation(:index,
     summary: "List package releases",
     description: "Get all releases for a specific package",
     parameters: [
@@ -21,17 +21,22 @@ defmodule LuaNoxWeb.ReleaseController do
       ]
     ],
     responses: %{
-      200 => {"Package releases", "application/json", %OpenApiSpex.Schema{
-        type: :object,
-        properties: %{
-          data: %OpenApiSpex.Schema{
-            type: :array,
-            items: %OpenApiSpex.Reference{"$ref": "#/components/schemas/Release"}
-          }
-        }
-      }},
-      404 => {"Package not found", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
+      200 =>
+        {"Package releases", "application/json",
+         %OpenApiSpex.Schema{
+           type: :object,
+           properties: %{
+             data: %OpenApiSpex.Schema{
+               type: :array,
+               items: %OpenApiSpex.Reference{"$ref": "#/components/schemas/Release"}
+             }
+           }
+         }},
+      404 =>
+        {"Package not found", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
     }
+  )
 
   def index(conn, %{"package" => package_name}) when is_binary(package_name) do
     case Packages.get_package(package_name) do
@@ -40,18 +45,31 @@ defmodule LuaNoxWeb.ReleaseController do
     end
   end
 
-  operation :create,
+  operation(:create,
     summary: "Create a new release",
     description: "Upload a new release for an existing package",
-    request_body: {"Release data with rockspec file", "multipart/form-data", %OpenApiSpex.Reference{"$ref": "#/components/schemas/ReleaseInput"}},
+    request_body:
+      {"Release data with rockspec file", "multipart/form-data",
+       %OpenApiSpex.Reference{"$ref": "#/components/schemas/ReleaseInput"}},
     responses: %{
-      201 => {"Release created successfully", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Release"}},
-      404 => {"Package not found", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}},
-      400 => {"Invalid rockspec file", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}},
-      422 => {"Validation errors", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/ValidationError"}},
-      401 => {"Authentication required", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
+      201 =>
+        {"Release created successfully", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Release"}},
+      404 =>
+        {"Package not found", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}},
+      400 =>
+        {"Invalid rockspec file", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}},
+      422 =>
+        {"Validation errors", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/ValidationError"}},
+      401 =>
+        {"Authentication required", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
     },
     security: [%{"ApiKeyAuth" => []}]
+  )
 
   def create(
         conn,
@@ -83,7 +101,7 @@ defmodule LuaNoxWeb.ReleaseController do
     end
   end
 
-  operation :show,
+  operation(:show,
     summary: "Download a release",
     description: "Download the rockspec file for a specific release",
     parameters: [
@@ -96,9 +114,14 @@ defmodule LuaNoxWeb.ReleaseController do
       ]
     ],
     responses: %{
-      200 => {"Rockspec file", "application/octet-stream", %OpenApiSpex.Schema{type: :string, format: :binary}},
-      404 => {"Release not found", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
+      200 =>
+        {"Rockspec file", "application/octet-stream",
+         %OpenApiSpex.Schema{type: :string, format: :binary}},
+      404 =>
+        {"Release not found", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
     }
+  )
 
   def show(conn, %{"id" => id}) do
     case Packages.get_release(id) do
@@ -121,7 +144,7 @@ defmodule LuaNoxWeb.ReleaseController do
     end
   end
 
-  operation :delete,
+  operation(:delete,
     summary: "Delete a release",
     description: "Remove a release from the repository",
     parameters: [
@@ -135,10 +158,15 @@ defmodule LuaNoxWeb.ReleaseController do
     ],
     responses: %{
       204 => {"Release deleted successfully", "", nil},
-      404 => {"Release not found", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}},
-      401 => {"Authentication required", "application/json", %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
+      404 =>
+        {"Release not found", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}},
+      401 =>
+        {"Authentication required", "application/json",
+         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
     },
     security: [%{"ApiKeyAuth" => []}]
+  )
 
   def delete(conn, %{"id" => id}) do
     release = Packages.get_release!(id)
