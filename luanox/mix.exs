@@ -56,7 +56,9 @@ defmodule LuaNox.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:ueberauth_github, "~> 0.8"},
       {:guardian, "~> 2.3"},
-      {:open_api_spex, "~> 3.6"}
+      {:open_api_spex, "~> 3.6"},
+      {:flop, "~> 0.26"},
+      {:flop_phoenix, "~> 0.25"}
     ]
   end
 
