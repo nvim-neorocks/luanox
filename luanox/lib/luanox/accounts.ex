@@ -38,6 +38,10 @@ defmodule LuaNox.Accounts do
     end
   end
 
+  def user_count do
+    Repo.one(from u in User, select: count(u.id))
+  end
+
   @doc """
   Gets a single user.
 

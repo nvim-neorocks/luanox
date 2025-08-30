@@ -13,33 +13,37 @@
                 class="input border border-base-300 bg-base-100 focus:border-primary focus:outline-none w-full"
               />
             </div>
-            
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
-              <.link href="/docs" class="btn bg-primary text-primary-content border-primary hover:bg-primary/90 text-sm">
-                <.icon name={:book_2} type={:outline} class="w-4 h-4" />
-                Get Started
+              <.link
+                href="https://nvim-neorocks.github.io"
+                class="btn bg-primary text-primary-content border-primary hover:bg-primary/90 text-sm"
+              >
+                <.icon name={:book_2} type={:outline} class="w-4 h-4" /> Get Started
               </.link>
-              <.link href="/packages" class="btn bg-base-100 text-base-content border border-base-300 hover:bg-base-200 text-sm">
-                <.icon name={:folder} type={:outline} class="w-4 h-4" />
-                Browse Packages
+              <.link
+                href="/packages"
+                class="btn bg-base-100 text-base-content border border-base-300 hover:bg-base-200 text-sm"
+              >
+                <.icon name={:folder} type={:outline} class="w-4 h-4" /> Browse Packages
               </.link>
             </div>
 
             <div class="grid grid-cols-2 gap-3 lg:gap-4">
               <div class="bg-base-100 border border-base-300 p-3 lg:p-4">
                 <div class="text-xs text-base-content/60 mb-1">Total Packages</div>
-                <div class="text-lg lg:text-xl font-bold text-primary"><%= length(@packages) %></div>
+                <div class="text-lg lg:text-xl font-bold text-primary">{length(@packages)}</div>
               </div>
               <div class="bg-base-100 border border-base-300 p-3 lg:p-4">
                 <div class="text-xs text-base-content/60 mb-1">Active Users</div>
-                <div class="text-lg lg:text-xl font-bold text-secondary">1.2k+</div>
+                <div class="text-lg lg:text-xl font-bold text-secondary">{@active_users}</div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Left Side - Brand -->
+      
+<!-- Left Side - Brand -->
       <div class="flex-1 text-center lg:text-left space-y-4 lg:space-y-6">
         <div class="flex flex-col items-center lg:flex-row lg:items-start space-y-4 lg:space-y-0 lg:space-x-6">
           <.logo class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 flex-shrink-0" />
@@ -48,19 +52,40 @@
               <span class="text-primary">Luanox</span>
             </h1>
             <p class="text-sm sm:text-base lg:text-lg text-base-content/80 max-w-2xl leading-relaxed px-4 lg:px-0">
-              <span class="inline-block whitespace-nowrap w-full">A <span id="typewriter" phx-hook="Typewriter" class="font-semibold text-secondary"></span> Lua module host for the
-              <a class="text-primary font-medium border-b border-primary/30 hover:border-primary" href="https://github.com/nvim-neorocks/lux">Lux</a></span>
+              <span class="inline-block whitespace-nowrap w-full">
+                A
+                <span id="typewriter" phx-hook="Typewriter" class="font-semibold text-secondary">
+                </span>
+                Lua module host for the
+                <a
+                  class="text-primary font-medium border-b border-primary/30 hover:border-primary"
+                  href="https://github.com/nvim-neorocks/lux"
+                >
+                  Lux
+                </a>
+              </span>
               package manager, fully compatible with the
-              <a class="text-primary font-medium border-b border-primary/30 hover:border-primary" href="https://github.com/luarocks/luarocks/wiki/Rockspec-format">rockspec</a>
+              <a
+                class="text-primary font-medium border-b border-primary/30 hover:border-primary"
+                href="https://github.com/luarocks/luarocks/wiki/Rockspec-format"
+              >
+                rockspec
+              </a>
               format.
             </p>
           </div>
         </div>
 
         <div class="flex flex-wrap gap-2 justify-center lg:justify-start px-4 lg:px-0">
-          <div class="bg-primary/10 text-primary border border-primary/20 px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-medium">Lua Compatible</div>
-          <div class="bg-secondary/10 text-secondary border border-secondary/20 px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-medium">Open Source</div>
-          <div class="bg-primary/5 text-primary border border-primary/15 px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-medium">Rockspec Support</div>
+          <div class="bg-primary/10 text-primary border border-primary/20 px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-medium">
+            Lua Compatible
+          </div>
+          <div class="bg-secondary/10 text-secondary border border-secondary/20 px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-medium">
+            Open Source
+          </div>
+          <div class="bg-primary/5 text-primary border border-primary/15 px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-medium">
+            Rockspec Support
+          </div>
         </div>
       </div>
     </div>
