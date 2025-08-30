@@ -1,6 +1,5 @@
 <Layouts.app flash={@flash} current_scope={@current_scope}>
   <div class="min-h-screen bg-base-100">
-    <!-- Header Section -->
     <div class="bg-base-200 border-b border-base-300">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
         <div class="mb-4 lg:mb-6">
@@ -13,7 +12,6 @@
         </div>
 
         <div class="flex flex-col gap-4 lg:gap-6">
-          <!-- Package Info -->
           <div class="flex-1">
             <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-base-content mb-3 lg:mb-4">
               {@package.name}
@@ -23,7 +21,6 @@
             </p>
           </div>
           
-<!-- Release Info & Download - Mobile Friendly -->
           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-base-100 border border-base-300">
             <div class="text-center sm:text-left">
               <div class="text-sm text-base-content/60 mb-1">Latest Release</div>
@@ -49,12 +46,24 @@
       </div>
     </div>
     
-<!-- Main Content -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
       <div class="flex flex-col lg:grid lg:grid-cols-3 gap-6 lg:gap-8">
-        <!-- Main Content Column -->
         <div class="lg:col-span-2 space-y-6 lg:space-y-8">
-          <!-- Versions Section -->
+          <%= if @package.description && @package.description != @package.summary do %>
+            <div class="bg-base-200 border border-base-300 p-4 lg:p-6">
+              <h2 class="text-lg lg:text-xl font-semibold text-base-content mb-3 lg:mb-4 flex items-center">
+                <.icon
+                  name={:file_text}
+                  type={:outline}
+                  class="w-4 h-4 lg:w-5 lg:h-5 mr-2 text-primary"
+                /> Description
+              </h2>
+              <div class="prose prose-sm max-w-none text-base-content/80">
+                {String.replace(@package.description, "\n", "<br>") |> raw()}
+              </div>
+            </div>
+          <% end %>
+
           <div class="bg-base-200 border border-base-300 p-4 lg:p-6">
             <h2 class="text-lg lg:text-xl font-semibold text-base-content mb-4 lg:mb-6 flex items-center">
               <.icon name={:tag} type={:outline} class="w-4 h-4 lg:w-5 lg:h-5 mr-2 text-primary" />
@@ -90,27 +99,9 @@
               <% end %>
             </div>
           </div>
-          
-<!-- Description Section -->
-          <%= if @package.description && @package.description != @package.summary do %>
-            <div class="bg-base-200 border border-base-300 p-4 lg:p-6">
-              <h2 class="text-lg lg:text-xl font-semibold text-base-content mb-3 lg:mb-4 flex items-center">
-                <.icon
-                  name={:file_text}
-                  type={:outline}
-                  class="w-4 h-4 lg:w-5 lg:h-5 mr-2 text-primary"
-                /> Description
-              </h2>
-              <div class="prose prose-sm max-w-none text-base-content/80">
-                {String.replace(@package.description, "\n", "<br>") |> raw()}
-              </div>
-            </div>
-          <% end %>
         </div>
         
-<!-- Sidebar -->
         <div class="space-y-4 lg:space-y-6">
-          <!-- Package Stats & Info -->
           <div class="bg-base-200 border border-base-300 p-4 lg:p-6">
             <h3 class="text-base lg:text-lg font-semibold text-base-content mb-4 lg:mb-6">
               Package Overview
@@ -143,7 +134,6 @@
             </div>
           </div>
           
-<!-- Author Info -->
           <div class="bg-base-200 border border-base-300 p-4 lg:p-6">
             <h3 class="text-base lg:text-lg font-semibold text-base-content mb-4 lg:mb-6 flex items-center">
               <.icon name={:user} type={:outline} class="w-4 h-4 lg:w-5 lg:h-5 mr-2 text-primary" />
@@ -173,7 +163,6 @@
             </div>
           </div>
           
-<!-- Installation -->
           <div class="bg-base-200 border border-base-300 p-4 lg:p-6">
             <h3 class="text-base lg:text-lg font-semibold text-base-content mb-3 lg:mb-4">
               Installation
