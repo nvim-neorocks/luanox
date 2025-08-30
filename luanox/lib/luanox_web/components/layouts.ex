@@ -96,21 +96,33 @@ defmodule LuaNoxWeb.Layouts do
         phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "system"})}
         class="relative z-10 px-3 py-2 transition-all duration-200 hover:bg-base-content/10 group"
       >
-        <.icon name={:device_desktop_cog} type={:outline} class="size-4 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-200" />
+        <.icon
+          name={:device_desktop_cog}
+          type={:outline}
+          class="size-4 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-200"
+        />
       </button>
 
       <button
         phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "light"})}
         class="relative z-10 px-3 py-2 transition-all duration-200 hover:bg-base-content/10 group"
       >
-        <.icon name={:sun} type={:outline} class="size-4 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-200" />
+        <.icon
+          name={:sun}
+          type={:outline}
+          class="size-4 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-200"
+        />
       </button>
 
       <button
         phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "dark"})}
         class="relative z-10 px-3 py-2 transition-all duration-200 hover:bg-base-content/10 group"
       >
-        <.icon name={:moon_stars} type={:outline} class="size-4 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-200" />
+        <.icon
+          name={:moon_stars}
+          type={:outline}
+          class="size-4 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-200"
+        />
       </button>
     </div>
 
