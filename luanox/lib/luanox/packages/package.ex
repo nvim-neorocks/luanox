@@ -3,6 +3,19 @@ defmodule LuaNox.Packages.Package do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Flop.Schema,
+           filterable: [:name, :summary, :search],
+           sortable: [:name, :inserted_at],
+           default_order: %{
+             order_by: [:inserted_at],
+             order_directions: [:desc]
+           },
+           default_limit: 12,
+           max_limit: 50,
+           adapter_opts: [
+             compound_fields: [search: [:name, :summary]]
+           ]}
+
   schema "packages" do
     field :name, :string
     field :summary, :string

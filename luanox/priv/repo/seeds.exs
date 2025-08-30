@@ -91,16 +91,20 @@ Repo.insert!(%Release{
 
 # ------------------------------------------------
 
-package4 =
-  Repo.insert!(%Package{
-    name: "busted",
-    summary: "Elegant Lua unit testing",
-    description: "Full description of the package",
-    user_id: user.id
-  })
+# Add a bunch of filler packages
 
-Repo.insert!(%Release{
-  version: "2.2.0",
-  rockspec: "<content>",
-  package_id: package4.id
-})
+for i <- 1..25 do
+  package4 =
+    Repo.insert!(%Package{
+      name: "busted-#{i}",
+      summary: "Elegant Lua unit testing",
+      description: "Full description of the package",
+      user_id: user.id
+    })
+
+  Repo.insert!(%Release{
+    version: "2.#{i}.0",
+    rockspec: "<content>",
+    package_id: package4.id
+  })
+end

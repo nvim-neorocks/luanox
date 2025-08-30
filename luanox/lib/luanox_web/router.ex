@@ -26,6 +26,7 @@ defmodule LuaNoxWeb.Router do
 
     live_session :default, on_mount: [{LuaNoxWeb.UserAuth, :mount_current_scope}] do
       live "/", PageLive
+      live "/packages", PackageLive.Index, :index
       live "/package/:name", PackageLive.Show, :show
       live "/login", UserLive.Login, :new
       live "/provide-email", UserLive.ProvideEmail, :new
