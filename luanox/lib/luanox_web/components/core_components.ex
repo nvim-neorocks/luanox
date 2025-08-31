@@ -520,7 +520,7 @@ defmodule LuaNoxWeb.CoreComponents do
     ~H"""
     <footer class="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4">
       <aside>
-        <p>Copyright &copy; {@copyright_year} - All rights reserved by {@org_name}</p>
+        <p>Copyright &copy; {@copyright_year} - Licensed under {Constants.license()}. By {@org_name} 💜</p>
       </aside>
     </footer>
     """
