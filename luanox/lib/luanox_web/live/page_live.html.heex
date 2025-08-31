@@ -6,13 +6,14 @@
       <div class="flex-1 lg:max-w-md">
         <div class="bg-base-200 border border-base-300 p-6 lg:p-8 shadow-sm">
           <div class="space-y-4 lg:space-y-6">
-            <div class="form-control">
+            <form action="/packages" method="get" class="form-control">
               <input
+                name="search"
                 type="text"
                 placeholder="Search packages..."
                 class="input border border-base-300 bg-base-100 focus:border-primary focus:outline-none w-full"
               />
-            </div>
+            </form>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
               <.link
