@@ -11,16 +11,13 @@ defmodule LuaNoxWeb.UserLive.Settings do
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash} current_scope={@current_scope}>
-      <!-- Header Section -->
       <div class="bg-base-100 border-b border-base-300">
         <div class="max-w-4xl mx-auto px-4 lg:px-8 py-6 lg:py-8">
           <div class="flex flex-col sm:flex-row items-start justify-center sm:items-center gap-4 sm:gap-6">
-            <!-- User Avatar -->
             <div class="w-16 h-16 sm:w-20 sm:h-20 bg-primary/10 border-2 border-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
               <.icon name={:user} type={:outline} class="w-10 h-10 sm:w-12 sm:h-12 text-primary" />
             </div>
 
-            <!-- Header Text -->
             <div class="space-y-1">
               <h1 class="text-2xl sm:text-3xl font-bold text-base-content">
                 Account Settings
@@ -33,20 +30,15 @@ defmodule LuaNoxWeb.UserLive.Settings do
         </div>
       </div>
 
-      <!-- Main Content -->
       <div class="max-w-4xl mx-auto px-4 lg:px-8 py-6 lg:py-8">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-
-          <!-- Profile Overview Card -->
           <div class="lg:col-span-1">
             <div class="bg-base-200 border border-base-300 p-6 shadow-sm space-y-6">
               <div class="text-center">
-                <!-- Large Avatar -->
                 <div class="w-24 h-24 bg-primary/10 border-2 border-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <.icon name={:user} type={:outline} class="w-16 h-16 text-primary" />
                 </div>
 
-                <!-- User Info -->
                 <h3 class="text-lg font-semibold text-base-content mb-1">
                   {@current_scope.user.username}
                 </h3>
@@ -55,7 +47,6 @@ defmodule LuaNoxWeb.UserLive.Settings do
                 </p>
               </div>
 
-              <!-- Account Stats -->
               <div class="border-t border-base-300 pt-4 space-y-3">
                 <div class="flex justify-between items-center">
                   <span class="text-sm text-base-content/60">Member since</span>
@@ -71,10 +62,8 @@ defmodule LuaNoxWeb.UserLive.Settings do
                 </div>
               </div>
             </div>
-          </div>          <!-- Settings Forms -->
+          </div>
           <div class="lg:col-span-2 space-y-6">
-
-            <!-- Email Settings Card -->
             <div class="bg-base-200 border border-base-300 p-6 shadow-sm">
               <div class="flex items-center gap-3 mb-4">
                 <.icon name={:mail} type={:outline} class="w-5 h-5 text-primary" />
@@ -102,14 +91,12 @@ defmodule LuaNoxWeb.UserLive.Settings do
                     class="btn bg-primary text-primary-content border-primary hover:bg-primary/90 w-full sm:w-auto"
                     phx-disable-with="Updating..."
                   >
-                    <.icon name={:check} type={:outline} class="w-4 h-4" />
-                    Update Email
+                    <.icon name={:check} type={:outline} class="w-4 h-4" /> Update Email
                   </button>
                 </div>
               </.form>
             </div>
 
-            <!-- Username Settings Card -->
             <div class="bg-base-200 border border-base-300 p-6 shadow-sm">
               <div class="flex items-center gap-3 mb-4">
                 <.icon name={:user} type={:outline} class="w-5 h-5 text-secondary" />
@@ -120,7 +107,12 @@ defmodule LuaNoxWeb.UserLive.Settings do
                 Choose a unique username that will be displayed publicly.
               </p>
 
-              <.form for={@username_form} id="username_form" phx-submit="update_username" class="space-y-4">
+              <.form
+                for={@username_form}
+                id="username_form"
+                phx-submit="update_username"
+                class="space-y-4"
+              >
                 <.input
                   field={@current_scope.user.username}
                   type="text"
@@ -137,14 +129,12 @@ defmodule LuaNoxWeb.UserLive.Settings do
                     class="btn bg-secondary text-secondary-content border-secondary hover:bg-secondary/90 w-full sm:w-auto"
                     phx-disable-with="Updating..."
                   >
-                    <.icon name={:check} type={:outline} class="w-4 h-4" />
-                    Update Username
+                    <.icon name={:check} type={:outline} class="w-4 h-4" /> Update Username
                   </button>
                 </div>
               </.form>
             </div>
 
-            <!-- Preferences Card -->
             <div class="bg-base-200 border border-base-300 p-6 shadow-sm">
               <div class="flex items-center gap-3 mb-4">
                 <.icon name={:settings} type={:outline} class="w-5 h-5 text-secondary" />
@@ -156,7 +146,6 @@ defmodule LuaNoxWeb.UserLive.Settings do
               </p>
 
               <div class="space-y-4">
-                <!-- Email Notifications -->
                 <div class="flex items-center justify-between">
                   <div>
                     <p class="text-sm font-medium">Email Notifications</p>
@@ -165,7 +154,6 @@ defmodule LuaNoxWeb.UserLive.Settings do
                   <input type="checkbox" class="toggle toggle-primary" checked />
                 </div>
 
-                <!-- Package Updates -->
                 <div class="flex items-center justify-between">
                   <div>
                     <p class="text-sm font-medium">Package Updates</p>
@@ -176,7 +164,6 @@ defmodule LuaNoxWeb.UserLive.Settings do
               </div>
             </div>
 
-            <!-- Account Management Card -->
             <div class="bg-base-200 border border-base-300 p-6 shadow-sm">
               <div class="flex items-center gap-3 mb-4">
                 <.icon name={:settings} type={:outline} class="w-5 h-5 text-primary" />
@@ -188,7 +175,6 @@ defmodule LuaNoxWeb.UserLive.Settings do
               </p>
 
               <div class="space-y-4">
-                <!-- OAuth Connection Status -->
                 <div class="bg-base-100 border border-base-300 p-4 rounded">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
@@ -202,28 +188,23 @@ defmodule LuaNoxWeb.UserLive.Settings do
                   </div>
                 </div>
 
-                <!-- Account Actions -->
                 <div>
                   <button class="btn btn-neutral w-full sm:w-auto">
-                    <.icon name={:refresh} type={:outline} class="w-4 h-4" />
-                    Sync Profile Data
+                    <.icon name={:refresh} type={:outline} class="w-4 h-4" /> Sync Profile Data
                   </button>
                   <button
                     class="btn btn-error w-full sm:w-auto"
                     onclick="disable_account_modal.showModal()"
                   >
-                    <.icon name={:trash} type={:outline} class="w-4 h-4" />
-                    Disable Account
+                    <.icon name={:trash} type={:outline} class="w-4 h-4" /> Disable Account
                   </button>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
 
-      <!-- Disable Account Modal -->
       <dialog id="disable_account_modal" class="modal">
         <div class="modal-box">
           <h3 class="text-lg font-bold text-base-content mb-4">Are you sure?</h3>
@@ -240,8 +221,7 @@ defmodule LuaNoxWeb.UserLive.Settings do
               class="btn btn-error"
               phx-click="disable_account"
             >
-              <.icon name={:trash} type={:outline} class="w-4 h-4" />
-              Disable Account
+              <.icon name={:trash} type={:outline} class="w-4 h-4" /> Disable Account
             </button>
           </div>
         </div>
@@ -249,7 +229,6 @@ defmodule LuaNoxWeb.UserLive.Settings do
           <button>close</button>
         </form>
       </dialog>
-
     </Layouts.app>
     """
   end
