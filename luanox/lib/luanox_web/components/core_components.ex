@@ -148,6 +148,10 @@ defmodule LuaNoxWeb.CoreComponents do
   attr :label, :string, default: nil
   attr :value, :any
 
+  attr :class, :string,
+    default: nil,
+    doc: "the optional CSS class for the input element"
+
   attr :type, :string,
     default: "text",
     values: ~w(checkbox color date datetime-local email file month number password
@@ -194,7 +198,7 @@ defmodule LuaNoxWeb.CoreComponents do
             name={@name}
             value="true"
             checked={@checked}
-            class="checkbox checkbox-sm"
+            class={if @class, do: @class, else: "checkbox checkbox-sm"}
             {@rest}
           />{@label}
         </span>
@@ -520,7 +524,9 @@ defmodule LuaNoxWeb.CoreComponents do
     ~H"""
     <footer class="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4">
       <aside>
-        <p>Copyright &copy; {@copyright_year} - Licensed under {Constants.license()}. By {@org_name} 💜</p>
+        <p>
+          Copyright &copy; {@copyright_year} - Licensed under {Constants.license()}. By {@org_name} 💜
+        </p>
       </aside>
     </footer>
     """
