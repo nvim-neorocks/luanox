@@ -143,36 +143,4 @@ defmodule LuaNoxWeb.ReleaseController do
         |> send_file(200, full_file_path)
     end
   end
-
-  operation(:delete,
-    summary: "Delete a release",
-    description: "Remove a release from the repository",
-    parameters: [
-      id: [
-        in: :path,
-        description: "Release ID",
-        type: :integer,
-        required: true,
-        example: 1
-      ]
-    ],
-    responses: %{
-      204 => {"Release deleted successfully", "", nil},
-      404 =>
-        {"Release not found", "application/json",
-         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}},
-      401 =>
-        {"Authentication required", "application/json",
-         %OpenApiSpex.Reference{"$ref": "#/components/schemas/Error"}}
-    },
-    security: [%{"ApiKeyAuth" => []}]
-  )
-
-  def delete(conn, %{"id" => id}) do
-    release = Packages.get_release!(id)
-
-    with {:ok, %Release{}} <- Packages.delete_release(conn.assigns.current_scope, release) do
-      send_resp(conn, :no_content, "")
-    end
-  end
 end
