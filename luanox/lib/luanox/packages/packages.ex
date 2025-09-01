@@ -309,63 +309,6 @@ defmodule LuaNox.Packages do
     |> Repo.update!()
   end
 
-  @doc """
-  Deletes a release.
-
-  ## Examples
-
-      iex> delete_release(release)
-      {:ok, %Release{}}
-
-      iex> delete_release(release)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_release(%Scope{} = scope, %Release{} = release) do
-    if has_permission?(scope, release) do
-      case Multi.new()
-           |> Multi.delete(
-             :release,
-             release
-           )
-           |> Multi.run(:delete_rockspec, fn _repo, %{release: release} ->
-             release = Repo.preload(release, :package)
-
-             case File.rm(
-                    Application.app_dir(
-                      :luanox,
-                      "priv/static/releases/#{release.package.name}-#{release.version}.rockspec"
-                    )
-                  ) do
-               :ok ->
-                 {:ok, release}
-
-               {:error, reason} ->
-                 {:error, reason}
-             end
-           end)
-           |> Repo.transaction() do
-        {:ok, %{release: release}} ->
-          broadcast(scope, {:deleted, release})
-          {:ok, release}
-
-        {:error, :delete_rockspec, reason, _changes} ->
-          Logger.error("Failed to delete rockspec file: #{reason}")
-          {:error, :file_delete_failed}
-
-        {:error, _step, reason, _changes} ->
-          Logger.error("Failed to delete release: #{reason}")
-          {:error, reason}
-      end
-    else
-      {:error, :insufficient_permissions}
-    end
-  end
-
-  def delete_release(_, _) do
-    {:error, :insufficient_permissions}
-  end
-
   # Regular scopes are not allowed to modify or create packages
   defp has_permission?(
          %Scope{user: %User{}, write_restricted: false, package_whitelist: _} =
