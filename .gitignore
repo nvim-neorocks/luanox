@@ -51,3 +51,6 @@ devenv.local.nix
 
 # environment
 .env.prod
+
+# push script
+push.sh
