@@ -1,6 +1,9 @@
 defmodule LuaNoxWeb.UserOauth do
   use LuaNoxWeb, :controller
+
   plug(Ueberauth)
+
+  require Logger
 
   def callback(%{assigns: %{ueberauth_failure: %Ueberauth.Failure{}}} = conn, _params) do
     conn
@@ -14,7 +17,6 @@ defmodule LuaNoxWeb.UserOauth do
         conn
         |> LuaNoxWeb.UserAuth.log_in_user(user)
 
-      # TODO: Remove the `not` and the email nullification
       nil when is_nil(auth.info.email) ->
         auth_stripped = %{
           provider: auth.provider,
@@ -37,7 +39,10 @@ defmodule LuaNoxWeb.UserOauth do
             |> put_flash(:info, "Account created successfully.")
             |> LuaNoxWeb.UserAuth.log_in_user(user)
 
-          {:error, _changeset} ->
+          {:error, changeset} ->
+            Logger.error("Failed to create user from OAuth, see changeset:")
+            Logger.error(inspect(changeset))
+
             conn
             |> put_flash(:error, "Authentication succeeded, but failed to create user.")
             |> redirect(to: ~p"/")

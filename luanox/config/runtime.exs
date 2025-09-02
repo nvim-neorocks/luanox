@@ -26,11 +26,10 @@ config :ueberauth, Ueberauth.Strategy.Github.OAuth,
 
 if config_env() == :prod do
   database_url =
-    System.get_env("DATABASE_URL") ||
-      raise """
-      environment variable DATABASE_URL is missing.
-      For example: ecto://USER:PASS@HOST/DATABASE
-      """
+    "ecto://#{System.get_env("POSTGRES_USER")}:#{System.get_env("POSTGRES_PASSWORD")}@" <>
+      "#{System.get_env("POSTGRES_HOST")}:" <>
+      "#{System.get_env("POSTGRES_PORT")}/" <>
+      "#{System.get_env("POSTGRES_DB")}"
 
   maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
 
@@ -39,7 +38,7 @@ if config_env() == :prod do
     url: database_url,
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
     # For machines with several cores, consider starting multiple pools of `pool_size`
-    # pool_count: 4,
+    pool_count: 2,
     socket_options: maybe_ipv6
 
   # The secret key base is used to sign/encrypt cookies and other secrets.
@@ -54,7 +53,7 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "example.com"
+  host = System.get_env("LUANOX_HOST") || throw "LUANOX_HOST not set"
   port = String.to_integer(System.get_env("LUANOX_PORT") || "4000")
 
   config :luanox, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
@@ -69,7 +68,13 @@ if config_env() == :prod do
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: port
     ],
+    check_origin: ["//#{host}", "http://localhost"],
     secret_key_base: secret_key_base
+
+  config :luanox, LuaNox.Guardian,
+    issuer: "luanox",
+    secret_key: System.get_env("GUARDIAN_SECRET_KEY"),
+    verify_issuer: true
 
   # ## SSL Support
   #
