@@ -16,7 +16,7 @@ defmodule LuaNox.Accounts.User do
     timestamps(type: :utc_datetime)
   end
 
-  def unique_username(%LuaNox.Accounts.User{} = user), do: user.aka || user.username
+  def unique_username(%LuaNox.Accounts.User{} = user), do: user.username
 
   def oauth_changeset(user, %Auth{} = auth) do
     attrs = %{
@@ -32,7 +32,7 @@ defmodule LuaNox.Accounts.User do
     |> validate_required([:username])
     |> unique_constraint([:provider, :username])
     |> validate_provider()
-    |> validate_aka()
+    # |> validate_aka()
   end
 
   defp validate_provider(changeset) do
